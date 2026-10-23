@@ -49,6 +49,9 @@ body {
 }
 
 .brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   border: 0;
   background: none;
   color: var(--text);
@@ -180,3 +183,5 @@ input[type="text"] {
 .match { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
 .match .col { display: flex; flex-direction: column; gap: 8px; }
 .match .tile { text-align: left; }
+
+.brand img { border-radius: 8px; }
