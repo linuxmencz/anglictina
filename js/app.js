@@ -13,6 +13,15 @@
     matching: { title: 'Přiřazování dvojic', icon: '🔗', hint: 'Spoj anglické slovo s českým', start: () => startMatching() },
   };
 
+  const PRON_LEGEND = [
+    'VELKÁ písmena = přízvučná slabika.',
+    'á í ó ú = dlouhá samohláska, opravdu ji protáhni (sí = see).',
+    'th = neznělé th, jazyk mezi zuby (thrí = three); dh = znělé th (MAdhe = mother).',
+    'w = zakulacené rty, ne české „v“ (wan = one).',
+    'ér = dlouhé zavřené „e“, r se nečte (šért = shirt). Koncové r se v britské angličtině nečte.',
+    'e na konci nebo v nepřízvučné slabice = krátké neutrální „e“ (heLOU); eə = „e“ a krátké neutrální „e“ (čeə = chair).',
+  ];
+
   const NOTE_LABELS = {
     pronunciation: 'Výslovnost',
     falseFriend: 'Pozor, falešný přítel',
@@ -74,16 +83,114 @@
     currentAudio = audio;
     audio.addEventListener('error', () => speakFallback(fallbackText, slow), { once: true });
     audio.play().catch(() => {});
+    return audio;
   }
 
   function play(word, { sentence = false, slow = false } = {}) {
-    playFile(word.id + (sentence ? '-s' : '') + (slow ? '-slow' : ''), sentence ? word.sentenceEn : word.en, slow);
+    return playFile(word.id + (sentence ? '-s' : '') + (slow ? '-slow' : ''), sentence ? word.sentenceEn : word.en, slow);
   }
 
-  function soundButtons(word, sentence) {
-    return h('div', { class: 'row' },
+  // ---------- nahrávání vlastního hlasu ----------
+
+  const recorder = Recorder.create({
+    get mediaDevices() { return navigator.mediaDevices; },
+    get MediaRecorder() { return window.MediaRecorder; },
+    Blob: window.Blob,
+    setTimeout: (fn, ms) => window.setTimeout(fn, ms),
+    clearTimeout: (id) => window.clearTimeout(id),
+  });
+
+  const RECORD_ERRORS = {
+    denied: 'Mikrofon není povolený. Povol ho v nastavení prohlížeče a zkus to znovu.',
+    nomic: 'Nenašel jsem mikrofon.',
+    busy: 'Jiná nahrávka ještě běží.',
+    failed: 'Nahrávání se nezdařilo.',
+    unsupported: 'Tento prohlížeč nahrávání nepodporuje.',
+  };
+
+  // Vrátí { button, panel }: tlačítko 🎤 do řádku s přehráváním a panel s porovnáním pod něj.
+  function recorderControls(word, sentence) {
+    const maxMs = sentence ? 8000 : 4000;
+    const button = h('button', { class: 'btn small', type: 'button' }, '🎤 Nahrát se');
+    const message = h('div', { class: 'muted' });
+    const compare = h('div', { class: 'row' });
+    const panel = h('div', { class: 'rec-panel' }, compare, message);
+    let session = null;
+    let takeUrl = null;
+
+    const playModel = () => play(word, { sentence });
+    const playTake = () => {
+      if (currentAudio) currentAudio.pause();
+      currentAudio = new Audio(takeUrl);
+      currentAudio.play().catch(() => {});
+    };
+    const playBoth = () => {
+      const model = playModel();
+      model.addEventListener('ended', playTake, { once: true });
+    };
+
+    function showCompare() {
+      compare.replaceChildren(
+        h('button', { class: 'btn small', type: 'button', onclick: playModel }, '▶️ Vzor'),
+        h('button', { class: 'btn small', type: 'button', onclick: playTake }, '▶️ Ty'),
+        h('button', { class: 'btn small primary', type: 'button', onclick: playBoth }, '🔁 Porovnat'),
+      );
+    }
+
+    button.addEventListener('click', async () => {
+      if (session) { session.stop(); return; }
+      message.textContent = '';
+      try {
+        session = await recorder.record(maxMs);
+      } catch (e) {
+        message.textContent = RECORD_ERRORS[e.code] || RECORD_ERRORS.failed;
+        return;
+      }
+      button.textContent = '⏹ Stop';
+      message.textContent = 'Nahrávám… řekni to a klepni na Stop (zastaví se i samo).';
+      let result;
+      try {
+        result = await session.done;
+      } catch (e) {
+        result = null;
+      }
+      session = null;
+      button.textContent = takeUrl ? '🎤 Nahrát znovu' : '🎤 Nahrát se';
+      if (!result || !result.blob.size) {
+        message.textContent = 'Nic se nenahrálo, zkus to prosím znovu.';
+        return;
+      }
+      if (takeUrl) URL.revokeObjectURL(takeUrl);
+      takeUrl = URL.createObjectURL(result.blob);
+      button.textContent = '🎤 Nahrát znovu';
+      message.textContent = 'Hotovo. Poslechni si vzor a svou nahrávku. Zůstává jen v tomto okně, nikam se neposílá.';
+      showCompare();
+    });
+
+    return { button, panel };
+  }
+
+  function soundButtons(word, sentence, { record = false } = {}) {
+    const row = h('div', { class: 'row' },
       h('button', { class: 'btn small', type: 'button', onclick: () => play(word, { sentence }) }, '🔊 Přehrát'),
       h('button', { class: 'btn small', type: 'button', onclick: () => play(word, { sentence, slow: true }) }, '🐢 Pomalu'),
+    );
+    if (!record || !recorder.isSupported()) return row;
+    const controls = recorderControls(word, sentence);
+    row.append(controls.button);
+    return h('div', {}, row, controls.panel);
+  }
+
+  function pronLine(word) {
+    return progress.settings.showPron ? h('div', { class: 'pron' }, word.pron) : null;
+  }
+
+  function pronLegend() {
+    if (!progress.settings.showPron) return null;
+    return h('details', { class: 'card' },
+      h('summary', {}, 'Jak číst přepis výslovnosti'),
+      h('p', { class: 'muted' }, 'Je to zjednodušená pomůcka, ne přesná fonetika. Vždy poslouchej nahrávku.'),
+      h('ul', {}, PRON_LEGEND.map((line) => h('li', {}, line))),
     );
   }
 
@@ -152,6 +259,11 @@
       h('h2', {}, 'Procvičování'),
       Object.keys(PRACTICE).map(practiceCard),
       statsSection(),
+      h('h2', {}, 'Nastavení'),
+      h('button', {
+        class: 'btn', type: 'button', 'aria-pressed': String(progress.settings.showPron),
+        onclick: () => { Engine.setShowPron(progress, !progress.settings.showPron); save(); showHome(); },
+      }, progress.settings.showPron ? '✅ Přepis výslovnosti: zapnuto' : '⬜ Přepis výslovnosti: vypnuto'),
       h('h2', {}, 'Záloha postupu'),
       h('p', { class: 'muted' }, 'Postup je uložený v prohlížeči. Pro jistotu si ho občas stáhni do souboru.'),
       h('div', { class: 'row' },
@@ -242,13 +354,15 @@
     render(
       h('h1', {}, lesson.title),
       h('p', { class: 'muted' }, 'Nejdřív si slova poslechni, pak tě čeká procvičování.'),
+      pronLegend(),
       lesson.words.map((w) => h('div', { class: 'card' },
         h('div', { class: 'big-word' }, w.en),
+        pronLine(w),
         h('div', {}, w.cs),
-        soundButtons(w, false),
+        soundButtons(w, false, { record: true }),
         h('p', { class: 'sentence' }, w.sentenceEn),
         h('div', { class: 'muted' }, w.sentenceCs),
-        soundButtons(w, true),
+        soundButtons(w, true, { record: true }),
         noteBox(w),
       )),
       h('button', { class: 'btn primary', type: 'button', onclick: () => startLesson(lesson) }, 'Začít procvičování'),
@@ -550,6 +664,7 @@
         h('div', { class: 'feedback ' + (ok ? 'good' : 'bad') },
           h('strong', {}, message),
           h('div', {}, `${word.en} = ${word.cs}`),
+          pronLine(word),
           ok && result === 'correct' ? null : noteBox(word),
         ),
         h('button', { class: 'btn primary', type: 'button', onclick: () => { state.index += 1; runExercise(state); } }, 'Pokračovat'),

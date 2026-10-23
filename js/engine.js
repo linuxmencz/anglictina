@@ -207,7 +207,7 @@
   function defaultProgress() {
     return {
       version: 1, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {},
-      daily: { day: '', xp: 0 }, settings: { dailyGoal: DEFAULT_DAILY_GOAL },
+      daily: { day: '', xp: 0 }, settings: { dailyGoal: DEFAULT_DAILY_GOAL, showPron: true },
     };
   }
 
@@ -254,6 +254,11 @@
     const xp = progress.daily.day === dayKey(now) ? progress.daily.xp : 0;
     const goal = progress.settings.dailyGoal;
     return { xp, goal, done: xp >= goal, ratio: Math.min(1, xp / goal) };
+  }
+
+  function setShowPron(progress, value) {
+    progress.settings.showPron = Boolean(value);
+    return progress;
   }
 
   function setDailyGoal(progress, goal) {
@@ -372,6 +377,7 @@
     if (daily && isDay(daily.day)) clean.daily = { day: daily.day, xp: Math.floor(num(daily.xp, 0, 1e6) ?? 0) };
     const goal = raw.settings && typeof raw.settings === 'object' ? raw.settings.dailyGoal : null;
     if (DAILY_GOALS.includes(goal)) clean.settings.dailyGoal = goal;
+    if (raw.settings && typeof raw.settings.showPron === 'boolean') clean.settings.showPron = raw.settings.showPron;
     for (const kind of PRACTICE_KINDS) {
       const pr = raw.practice && typeof raw.practice === 'object' ? raw.practice[kind] : null;
       if (!pr || typeof pr !== 'object') continue;
@@ -415,7 +421,7 @@
   }
 
   const Engine = {
-    STORAGE_KEY, XP_PER_CORRECT, XP_LESSON_BONUS, DAILY_GOALS, dailyStatus, setDailyGoal, resetProgress,
+    STORAGE_KEY, XP_PER_CORRECT, XP_LESSON_BONUS, DAILY_GOALS, dailyStatus, setDailyGoal, setShowPron, resetProgress,
     shuffle, normalize, levenshtein, checkTyped,
     pickDistractors, buildLesson, requeue,
     defaultProgress, dayKey, updateStreak, recordAnswer, addXp, completeLesson,

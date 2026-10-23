@@ -12,7 +12,8 @@ window.CONTENT = {
           "sentenceEn": "Hello, my name is Tom.",
           "sentenceCs": "Dobrý den, jmenuji se Tom.",
           "note": "druhá slabika je přízvučná (he-LOU)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "heLOU"
         },
         {
           "id": "goodbye",
@@ -21,7 +22,8 @@ window.CONTENT = {
           "sentenceEn": "Goodbye, see you tomorrow.",
           "sentenceCs": "Na shledanou, uvidíme se zítra.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "gudBAJ"
         },
         {
           "id": "please",
@@ -30,7 +32,8 @@ window.CONTENT = {
           "sentenceEn": "Water, please.",
           "sentenceCs": "Vodu, prosím.",
           "note": "please je při žádosti; „prosím“ jako „račte“ je here you are",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "plíz"
         },
         {
           "id": "thank-you",
@@ -39,7 +42,8 @@ window.CONTENT = {
           "sentenceEn": "Thank you very much.",
           "sentenceCs": "Moc děkuji.",
           "note": "th – jazyk mezi zuby, ne „t“ ani „s“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "thenk jú"
         },
         {
           "id": "sorry",
@@ -48,7 +52,8 @@ window.CONTENT = {
           "sentenceEn": "Sorry, I am late.",
           "sentenceCs": "Promiňte, jdu pozdě.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "SOri"
         },
         {
           "id": "excuse-me",
@@ -57,7 +62,8 @@ window.CONTENT = {
           "sentenceEn": "Excuse me, where is the station?",
           "sentenceCs": "Promiňte, kde je nádraží?",
           "note": "Používá se pro oslovení cizího člověka",
-          "noteType": ""
+          "noteType": "",
+          "pron": "ikSKJÚZ mí"
         },
         {
           "id": "good-morning",
@@ -66,7 +72,8 @@ window.CONTENT = {
           "sentenceEn": "Good morning, Anna!",
           "sentenceCs": "Dobré ráno, Anno!",
           "note": "Říká se do cca poledne",
-          "noteType": ""
+          "noteType": "",
+          "pron": "gud MÓning"
         },
         {
           "id": "good-night",
@@ -75,7 +82,8 @@ window.CONTENT = {
           "sentenceEn": "Good night, sleep well.",
           "sentenceCs": "Dobrou noc, spi dobře.",
           "note": "Jen při loučení před spaním",
-          "noteType": ""
+          "noteType": "",
+          "pron": "gud NAJT"
         },
         {
           "id": "yes",
@@ -84,7 +92,8 @@ window.CONTENT = {
           "sentenceEn": "Yes, I do.",
           "sentenceCs": "Ano, mám.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "jes"
         },
         {
           "id": "no",
@@ -93,7 +102,8 @@ window.CONTENT = {
           "sentenceEn": "No, thank you.",
           "sentenceCs": "Ne, děkuji.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "nou"
         },
         {
           "id": "how-are-you",
@@ -102,7 +112,8 @@ window.CONTENT = {
           "sentenceEn": "Hello, how are you?",
           "sentenceCs": "Ahoj, jak se máš?",
           "note": "Běžná odpověď: Fine, thanks. And you?",
-          "noteType": ""
+          "noteType": "",
+          "pron": "hau á jú"
         },
         {
           "id": "nice-to-meet-you",
@@ -111,7 +122,8 @@ window.CONTENT = {
           "sentenceEn": "Nice to meet you, Peter.",
           "sentenceCs": "Těší mě, Petře.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "najs te mít jú"
         }
       ]
     },
@@ -126,7 +138,8 @@ window.CONTENT = {
           "sentenceEn": "I eat bread for breakfast.",
           "sentenceCs": "Ke snídani jím chléb.",
           "note": "nepočitatelné, neříká se breads",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "bred"
         },
         {
           "id": "water",
@@ -135,7 +148,8 @@ window.CONTENT = {
           "sentenceEn": "A glass of water, please.",
           "sentenceCs": "Sklenici vody, prosím.",
           "note": "w – zakulacené rty, ne „v“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "WÓte"
         },
         {
           "id": "milk",
@@ -144,7 +158,8 @@ window.CONTENT = {
           "sentenceEn": "I like milk in my tea.",
           "sentenceCs": "Rád mám mléko v čaji.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "milk"
         },
         {
           "id": "coffee",
@@ -153,7 +168,8 @@ window.CONTENT = {
           "sentenceEn": "One coffee, please.",
           "sentenceCs": "Jednu kávu, prosím.",
           "note": "přízvuk na první slabice (KOF-i)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "KOfi"
         },
         {
           "id": "tea",
@@ -162,7 +178,8 @@ window.CONTENT = {
           "sentenceEn": "Would you like some tea?",
           "sentenceCs": "Dáš si čaj?",
           "note": "čte se „tí“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "tí"
         },
         {
           "id": "apple",
@@ -171,7 +188,8 @@ window.CONTENT = {
           "sentenceEn": "The apple is red.",
           "sentenceCs": "Jablko je červené.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "EPl"
         },
         {
           "id": "cheese",
@@ -180,7 +198,8 @@ window.CONTENT = {
           "sentenceEn": "I want cheese on my sandwich.",
           "sentenceCs": "Chci sýr na sendvič.",
           "note": "dlouhé „í“ (číz)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "číz"
         },
         {
           "id": "chicken",
@@ -189,7 +208,8 @@ window.CONTENT = {
           "sentenceEn": "We have chicken for dinner.",
           "sentenceCs": "K večeři máme kuře.",
           "note": "první slabika přízvučná, ch jako „č“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "ČIkin"
         },
         {
           "id": "chips",
@@ -198,7 +218,8 @@ window.CONTENT = {
           "sentenceEn": "Fish and chips, please.",
           "sentenceCs": "Rybu s hranolky, prosím.",
           "note": "ve Velké Británii chips = hranolky, crisps = brambůrky",
-          "noteType": "falseFriend"
+          "noteType": "falseFriend",
+          "pron": "čips"
         },
         {
           "id": "breakfast",
@@ -207,7 +228,8 @@ window.CONTENT = {
           "sentenceEn": "I have breakfast at seven.",
           "sentenceCs": "Snídám v sedm.",
           "note": "čte se „brekfəst“; G: have breakfast, ne eat",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "BREKfest"
         },
         {
           "id": "dinner",
@@ -216,7 +238,8 @@ window.CONTENT = {
           "sentenceEn": "Dinner is at eight.",
           "sentenceCs": "Večeře je v osm.",
           "note": "Může znamenat i hlavní jídlo v poledne",
-          "noteType": ""
+          "noteType": "",
+          "pron": "DINe"
         },
         {
           "id": "hungry",
@@ -225,7 +248,8 @@ window.CONTENT = {
           "sentenceEn": "I am hungry.",
           "sentenceCs": "Mám hlad.",
           "note": "I am hungry, ne I have hunger",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "HANgri"
         }
       ]
     },
@@ -240,7 +264,8 @@ window.CONTENT = {
           "sentenceEn": "I have a big family.",
           "sentenceCs": "Mám velkou rodinu.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "FEmli"
         },
         {
           "id": "mother",
@@ -249,7 +274,8 @@ window.CONTENT = {
           "sentenceEn": "My mother is a teacher.",
           "sentenceCs": "Moje matka je učitelka.",
           "note": "th je znělé (mʌ-ðə)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "MAdhe"
         },
         {
           "id": "father",
@@ -258,7 +284,8 @@ window.CONTENT = {
           "sentenceEn": "My father works in Prague.",
           "sentenceCs": "Můj otec pracuje v Praze.",
           "note": "th znělé",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "FÁdhe"
         },
         {
           "id": "brother",
@@ -267,7 +294,8 @@ window.CONTENT = {
           "sentenceEn": "I have one brother.",
           "sentenceCs": "Mám jednoho bratra.",
           "note": "th znělé",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "BRAdhe"
         },
         {
           "id": "sister",
@@ -276,7 +304,8 @@ window.CONTENT = {
           "sentenceEn": "My sister is ten.",
           "sentenceCs": "Moje sestra má deset.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "SISte"
         },
         {
           "id": "son",
@@ -285,7 +314,8 @@ window.CONTENT = {
           "sentenceEn": "Their son is five.",
           "sentenceCs": "Jejich syn má pět.",
           "note": "čte se stejně jako sun",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "san"
         },
         {
           "id": "daughter",
@@ -294,7 +324,8 @@ window.CONTENT = {
           "sentenceEn": "She has a daughter.",
           "sentenceCs": "Má dceru.",
           "note": "gh se nečte (dó-tə)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "DÓte"
         },
         {
           "id": "grandmother",
@@ -303,7 +334,8 @@ window.CONTENT = {
           "sentenceEn": "My grandmother lives in Brno.",
           "sentenceCs": "Moje babička žije v Brně.",
           "note": "zkráceně grandma",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "GRENmadhe"
         },
         {
           "id": "grandfather",
@@ -312,7 +344,8 @@ window.CONTENT = {
           "sentenceEn": "My grandfather likes fishing.",
           "sentenceCs": "Můj dědeček rád rybaří.",
           "note": "Zkráceně grandpa",
-          "noteType": ""
+          "noteType": "",
+          "pron": "GRENfádhe"
         },
         {
           "id": "husband",
@@ -321,7 +354,8 @@ window.CONTENT = {
           "sentenceEn": "Her husband is a doctor.",
           "sentenceCs": "Její manžel je lékař.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "HAzbend"
         },
         {
           "id": "wife",
@@ -330,7 +364,8 @@ window.CONTENT = {
           "sentenceEn": "His wife is called Jane.",
           "sentenceCs": "Jeho manželka se jmenuje Jane.",
           "note": "množné číslo wives",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "wajf"
         },
         {
           "id": "parents",
@@ -339,7 +374,8 @@ window.CONTENT = {
           "sentenceEn": "My parents are at home.",
           "sentenceCs": "Moji rodiče jsou doma.",
           "note": "parents jsou jen rodiče, příbuzní = relatives",
-          "noteType": "falseFriend"
+          "noteType": "falseFriend",
+          "pron": "PEerents"
         }
       ]
     },
@@ -354,7 +390,8 @@ window.CONTENT = {
           "sentenceEn": "I have one sister.",
           "sentenceCs": "Mám jednu sestru.",
           "note": "čte se „wan“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "wan"
         },
         {
           "id": "two",
@@ -363,7 +400,8 @@ window.CONTENT = {
           "sentenceEn": "Two coffees, please.",
           "sentenceCs": "Dvě kávy, prosím.",
           "note": "w se nečte (tú)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "tú"
         },
         {
           "id": "three",
@@ -372,7 +410,8 @@ window.CONTENT = {
           "sentenceEn": "There are three chairs.",
           "sentenceCs": "Jsou tam tři židle.",
           "note": "th (jazyk mezi zuby), ne „tři“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "thrí"
         },
         {
           "id": "four",
@@ -381,7 +420,8 @@ window.CONTENT = {
           "sentenceEn": "I am four years old.",
           "sentenceCs": "Jsou mi čtyři roky.",
           "note": "britsky „fó“, r se nečte",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "fó"
         },
         {
           "id": "five",
@@ -390,7 +430,8 @@ window.CONTENT = {
           "sentenceEn": "Five minutes, please.",
           "sentenceCs": "Pět minut, prosím.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "fajv"
         },
         {
           "id": "six",
@@ -399,7 +440,8 @@ window.CONTENT = {
           "sentenceEn": "It is six o'clock.",
           "sentenceCs": "Je šest hodin.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "siks"
         },
         {
           "id": "seven",
@@ -408,7 +450,8 @@ window.CONTENT = {
           "sentenceEn": "I get up at seven.",
           "sentenceCs": "Vstávám v sedm.",
           "note": "v – spodní ret se dotýká horních zubů, ne „w“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "SEvn"
         },
         {
           "id": "eight",
@@ -417,7 +460,8 @@ window.CONTENT = {
           "sentenceEn": "We have eight lessons.",
           "sentenceCs": "Máme osm lekcí.",
           "note": "čte se „ejt“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "ejt"
         },
         {
           "id": "nine",
@@ -426,7 +470,8 @@ window.CONTENT = {
           "sentenceEn": "Nine people are here.",
           "sentenceCs": "Je tu devět lidí.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "najn"
         },
         {
           "id": "ten",
@@ -435,7 +480,8 @@ window.CONTENT = {
           "sentenceEn": "I have ten books.",
           "sentenceCs": "Mám deset knih.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "ten"
         },
         {
           "id": "twenty",
@@ -444,7 +490,8 @@ window.CONTENT = {
           "sentenceEn": "She is twenty.",
           "sentenceCs": "Je jí dvacet.",
           "note": "přízvuk na první slabice (TWEN-ti)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "TWENti"
         },
         {
           "id": "hundred",
@@ -453,7 +500,8 @@ window.CONTENT = {
           "sentenceEn": "One hundred pounds.",
           "sentenceCs": "Sto liber.",
           "note": "one hundred, bez množného s",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "HANdred"
         }
       ]
     },
@@ -468,7 +516,8 @@ window.CONTENT = {
           "sentenceEn": "The shop is in this street.",
           "sentenceCs": "Obchod je v této ulici.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "strít"
         },
         {
           "id": "shop",
@@ -477,7 +526,8 @@ window.CONTENT = {
           "sentenceEn": "The shop is closed.",
           "sentenceCs": "Obchod je zavřený.",
           "note": "krátké „o“ (šop)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "šop"
         },
         {
           "id": "station",
@@ -486,7 +536,8 @@ window.CONTENT = {
           "sentenceEn": "The station is near.",
           "sentenceCs": "Nádraží je blízko.",
           "note": "čte se „stejšn“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "STEJšn"
         },
         {
           "id": "bank",
@@ -495,7 +546,8 @@ window.CONTENT = {
           "sentenceEn": "The bank opens at nine.",
           "sentenceCs": "Banka otevírá v devět.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "benk"
         },
         {
           "id": "school",
@@ -504,7 +556,8 @@ window.CONTENT = {
           "sentenceEn": "The school is big.",
           "sentenceCs": "Škola je velká.",
           "note": "čte se „skúl“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "skúl"
         },
         {
           "id": "hospital",
@@ -513,7 +566,8 @@ window.CONTENT = {
           "sentenceEn": "He is in hospital.",
           "sentenceCs": "Je v nemocnici.",
           "note": "britsky in hospital bez členu (americky in the hospital)",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "HOspitl"
         },
         {
           "id": "park",
@@ -522,7 +576,8 @@ window.CONTENT = {
           "sentenceEn": "We walk in the park.",
           "sentenceCs": "Chodíme na procházku do parku.",
           "note": "britsky „pák“, r se nečte",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "pák"
         },
         {
           "id": "bus",
@@ -531,7 +586,8 @@ window.CONTENT = {
           "sentenceEn": "The bus is late.",
           "sentenceCs": "Autobus má zpoždění.",
           "note": "čte se „bas“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "bas"
         },
         {
           "id": "train",
@@ -540,7 +596,8 @@ window.CONTENT = {
           "sentenceEn": "The train is fast.",
           "sentenceCs": "Vlak je rychlý.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "trejn"
         },
         {
           "id": "left",
@@ -549,7 +606,8 @@ window.CONTENT = {
           "sentenceEn": "Turn left here.",
           "sentenceCs": "Tady odbočte doleva.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "left"
         },
         {
           "id": "right",
@@ -558,7 +616,8 @@ window.CONTENT = {
           "sentenceEn": "Turn right at the bank.",
           "sentenceCs": "U banky odbočte doprava.",
           "note": "Má i význam „správně“",
-          "noteType": ""
+          "noteType": "",
+          "pron": "rajt"
         },
         {
           "id": "map",
@@ -567,7 +626,8 @@ window.CONTENT = {
           "sentenceEn": "I need a map.",
           "sentenceCs": "Potřebuji mapu.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "mep"
         }
       ]
     },
@@ -582,7 +642,8 @@ window.CONTENT = {
           "sentenceEn": "I am at work today.",
           "sentenceCs": "Dnes jsem v práci.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "teDEJ"
         },
         {
           "id": "tomorrow",
@@ -591,7 +652,8 @@ window.CONTENT = {
           "sentenceEn": "See you tomorrow.",
           "sentenceCs": "Uvidíme se zítra.",
           "note": "přízvuk na druhé slabice; jedno m, dvě r",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "teMOrou"
         },
         {
           "id": "yesterday",
@@ -600,7 +662,8 @@ window.CONTENT = {
           "sentenceEn": "I was at home yesterday.",
           "sentenceCs": "Včera jsem byl doma.",
           "note": "was je minulý čas od am/is",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "JEstedej"
         },
         {
           "id": "morning",
@@ -609,7 +672,8 @@ window.CONTENT = {
           "sentenceEn": "I drink tea in the morning.",
           "sentenceCs": "Ráno piji čaj.",
           "note": "in the morning, ale at night",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "MÓning"
         },
         {
           "id": "evening",
@@ -618,7 +682,8 @@ window.CONTENT = {
           "sentenceEn": "We have dinner in the evening.",
           "sentenceCs": "Večer večeříme.",
           "note": "in the evening",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "ÍVning"
         },
         {
           "id": "night",
@@ -627,7 +692,8 @@ window.CONTENT = {
           "sentenceEn": "I sleep at night.",
           "sentenceCs": "V noci spím.",
           "note": "gh se nečte (najt)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "najt"
         },
         {
           "id": "week",
@@ -636,7 +702,8 @@ window.CONTENT = {
           "sentenceEn": "I work five days a week.",
           "sentenceCs": "Pracuji pět dní v týdnu.",
           "note": "dlouhé „í“ (wík)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "wík"
         },
         {
           "id": "weekend",
@@ -645,7 +712,8 @@ window.CONTENT = {
           "sentenceEn": "What do you do at the weekend?",
           "sentenceCs": "Co děláš o víkendu?",
           "note": "britsky at the weekend (americky on the weekend)",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "wíkEND"
         },
         {
           "id": "monday",
@@ -654,7 +722,8 @@ window.CONTENT = {
           "sentenceEn": "The shop is closed on Monday.",
           "sentenceCs": "V pondělí je obchod zavřený.",
           "note": "dny se píší s velkým písmenem a používá se on; V: čte se „mandej“",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "MANdej"
         },
         {
           "id": "friday",
@@ -663,7 +732,8 @@ window.CONTENT = {
           "sentenceEn": "I work on Friday.",
           "sentenceCs": "V pátek pracuji.",
           "note": "čte se „fraj-dej“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "FRAJdej"
         },
         {
           "id": "hour",
@@ -672,7 +742,8 @@ window.CONTENT = {
           "sentenceEn": "The film is one hour long.",
           "sentenceCs": "Film trvá hodinu.",
           "note": "h se nečte (auə)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "AUe"
         },
         {
           "id": "minute",
@@ -681,7 +752,8 @@ window.CONTENT = {
           "sentenceEn": "Wait a minute, please.",
           "sentenceCs": "Počkejte chvilku, prosím.",
           "note": "přízvuk na první slabice (MI-nit)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "MInit"
         }
       ]
     },
@@ -696,7 +768,8 @@ window.CONTENT = {
           "sentenceEn": "The bus is red.",
           "sentenceCs": "Autobus je červený.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "red"
         },
         {
           "id": "blue",
@@ -705,7 +778,8 @@ window.CONTENT = {
           "sentenceEn": "The sky is blue.",
           "sentenceCs": "Obloha je modrá.",
           "note": "dlouhé „ú“ (blú)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "blú"
         },
         {
           "id": "green",
@@ -714,7 +788,8 @@ window.CONTENT = {
           "sentenceEn": "I like the green apple.",
           "sentenceCs": "Mám rád to zelené jablko.",
           "note": "dlouhé „í“ (grín)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "grín"
         },
         {
           "id": "yellow",
@@ -723,7 +798,8 @@ window.CONTENT = {
           "sentenceEn": "My bag is yellow.",
           "sentenceCs": "Moje taška je žlutá.",
           "note": "y čti jako české „j“ (jelou)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "JElou"
         },
         {
           "id": "black",
@@ -732,7 +808,8 @@ window.CONTENT = {
           "sentenceEn": "I drink black coffee.",
           "sentenceCs": "Piji černou kávu.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "blek"
         },
         {
           "id": "white",
@@ -741,7 +818,8 @@ window.CONTENT = {
           "sentenceEn": "The wall is white.",
           "sentenceCs": "Zeď je bílá.",
           "note": "wh čti jako w, ne jako „v“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "wajt"
         },
         {
           "id": "big",
@@ -750,7 +828,8 @@ window.CONTENT = {
           "sentenceEn": "Our house is big.",
           "sentenceCs": "Náš dům je velký.",
           "note": "přídavné jméno se nemění ani v množném čísle (big houses)",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "big"
         },
         {
           "id": "small",
@@ -759,7 +838,8 @@ window.CONTENT = {
           "sentenceEn": "It is a small shop.",
           "sentenceCs": "Je to malý obchod.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "smól"
         },
         {
           "id": "new",
@@ -768,7 +848,8 @@ window.CONTENT = {
           "sentenceEn": "I have a new phone.",
           "sentenceCs": "Mám nový telefon.",
           "note": "britsky „njú“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "njú"
         },
         {
           "id": "old",
@@ -777,7 +858,8 @@ window.CONTENT = {
           "sentenceEn": "My car is old.",
           "sentenceCs": "Moje auto je staré.",
           "note": "How old are you? = Kolik je ti let?",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "ould"
         },
         {
           "id": "hot",
@@ -786,7 +868,8 @@ window.CONTENT = {
           "sentenceEn": "The tea is hot.",
           "sentenceCs": "Čaj je horký.",
           "note": "krátké „o“ (hot)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "hot"
         },
         {
           "id": "cold",
@@ -795,7 +878,8 @@ window.CONTENT = {
           "sentenceEn": "The water is cold.",
           "sentenceCs": "Voda je studená.",
           "note": "I am cold = je mi zima; It is cold = je zima",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "kould"
         }
       ]
     },
@@ -810,7 +894,8 @@ window.CONTENT = {
           "sentenceEn": "Our house is near the park.",
           "sentenceCs": "Náš dům je blízko parku.",
           "note": "čte se „haus“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "haus"
         },
         {
           "id": "room",
@@ -819,7 +904,8 @@ window.CONTENT = {
           "sentenceEn": "My room is on the left.",
           "sentenceCs": "Můj pokoj je vlevo.",
           "note": "krátké „ú“ (rúm)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "rúm"
         },
         {
           "id": "kitchen",
@@ -828,7 +914,8 @@ window.CONTENT = {
           "sentenceEn": "We eat in the kitchen.",
           "sentenceCs": "Jíme v kuchyni.",
           "note": "čte se „kičn“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "KIčin"
         },
         {
           "id": "door",
@@ -837,7 +924,8 @@ window.CONTENT = {
           "sentenceEn": "Please close the door.",
           "sentenceCs": "Zavři dveře, prosím.",
           "note": "door je jednotné číslo (jedny dveře)",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "dó"
         },
         {
           "id": "window",
@@ -846,7 +934,8 @@ window.CONTENT = {
           "sentenceEn": "Open the window, please.",
           "sentenceCs": "Otevři okno, prosím.",
           "note": "čte se „windou“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "WINdou"
         },
         {
           "id": "table",
@@ -855,7 +944,8 @@ window.CONTENT = {
           "sentenceEn": "The table is in the kitchen.",
           "sentenceCs": "Stůl je v kuchyni.",
           "note": "čte se „tejbl“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "TEJbl"
         },
         {
           "id": "chair",
@@ -864,7 +954,8 @@ window.CONTENT = {
           "sentenceEn": "I need a chair.",
           "sentenceCs": "Potřebuji židli.",
           "note": "ch jako „č“ (čér)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "čeə"
         },
         {
           "id": "bed",
@@ -873,7 +964,8 @@ window.CONTENT = {
           "sentenceEn": "I go to bed at ten.",
           "sentenceCs": "Jdu spát v deset.",
           "note": "go to bed bez členu",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "bed"
         },
         {
           "id": "key",
@@ -882,7 +974,8 @@ window.CONTENT = {
           "sentenceEn": "Where is my key?",
           "sentenceCs": "Kde je můj klíč?",
           "note": "čte se „kí“, ne „kej“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "kí"
         },
         {
           "id": "phone",
@@ -891,7 +984,8 @@ window.CONTENT = {
           "sentenceEn": "My phone is new.",
           "sentenceCs": "Můj telefon je nový.",
           "note": "čte se „foun“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "foun"
         },
         {
           "id": "book",
@@ -900,7 +994,8 @@ window.CONTENT = {
           "sentenceEn": "I read a book every week.",
           "sentenceCs": "Každý týden čtu knihu.",
           "note": "krátké „ú“ (búk)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "buk"
         },
         {
           "id": "bag",
@@ -909,7 +1004,8 @@ window.CONTENT = {
           "sentenceEn": "Put the bag on the chair.",
           "sentenceCs": "Polož tašku na židli.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "beg"
         }
       ]
     },
@@ -924,7 +1020,8 @@ window.CONTENT = {
           "sentenceEn": "I go to school by bus.",
           "sentenceCs": "Jezdím do školy autobusem.",
           "note": "čte se „gou“; G: he goes",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "gou"
         },
         {
           "id": "come",
@@ -933,7 +1030,8 @@ window.CONTENT = {
           "sentenceEn": "Come here, please.",
           "sentenceCs": "Pojď sem, prosím.",
           "note": "čte se „kam“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "kam"
         },
         {
           "id": "eat",
@@ -942,7 +1040,8 @@ window.CONTENT = {
           "sentenceEn": "We eat at seven.",
           "sentenceCs": "Jíme v sedm.",
           "note": "dlouhé „í“ (ít)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "ít"
         },
         {
           "id": "drink",
@@ -951,7 +1050,8 @@ window.CONTENT = {
           "sentenceEn": "I drink water every day.",
           "sentenceCs": "Každý den piji vodu.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "drink"
         },
         {
           "id": "have",
@@ -960,7 +1060,8 @@ window.CONTENT = {
           "sentenceEn": "I have two brothers.",
           "sentenceCs": "Mám dva bratry.",
           "note": "he/she/it has",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "hev"
         },
         {
           "id": "want",
@@ -969,7 +1070,8 @@ window.CONTENT = {
           "sentenceEn": "I want some water.",
           "sentenceCs": "Chci trochu vody.",
           "note": "čte se „wont“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "wont"
         },
         {
           "id": "like",
@@ -978,7 +1080,8 @@ window.CONTENT = {
           "sentenceEn": "I like English.",
           "sentenceCs": "Mám rád angličtinu.",
           "note": "I like = mám rád; zdvořile I would like",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "lajk"
         },
         {
           "id": "work",
@@ -987,7 +1090,8 @@ window.CONTENT = {
           "sentenceEn": "I work in a bank.",
           "sentenceCs": "Pracuji v bance.",
           "note": "čte se „wérk“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "wérk"
         },
         {
           "id": "live",
@@ -996,7 +1100,8 @@ window.CONTENT = {
           "sentenceEn": "I live in Prague.",
           "sentenceCs": "Bydlím v Praze.",
           "note": "krátké „i“ (liv)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "liv"
         },
         {
           "id": "speak",
@@ -1005,7 +1110,8 @@ window.CONTENT = {
           "sentenceEn": "Can you speak slowly, please?",
           "sentenceCs": "Můžete mluvit pomalu, prosím?",
           "note": "speak = mluvit jazykem, say = říct",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "spík"
         },
         {
           "id": "know",
@@ -1014,7 +1120,8 @@ window.CONTENT = {
           "sentenceEn": "I know this word.",
           "sentenceCs": "Znám to slovo.",
           "note": "k se nečte (nou)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "nou"
         },
         {
           "id": "see",
@@ -1023,7 +1130,8 @@ window.CONTENT = {
           "sentenceEn": "I see a bus.",
           "sentenceCs": "Vidím autobus.",
           "note": "dlouhé „í“ (sí)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "sí"
         }
       ]
     },
@@ -1038,7 +1146,8 @@ window.CONTENT = {
           "sentenceEn": "I have no money.",
           "sentenceCs": "Nemám žádné peníze.",
           "note": "čte se „mani“; G: money je jednotné číslo",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "MAni"
         },
         {
           "id": "pound",
@@ -1047,7 +1156,8 @@ window.CONTENT = {
           "sentenceEn": "It is five pounds.",
           "sentenceCs": "Stojí to pět liber.",
           "note": "čte se „paund“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "paund"
         },
         {
           "id": "price",
@@ -1056,7 +1166,8 @@ window.CONTENT = {
           "sentenceEn": "What is the price?",
           "sentenceCs": "Jaká je cena?",
           "note": "čte se „prajs“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "prajs"
         },
         {
           "id": "cheap",
@@ -1065,7 +1176,8 @@ window.CONTENT = {
           "sentenceEn": "This bag is cheap.",
           "sentenceCs": "Tahle taška je levná.",
           "note": "ch jako „č“ (číp)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "číp"
         },
         {
           "id": "expensive",
@@ -1074,7 +1186,8 @@ window.CONTENT = {
           "sentenceEn": "The phone is expensive.",
           "sentenceCs": "Telefon je drahý.",
           "note": "přízvuk na druhé slabice",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "ikSPENsiv"
         },
         {
           "id": "buy",
@@ -1083,7 +1196,8 @@ window.CONTENT = {
           "sentenceEn": "I want to buy bread.",
           "sentenceCs": "Chci koupit chléb.",
           "note": "čte se „baj“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "baj"
         },
         {
           "id": "pay",
@@ -1092,7 +1206,8 @@ window.CONTENT = {
           "sentenceEn": "I pay five pounds.",
           "sentenceCs": "Platím pět liber.",
           "note": "čte se „pej“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "pej"
         },
         {
           "id": "cash",
@@ -1101,7 +1216,8 @@ window.CONTENT = {
           "sentenceEn": "I pay in cash.",
           "sentenceCs": "Platím v hotovosti.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "keš"
         },
         {
           "id": "card",
@@ -1110,7 +1226,8 @@ window.CONTENT = {
           "sentenceEn": "My card is in my bag.",
           "sentenceCs": "Moje karta je v tašce.",
           "note": "britsky „kárd“ s protaženým „á“, r se nečte",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "kád"
         },
         {
           "id": "bill",
@@ -1119,7 +1236,8 @@ window.CONTENT = {
           "sentenceEn": "The bill, please.",
           "sentenceCs": "Účet, prosím.",
           "note": "Britsky bill, americky check",
-          "noteType": ""
+          "noteType": "",
+          "pron": "bil"
         },
         {
           "id": "change",
@@ -1128,7 +1246,8 @@ window.CONTENT = {
           "sentenceEn": "Keep the change.",
           "sentenceCs": "Nechte si drobné.",
           "note": "čte se „čejndž“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "čejndž"
         },
         {
           "id": "free",
@@ -1137,7 +1256,8 @@ window.CONTENT = {
           "sentenceEn": "The tea is free.",
           "sentenceCs": "Čaj je zdarma.",
           "note": "dlouhé „í“; free může znamenat i „mám čas“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "frí"
         }
       ]
     },
@@ -1152,7 +1272,8 @@ window.CONTENT = {
           "sentenceEn": "He wears a white shirt.",
           "sentenceCs": "Má na sobě bílou košili.",
           "note": "wear = mít na sobě; V: čte se „šért“",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "šért"
         },
         {
           "id": "trousers",
@@ -1161,7 +1282,8 @@ window.CONTENT = {
           "sentenceEn": "My trousers are blue.",
           "sentenceCs": "Moje kalhoty jsou modré.",
           "note": "vždy množné číslo (trousers are); jedny kalhoty = a pair of trousers",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "TRAUzez"
         },
         {
           "id": "jeans",
@@ -1170,7 +1292,8 @@ window.CONTENT = {
           "sentenceEn": "I like your jeans.",
           "sentenceCs": "Líbí se mi tvoje džíny.",
           "note": "stejně jako trousers (a pair of jeans); V: čte se „džínz“",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "džínz"
         },
         {
           "id": "jacket",
@@ -1179,7 +1302,8 @@ window.CONTENT = {
           "sentenceEn": "Take your jacket, it is cold.",
           "sentenceCs": "Vezmi si bundu, je zima.",
           "note": "čte se „džekit“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "DŽEkit"
         },
         {
           "id": "coat",
@@ -1188,7 +1312,8 @@ window.CONTENT = {
           "sentenceEn": "I need a warm coat.",
           "sentenceCs": "Potřebuji teplý kabát.",
           "note": "čte se „kout“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "kout"
         },
         {
           "id": "dress",
@@ -1197,7 +1322,8 @@ window.CONTENT = {
           "sentenceEn": "She has a red dress.",
           "sentenceCs": "Má červené šaty.",
           "note": "dress je jednotné číslo (česky „šaty“ jsou množné)",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "dres"
         },
         {
           "id": "skirt",
@@ -1206,7 +1332,8 @@ window.CONTENT = {
           "sentenceEn": "The skirt is short.",
           "sentenceCs": "Sukně je krátká.",
           "note": "čte se „skért“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "skért"
         },
         {
           "id": "shoes",
@@ -1215,7 +1342,8 @@ window.CONTENT = {
           "sentenceEn": "My shoes are black.",
           "sentenceCs": "Moje boty jsou černé.",
           "note": "jedny boty = a pair of shoes; V: čte se „šúz“",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "šúz"
         },
         {
           "id": "socks",
@@ -1224,7 +1352,8 @@ window.CONTENT = {
           "sentenceEn": "I have blue socks.",
           "sentenceCs": "Mám modré ponožky.",
           "note": "",
-          "noteType": ""
+          "noteType": "",
+          "pron": "soks"
         },
         {
           "id": "hat",
@@ -1233,7 +1362,8 @@ window.CONTENT = {
           "sentenceEn": "He wears a hat in winter.",
           "sentenceCs": "V zimě nosí klobouk.",
           "note": "krátké „a“ (het)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "het"
         },
         {
           "id": "jumper",
@@ -1242,7 +1372,8 @@ window.CONTENT = {
           "sentenceEn": "Put on a warm jumper.",
           "sentenceCs": "Obleč si teplý svetr.",
           "note": "Britsky jumper, americky sweater",
-          "noteType": ""
+          "noteType": "",
+          "pron": "DŽAMpe"
         },
         {
           "id": "trainers",
@@ -1251,7 +1382,8 @@ window.CONTENT = {
           "sentenceEn": "My trainers are new.",
           "sentenceCs": "Moje tenisky jsou nové.",
           "note": "Britsky trainers, americky sneakers; V: čte se „trejnrz“",
-          "noteType": ""
+          "noteType": "",
+          "pron": "TREJnez"
         }
       ]
     },
@@ -1266,7 +1398,8 @@ window.CONTENT = {
           "sentenceEn": "She has a hat on her head.",
           "sentenceCs": "Má na hlavě klobouk.",
           "note": "čte se „hed“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "hed"
         },
         {
           "id": "eye",
@@ -1275,7 +1408,8 @@ window.CONTENT = {
           "sentenceEn": "She has blue eyes.",
           "sentenceCs": "Má modré oči.",
           "note": "čte se „aj“; množné číslo eyes",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "aj"
         },
         {
           "id": "nose",
@@ -1284,7 +1418,8 @@ window.CONTENT = {
           "sentenceEn": "My nose is cold.",
           "sentenceCs": "Mám studený nos.",
           "note": "čte se „nouz“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "nouz"
         },
         {
           "id": "mouth",
@@ -1293,7 +1428,8 @@ window.CONTENT = {
           "sentenceEn": "Open your mouth, please.",
           "sentenceCs": "Otevři ústa, prosím.",
           "note": "th na konci jako v three (neznělé)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "mauth"
         },
         {
           "id": "hand",
@@ -1302,7 +1438,8 @@ window.CONTENT = {
           "sentenceEn": "Give me your hand.",
           "sentenceCs": "Podej mi ruku.",
           "note": "hand = ruka od zápěstí, celá ruka od ramene je arm",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "hend"
         },
         {
           "id": "arm",
@@ -1311,7 +1448,8 @@ window.CONTENT = {
           "sentenceEn": "Raise your arm, please.",
           "sentenceCs": "Zvedni paži, prosím.",
           "note": "britsky „ám“, r se nečte",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "ám"
         },
         {
           "id": "leg",
@@ -1320,7 +1458,8 @@ window.CONTENT = {
           "sentenceEn": "I have a pain in my leg.",
           "sentenceCs": "Bolí mě noha.",
           "note": "a pain in my leg nebo my leg hurts",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "leg"
         },
         {
           "id": "foot",
@@ -1329,7 +1468,8 @@ window.CONTENT = {
           "sentenceEn": "My right foot is small.",
           "sentenceCs": "Moje pravé chodidlo je malé.",
           "note": "množné číslo je feet; foot = chodidlo, leg = celá noha",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "fut"
         },
         {
           "id": "back",
@@ -1338,7 +1478,8 @@ window.CONTENT = {
           "sentenceEn": "My back hurts.",
           "sentenceCs": "Bolí mě záda.",
           "note": "hurt = bolet",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "bek"
         },
         {
           "id": "doctor",
@@ -1347,7 +1488,8 @@ window.CONTENT = {
           "sentenceEn": "I want to see a doctor.",
           "sentenceCs": "Chci jít k lékaři.",
           "note": "see a doctor = jít k lékaři",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "DOKte"
         },
         {
           "id": "ill",
@@ -1356,7 +1498,8 @@ window.CONTENT = {
           "sentenceEn": "My mother is ill.",
           "sentenceCs": "Moje matka je nemocná.",
           "note": "britsky ill; sick spíš znamená „je mu špatně od žaludku“",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "il"
         },
         {
           "id": "headache",
@@ -1365,7 +1508,8 @@ window.CONTENT = {
           "sentenceEn": "I have a headache.",
           "sentenceCs": "Bolí mě hlava.",
           "note": "I have a headache = bolí mě hlava (doslova „mám bolest hlavy“); V: čte se „hedejk“",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "HEDejk"
         }
       ]
     },
@@ -1380,7 +1524,8 @@ window.CONTENT = {
           "sentenceEn": "What is the weather like today?",
           "sentenceCs": "Jaké je dnes počasí?",
           "note": "th znělé; G: nepočitatelné, bez množného čísla",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "WEdhe"
         },
         {
           "id": "sun",
@@ -1389,7 +1534,8 @@ window.CONTENT = {
           "sentenceEn": "The sun is hot.",
           "sentenceCs": "Slunce je horké.",
           "note": "čte se „san“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "san"
         },
         {
           "id": "rain",
@@ -1398,7 +1544,8 @@ window.CONTENT = {
           "sentenceEn": "I do not like rain.",
           "sentenceCs": "Nemám rád déšť.",
           "note": "čte se „rejn“; G: it rains / it is raining = prší",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "rejn"
         },
         {
           "id": "snow",
@@ -1407,7 +1554,8 @@ window.CONTENT = {
           "sentenceEn": "We have snow in winter.",
           "sentenceCs": "V zimě máme sníh.",
           "note": "čte se „snou“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "snou"
         },
         {
           "id": "wind",
@@ -1416,7 +1564,8 @@ window.CONTENT = {
           "sentenceEn": "The wind is cold.",
           "sentenceCs": "Vítr je studený.",
           "note": "čte se „wind“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "wind"
         },
         {
           "id": "cloud",
@@ -1425,7 +1574,8 @@ window.CONTENT = {
           "sentenceEn": "I see a big cloud.",
           "sentenceCs": "Vidím velký mrak.",
           "note": "čte se „klaud“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "klaud"
         },
         {
           "id": "warm",
@@ -1434,7 +1584,8 @@ window.CONTENT = {
           "sentenceEn": "It is warm today.",
           "sentenceCs": "Dnes je teplo.",
           "note": "warm = příjemně teplo, hot = horko",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "wóm"
         },
         {
           "id": "spring",
@@ -1443,7 +1594,8 @@ window.CONTENT = {
           "sentenceEn": "I like spring.",
           "sentenceCs": "Mám rád jaro.",
           "note": "roční období bez členu (in spring)",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "spring"
         },
         {
           "id": "summer",
@@ -1452,7 +1604,8 @@ window.CONTENT = {
           "sentenceEn": "It is hot in summer.",
           "sentenceCs": "V létě je horko.",
           "note": "in summer",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "SAme"
         },
         {
           "id": "autumn",
@@ -1461,7 +1614,8 @@ window.CONTENT = {
           "sentenceEn": "It rains in autumn.",
           "sentenceCs": "Na podzim prší.",
           "note": "Britsky autumn, americky fall; V: čte se „ótm“, n se nečte",
-          "noteType": ""
+          "noteType": "",
+          "pron": "ÓTem"
         },
         {
           "id": "winter",
@@ -1470,7 +1624,8 @@ window.CONTENT = {
           "sentenceEn": "It snows in winter.",
           "sentenceCs": "V zimě sněží.",
           "note": "winter = roční období, cold = chladno",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "WINte"
         },
         {
           "id": "sunny",
@@ -1479,7 +1634,8 @@ window.CONTENT = {
           "sentenceEn": "It is sunny today.",
           "sentenceCs": "Dnes je slunečno.",
           "note": "čte se „sani“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "SAni"
         }
       ]
     },
@@ -1494,7 +1650,8 @@ window.CONTENT = {
           "sentenceEn": "I listen to music every day.",
           "sentenceCs": "Každý den poslouchám hudbu.",
           "note": "listen to (po listen vždy to); V: čte se „mjúzik“",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "MJÚzik"
         },
         {
           "id": "film",
@@ -1503,7 +1660,8 @@ window.CONTENT = {
           "sentenceEn": "We watch a film on Friday.",
           "sentenceCs": "V pátek se díváme na film.",
           "note": "Britsky film, americky movie; G: watch a film",
-          "noteType": ""
+          "noteType": "",
+          "pron": "film"
         },
         {
           "id": "football",
@@ -1512,7 +1670,8 @@ window.CONTENT = {
           "sentenceEn": "My brother plays football.",
           "sentenceCs": "Můj bratr hraje fotbal.",
           "note": "Britsky football, americky soccer; V: čte se „fútból“",
-          "noteType": ""
+          "noteType": "",
+          "pron": "FUTból"
         },
         {
           "id": "sport",
@@ -1521,7 +1680,8 @@ window.CONTENT = {
           "sentenceEn": "I like sport.",
           "sentenceCs": "Mám rád sport.",
           "note": "Britsky sport, americky sports",
-          "noteType": ""
+          "noteType": "",
+          "pron": "spót"
         },
         {
           "id": "swim",
@@ -1530,7 +1690,8 @@ window.CONTENT = {
           "sentenceEn": "Can you swim?",
           "sentenceCs": "Umíš plavat?",
           "note": "can = umět; V: w zakulacené rty",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "swim"
         },
         {
           "id": "read",
@@ -1539,7 +1700,8 @@ window.CONTENT = {
           "sentenceEn": "I like to read in the evening.",
           "sentenceCs": "Večer rád čtu.",
           "note": "v přítomném čase „rí-d“, v minulém read se čte „red“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "rít"
         },
         {
           "id": "dance",
@@ -1548,7 +1710,8 @@ window.CONTENT = {
           "sentenceEn": "She likes to dance.",
           "sentenceCs": "Ráda tančí.",
           "note": "britsky „dáns“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "dáns"
         },
         {
           "id": "walk",
@@ -1557,7 +1720,8 @@ window.CONTENT = {
           "sentenceEn": "I walk to school.",
           "sentenceCs": "Chodím do školy pěšky.",
           "note": "l se nečte (wók)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "wók"
         },
         {
           "id": "play",
@@ -1566,7 +1730,8 @@ window.CONTENT = {
           "sentenceEn": "We play in the park.",
           "sentenceCs": "Hrajeme si v parku.",
           "note": "play football (sport), ale play the guitar (nástroj)",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "plej"
         },
         {
           "id": "cook",
@@ -1575,7 +1740,8 @@ window.CONTENT = {
           "sentenceEn": "I cook dinner every day.",
           "sentenceCs": "Každý den vařím večeři.",
           "note": "krátké „ú“ (kúk)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "kuk"
         },
         {
           "id": "friend",
@@ -1584,7 +1750,8 @@ window.CONTENT = {
           "sentenceEn": "She is my friend.",
           "sentenceCs": "Je to moje kamarádka.",
           "note": "čte se „frend“, i se nečte",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "frend"
         },
         {
           "id": "game",
@@ -1593,7 +1760,8 @@ window.CONTENT = {
           "sentenceEn": "Let us play a game.",
           "sentenceCs": "Pojďme si zahrát hru.",
           "note": "čte se „gejm“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "gejm"
         }
       ]
     },
@@ -1608,7 +1776,8 @@ window.CONTENT = {
           "sentenceEn": "One ticket to London, please.",
           "sentenceCs": "Jednu jízdenku do Londýna, prosím.",
           "note": "čte se „tikit“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "TIkit"
         },
         {
           "id": "passport",
@@ -1617,7 +1786,8 @@ window.CONTENT = {
           "sentenceEn": "I have my passport.",
           "sentenceCs": "Mám svůj pas.",
           "note": "britsky „pá-spórt“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "PÁSpót"
         },
         {
           "id": "airport",
@@ -1626,7 +1796,8 @@ window.CONTENT = {
           "sentenceEn": "We are at the airport.",
           "sentenceCs": "Jsme na letišti.",
           "note": "at the airport",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "EApót"
         },
         {
           "id": "hotel",
@@ -1635,7 +1806,8 @@ window.CONTENT = {
           "sentenceEn": "The hotel is near the station.",
           "sentenceCs": "Hotel je blízko nádraží.",
           "note": "přízvuk na druhé slabice (hoTEL)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "houTEL"
         },
         {
           "id": "luggage",
@@ -1644,7 +1816,8 @@ window.CONTENT = {
           "sentenceEn": "Where is my luggage?",
           "sentenceCs": "Kde jsou moje zavazadla?",
           "note": "luggage je nepočitatelné, bez množného čísla (americky baggage)",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "LAgidž"
         },
         {
           "id": "reservation",
@@ -1653,7 +1826,8 @@ window.CONTENT = {
           "sentenceEn": "I have a reservation.",
           "sentenceCs": "Mám rezervaci.",
           "note": "čte se „rezervejšn“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "rezeVEJšn"
         },
         {
           "id": "menu",
@@ -1662,7 +1836,8 @@ window.CONTENT = {
           "sentenceEn": "The menu, please.",
           "sentenceCs": "Jídelní lístek, prosím.",
           "note": "česky je „menu“ často denní nabídka, anglicky celý jídelní lístek",
-          "noteType": "falseFriend"
+          "noteType": "falseFriend",
+          "pron": "MEnjú"
         },
         {
           "id": "waiter",
@@ -1671,7 +1846,8 @@ window.CONTENT = {
           "sentenceEn": "The waiter is kind.",
           "sentenceCs": "Číšník je laskavý.",
           "note": "čte se „wejtr“; žena = waitress",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "WEJte"
         },
         {
           "id": "order",
@@ -1680,7 +1856,8 @@ window.CONTENT = {
           "sentenceEn": "Can we order, please?",
           "sentenceCs": "Můžeme si objednat, prosím?",
           "note": "order = objednat jídlo",
-          "noteType": "grammar"
+          "noteType": "grammar",
+          "pron": "ÓDe"
         },
         {
           "id": "soup",
@@ -1689,7 +1866,8 @@ window.CONTENT = {
           "sentenceEn": "I want the soup, please.",
           "sentenceCs": "Chci polévku, prosím.",
           "note": "čte se „súp“",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "súp"
         },
         {
           "id": "dessert",
@@ -1698,7 +1876,8 @@ window.CONTENT = {
           "sentenceEn": "What is for dessert?",
           "sentenceCs": "Co je k dezertu?",
           "note": "přízvuk na druhé slabice (dizért)",
-          "noteType": "pronunciation"
+          "noteType": "pronunciation",
+          "pron": "dizÉRT"
         },
         {
           "id": "can-i-have",
@@ -1707,7 +1886,8 @@ window.CONTENT = {
           "sentenceEn": "Can I have a coffee, please?",
           "sentenceCs": "Můžu dostat kávu, prosím?",
           "note": "Zdvořilá žádost, v obchodě a restauraci mnohem častější než I want",
-          "noteType": ""
+          "noteType": "",
+          "pron": "ken aj hev"
         }
       ]
     }
