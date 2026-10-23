@@ -4,6 +4,8 @@
   const MAX_BOX = 5;
   const XP_PER_CORRECT = 10;
   const XP_LESSON_BONUS = 20;
+  const DAILY_GOALS = [10, 20, 30, 50];
+  const DEFAULT_DAILY_GOAL = 20;
   const LESSON_LENGTH_SECOND_PASS = 6;
   const TYPES = ['translate', 'listenChoose', 'listenType'];
   const REVIEW_SIZE = 12;
@@ -203,7 +205,10 @@
   // ---------- postup ----------
 
   function defaultProgress() {
-    return { version: 1, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {} };
+    return {
+      version: 1, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {},
+      daily: { day: '', xp: 0 }, settings: { dailyGoal: DEFAULT_DAILY_GOAL },
+    };
   }
 
   function dayKey(date) {
@@ -236,8 +241,23 @@
     return progress;
   }
 
-  function addXp(progress, amount) {
+  // Body se počítají celkem i za dnešní den (denní cíl); o půlnoci se denní počítadlo samo vynuluje.
+  function addXp(progress, amount, now = new Date()) {
     progress.xp += amount;
+    const today = dayKey(now);
+    if (progress.daily.day !== today) progress.daily = { day: today, xp: 0 };
+    progress.daily.xp += amount;
+    return progress;
+  }
+
+  function dailyStatus(progress, now = new Date()) {
+    const xp = progress.daily.day === dayKey(now) ? progress.daily.xp : 0;
+    const goal = progress.settings.dailyGoal;
+    return { xp, goal, done: xp >= goal, ratio: Math.min(1, xp / goal) };
+  }
+
+  function setDailyGoal(progress, goal) {
+    if (DAILY_GOALS.includes(goal)) progress.settings.dailyGoal = goal;
     return progress;
   }
 
@@ -249,7 +269,7 @@
       best: Math.max(previous ? previous.best : 0, accuracy),
       completedAt: now.getTime(),
     };
-    addXp(progress, firstTime ? XP_LESSON_BONUS : 0);
+    addXp(progress, firstTime ? XP_LESSON_BONUS : 0, now);
     updateStreak(progress, now);
     return progress;
   }
@@ -298,6 +318,13 @@
     };
   }
 
+  // Smaže veškerý postup (body, sérii, lekce, statistiky); zachová jen nastavený denní cíl.
+  function resetProgress(progress) {
+    const fresh = defaultProgress();
+    fresh.settings.dailyGoal = progress.settings.dailyGoal;
+    return fresh;
+  }
+
   function isLessonUnlocked(progress, lessons, index) {
     if (index === 0) return true;
     const previous = progress.lessons[lessons[index - 1].id];
@@ -341,6 +368,10 @@
         last: num(w.last, 0, 1e15) ?? 0,
       };
     }
+    const daily = raw.daily && typeof raw.daily === 'object' ? raw.daily : null;
+    if (daily && isDay(daily.day)) clean.daily = { day: daily.day, xp: Math.floor(num(daily.xp, 0, 1e6) ?? 0) };
+    const goal = raw.settings && typeof raw.settings === 'object' ? raw.settings.dailyGoal : null;
+    if (DAILY_GOALS.includes(goal)) clean.settings.dailyGoal = goal;
     for (const kind of PRACTICE_KINDS) {
       const pr = raw.practice && typeof raw.practice === 'object' ? raw.practice[kind] : null;
       if (!pr || typeof pr !== 'object') continue;
@@ -384,7 +415,7 @@
   }
 
   const Engine = {
-    STORAGE_KEY, XP_PER_CORRECT, XP_LESSON_BONUS,
+    STORAGE_KEY, XP_PER_CORRECT, XP_LESSON_BONUS, DAILY_GOALS, dailyStatus, setDailyGoal, resetProgress,
     shuffle, normalize, levenshtein, checkTyped,
     pickDistractors, buildLesson, requeue,
     defaultProgress, dayKey, updateStreak, recordAnswer, addXp, completeLesson,

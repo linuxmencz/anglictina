@@ -92,6 +92,30 @@
     return h('div', { class: 'note' }, h('strong', {}, (NOTE_LABELS[word.noteType] || 'Poznámka') + ': '), word.note);
   }
 
+  // ---------- denní cíl ----------
+
+  function goalLine() {
+    const g = Engine.dailyStatus(progress);
+    return h('p', { class: 'muted' }, g.done ? '🎯 Denní cíl splněn!' : `🎯 Dnešní cíl: ${g.xp} z ${g.goal} bodů`);
+  }
+
+  function goalCard() {
+    const g = Engine.dailyStatus(progress);
+    const chips = Engine.DAILY_GOALS.map((value) => h('button', {
+      class: 'btn small' + (value === g.goal ? ' primary' : ''),
+      type: 'button',
+      'aria-pressed': String(value === g.goal),
+      onclick: () => { Engine.setDailyGoal(progress, value); save(); showHome(); },
+    }, String(value)));
+    return h('div', { class: 'card' },
+      h('strong', {}, g.done ? '🎯 Denní cíl splněn!' : '🎯 Denní cíl'),
+      h('div', { class: 'progress' }, h('div', { style: `width:${Math.round(g.ratio * 100)}%` })),
+      h('div', { class: 'muted' }, `Dnes ${g.xp} z ${g.goal} bodů`),
+      h('div', { class: 'muted' }, 'Cíl (body za den):'),
+      h('div', { class: 'row' }, chips),
+    );
+  }
+
   // ---------- domovská obrazovka ----------
 
   function showHome() {
@@ -122,6 +146,7 @@
     render(
       h('h1', {}, 'Učíme se anglicky'),
       h('p', { class: 'muted' }, `Znáš už ${Engine.knownWords(progress)} slov z ${Object.keys(wordsById).length}.`),
+      goalCard(),
       reviewCard,
       list,
       h('h2', {}, 'Procvičování'),
@@ -133,6 +158,9 @@
         h('button', { class: 'btn small', type: 'button', onclick: exportFile }, '⬇️ Stáhnout zálohu'),
         h('button', { class: 'btn small', type: 'button', onclick: () => fileInput.click() }, '⬆️ Obnovit ze zálohy'),
       ),
+      h('h2', {}, 'Začít znovu'),
+      h('p', { class: 'muted' }, 'Smaže všechny body, sérii, dokončené lekce i statistiky slov. Denní cíl zůstane.'),
+      h('button', { class: 'btn small bad', type: 'button', onclick: resetAll }, '🗑️ Smazat postup'),
       fileInput,
     );
   }
@@ -177,6 +205,17 @@
     a.click();
     a.remove();
     setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  function resetAll() {
+    const sure = confirm(
+      'Opravdu smazat veškerý postup?\n\nZmizí všechny body, série dní, dokončené lekce i statistiky slov. '
+      + 'Tuto akci nelze vrátit zpět.\n\nDoporučujeme nejdřív stáhnout zálohu.',
+    );
+    if (!sure) return;
+    progress = Engine.resetProgress(progress);
+    save();
+    showHome();
   }
 
   function importFile(event) {
@@ -460,6 +499,7 @@
         h('p', {}, `Správně napoprvé: ${state.firstTryCorrect} z ${state.firstTry}`),
         h('p', {}, `Získané body: ${state.xpEarned}`),
         h('p', { class: 'muted' }, accuracy >= 0.8 ? 'Skvělá práce!' : 'Zkus to klidně znovu, pořadí se pokaždé zamíchá.'),
+        goalLine(),
       ),
       h('button', { class: 'btn primary', type: 'button', onclick: () => startPractice(state.kind) }, 'Zkusit znovu'),
       h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Na přehled'),
@@ -569,6 +609,7 @@
         h('h1', {}, 'Opakování hotové!'),
         h('p', {}, `Správně napoprvé: ${state.firstTryCorrect} z ${state.firstTry}`),
         h('p', {}, `Získané body: ${state.xpEarned}`),
+        goalLine(),
         h('p', { class: 'muted' }, left ? `Ještě zbývá ${left} ${wordForm(left)} k zopakování.` : 'Na dnes máš všechno zopakované.'),
       ),
       left ? h('button', { class: 'btn primary', type: 'button', onclick: () => startReview(Engine.dueWords(progress, allWords)) }, 'Pokračovat v opakování') : null,
@@ -592,11 +633,17 @@
         h('p', {}, `Správně napoprvé: ${state.firstTryCorrect} z ${state.firstTry}`),
         h('p', {}, `Získané body: ${state.xpEarned + bonus}${bonus ? ` (z toho ${bonus} bonus za první dokončení)` : ''}`),
         h('p', { class: 'muted' }, accuracy >= 0.8 ? 'Skvělá práce!' : 'Slova, která ti nešla, se ti ještě vrátí. Zkus lekci klidně zopakovat.'),
+        goalLine(),
       ),
       next ? h('button', { class: 'btn primary', type: 'button', onclick: () => showIntro(next) }, 'Další lekce') : null,
       h('button', { class: 'btn', type: 'button', onclick: () => startLesson(state.lesson) }, 'Zopakovat lekci'),
       h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Na přehled lekcí'),
     );
+  }
+
+  // Offline režim (service worker funguje jen přes http/https, ne z file://)
+  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
+    navigator.serviceWorker.register('sw.js').catch(() => {});
   }
 
   document.getElementById('home').addEventListener('click', showHome);

@@ -1140,6 +1140,576 @@ window.CONTENT = {
           "noteType": "pronunciation"
         }
       ]
+    },
+    {
+      "id": "t11",
+      "title": "Oblečení",
+      "words": [
+        {
+          "id": "shirt",
+          "en": "shirt",
+          "cs": "košile",
+          "sentenceEn": "He wears a white shirt.",
+          "sentenceCs": "Má na sobě bílou košili.",
+          "note": "wear = mít na sobě; V: čte se „šért“",
+          "noteType": "grammar"
+        },
+        {
+          "id": "trousers",
+          "en": "trousers",
+          "cs": "kalhoty",
+          "sentenceEn": "My trousers are blue.",
+          "sentenceCs": "Moje kalhoty jsou modré.",
+          "note": "vždy množné číslo (trousers are); jedny kalhoty = a pair of trousers",
+          "noteType": "grammar"
+        },
+        {
+          "id": "jeans",
+          "en": "jeans",
+          "cs": "džíny",
+          "sentenceEn": "I like your jeans.",
+          "sentenceCs": "Líbí se mi tvoje džíny.",
+          "note": "stejně jako trousers (a pair of jeans); V: čte se „džínz“",
+          "noteType": "grammar"
+        },
+        {
+          "id": "jacket",
+          "en": "jacket",
+          "cs": "bunda, sako",
+          "sentenceEn": "Take your jacket, it is cold.",
+          "sentenceCs": "Vezmi si bundu, je zima.",
+          "note": "čte se „džekit“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "coat",
+          "en": "coat",
+          "cs": "kabát",
+          "sentenceEn": "I need a warm coat.",
+          "sentenceCs": "Potřebuji teplý kabát.",
+          "note": "čte se „kout“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "dress",
+          "en": "dress",
+          "cs": "šaty",
+          "sentenceEn": "She has a red dress.",
+          "sentenceCs": "Má červené šaty.",
+          "note": "dress je jednotné číslo (česky „šaty“ jsou množné)",
+          "noteType": "grammar"
+        },
+        {
+          "id": "skirt",
+          "en": "skirt",
+          "cs": "sukně",
+          "sentenceEn": "The skirt is short.",
+          "sentenceCs": "Sukně je krátká.",
+          "note": "čte se „skért“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "shoes",
+          "en": "shoes",
+          "cs": "boty",
+          "sentenceEn": "My shoes are black.",
+          "sentenceCs": "Moje boty jsou černé.",
+          "note": "jedny boty = a pair of shoes; V: čte se „šúz“",
+          "noteType": "grammar"
+        },
+        {
+          "id": "socks",
+          "en": "socks",
+          "cs": "ponožky",
+          "sentenceEn": "I have blue socks.",
+          "sentenceCs": "Mám modré ponožky.",
+          "note": "",
+          "noteType": ""
+        },
+        {
+          "id": "hat",
+          "en": "hat",
+          "cs": "klobouk, čepice",
+          "sentenceEn": "He wears a hat in winter.",
+          "sentenceCs": "V zimě nosí klobouk.",
+          "note": "krátké „a“ (het)",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "jumper",
+          "en": "jumper",
+          "cs": "svetr",
+          "sentenceEn": "Put on a warm jumper.",
+          "sentenceCs": "Obleč si teplý svetr.",
+          "note": "Britsky jumper, americky sweater",
+          "noteType": ""
+        },
+        {
+          "id": "trainers",
+          "en": "trainers",
+          "cs": "tenisky",
+          "sentenceEn": "My trainers are new.",
+          "sentenceCs": "Moje tenisky jsou nové.",
+          "note": "Britsky trainers, americky sneakers; V: čte se „trejnrz“",
+          "noteType": ""
+        }
+      ]
+    },
+    {
+      "id": "t12",
+      "title": "Tělo a zdraví",
+      "words": [
+        {
+          "id": "head",
+          "en": "head",
+          "cs": "hlava",
+          "sentenceEn": "She has a hat on her head.",
+          "sentenceCs": "Má na hlavě klobouk.",
+          "note": "čte se „hed“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "eye",
+          "en": "eye",
+          "cs": "oko",
+          "sentenceEn": "She has blue eyes.",
+          "sentenceCs": "Má modré oči.",
+          "note": "čte se „aj“; množné číslo eyes",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "nose",
+          "en": "nose",
+          "cs": "nos",
+          "sentenceEn": "My nose is cold.",
+          "sentenceCs": "Mám studený nos.",
+          "note": "čte se „nouz“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "mouth",
+          "en": "mouth",
+          "cs": "ústa",
+          "sentenceEn": "Open your mouth, please.",
+          "sentenceCs": "Otevři ústa, prosím.",
+          "note": "th na konci jako v three (neznělé)",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "hand",
+          "en": "hand",
+          "cs": "ruka (dlaň)",
+          "sentenceEn": "Give me your hand.",
+          "sentenceCs": "Podej mi ruku.",
+          "note": "hand = ruka od zápěstí, celá ruka od ramene je arm",
+          "noteType": "grammar"
+        },
+        {
+          "id": "arm",
+          "en": "arm",
+          "cs": "paže",
+          "sentenceEn": "Raise your arm, please.",
+          "sentenceCs": "Zvedni paži, prosím.",
+          "note": "britsky „ám“, r se nečte",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "leg",
+          "en": "leg",
+          "cs": "noha (od kyčle)",
+          "sentenceEn": "I have a pain in my leg.",
+          "sentenceCs": "Bolí mě noha.",
+          "note": "a pain in my leg nebo my leg hurts",
+          "noteType": "grammar"
+        },
+        {
+          "id": "foot",
+          "en": "foot",
+          "cs": "chodidlo",
+          "sentenceEn": "My right foot is small.",
+          "sentenceCs": "Moje pravé chodidlo je malé.",
+          "note": "množné číslo je feet; foot = chodidlo, leg = celá noha",
+          "noteType": "grammar"
+        },
+        {
+          "id": "back",
+          "en": "back",
+          "cs": "záda",
+          "sentenceEn": "My back hurts.",
+          "sentenceCs": "Bolí mě záda.",
+          "note": "hurt = bolet",
+          "noteType": "grammar"
+        },
+        {
+          "id": "doctor",
+          "en": "doctor",
+          "cs": "lékař",
+          "sentenceEn": "I want to see a doctor.",
+          "sentenceCs": "Chci jít k lékaři.",
+          "note": "see a doctor = jít k lékaři",
+          "noteType": "grammar"
+        },
+        {
+          "id": "ill",
+          "en": "ill",
+          "cs": "nemocný",
+          "sentenceEn": "My mother is ill.",
+          "sentenceCs": "Moje matka je nemocná.",
+          "note": "britsky ill; sick spíš znamená „je mu špatně od žaludku“",
+          "noteType": "grammar"
+        },
+        {
+          "id": "headache",
+          "en": "headache",
+          "cs": "bolest hlavy",
+          "sentenceEn": "I have a headache.",
+          "sentenceCs": "Bolí mě hlava.",
+          "note": "I have a headache = bolí mě hlava (doslova „mám bolest hlavy“); V: čte se „hedejk“",
+          "noteType": "grammar"
+        }
+      ]
+    },
+    {
+      "id": "t13",
+      "title": "Počasí a roční období",
+      "words": [
+        {
+          "id": "weather",
+          "en": "weather",
+          "cs": "počasí",
+          "sentenceEn": "What is the weather like today?",
+          "sentenceCs": "Jaké je dnes počasí?",
+          "note": "th znělé; G: nepočitatelné, bez množného čísla",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "sun",
+          "en": "sun",
+          "cs": "slunce",
+          "sentenceEn": "The sun is hot.",
+          "sentenceCs": "Slunce je horké.",
+          "note": "čte se „san“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "rain",
+          "en": "rain",
+          "cs": "déšť",
+          "sentenceEn": "I do not like rain.",
+          "sentenceCs": "Nemám rád déšť.",
+          "note": "čte se „rejn“; G: it rains / it is raining = prší",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "snow",
+          "en": "snow",
+          "cs": "sníh",
+          "sentenceEn": "We have snow in winter.",
+          "sentenceCs": "V zimě máme sníh.",
+          "note": "čte se „snou“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "wind",
+          "en": "wind",
+          "cs": "vítr",
+          "sentenceEn": "The wind is cold.",
+          "sentenceCs": "Vítr je studený.",
+          "note": "čte se „wind“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "cloud",
+          "en": "cloud",
+          "cs": "mrak",
+          "sentenceEn": "I see a big cloud.",
+          "sentenceCs": "Vidím velký mrak.",
+          "note": "čte se „klaud“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "warm",
+          "en": "warm",
+          "cs": "teplý",
+          "sentenceEn": "It is warm today.",
+          "sentenceCs": "Dnes je teplo.",
+          "note": "warm = příjemně teplo, hot = horko",
+          "noteType": "grammar"
+        },
+        {
+          "id": "spring",
+          "en": "spring",
+          "cs": "jaro",
+          "sentenceEn": "I like spring.",
+          "sentenceCs": "Mám rád jaro.",
+          "note": "roční období bez členu (in spring)",
+          "noteType": "grammar"
+        },
+        {
+          "id": "summer",
+          "en": "summer",
+          "cs": "léto",
+          "sentenceEn": "It is hot in summer.",
+          "sentenceCs": "V létě je horko.",
+          "note": "in summer",
+          "noteType": "grammar"
+        },
+        {
+          "id": "autumn",
+          "en": "autumn",
+          "cs": "podzim",
+          "sentenceEn": "It rains in autumn.",
+          "sentenceCs": "Na podzim prší.",
+          "note": "Britsky autumn, americky fall; V: čte se „ótm“, n se nečte",
+          "noteType": ""
+        },
+        {
+          "id": "winter",
+          "en": "winter",
+          "cs": "zima (roční období)",
+          "sentenceEn": "It snows in winter.",
+          "sentenceCs": "V zimě sněží.",
+          "note": "winter = roční období, cold = chladno",
+          "noteType": "grammar"
+        },
+        {
+          "id": "sunny",
+          "en": "sunny",
+          "cs": "slunečno",
+          "sentenceEn": "It is sunny today.",
+          "sentenceCs": "Dnes je slunečno.",
+          "note": "čte se „sani“",
+          "noteType": "pronunciation"
+        }
+      ]
+    },
+    {
+      "id": "t14",
+      "title": "Koníčky a volný čas",
+      "words": [
+        {
+          "id": "music",
+          "en": "music",
+          "cs": "hudba",
+          "sentenceEn": "I listen to music every day.",
+          "sentenceCs": "Každý den poslouchám hudbu.",
+          "note": "listen to (po listen vždy to); V: čte se „mjúzik“",
+          "noteType": "grammar"
+        },
+        {
+          "id": "film",
+          "en": "film",
+          "cs": "film",
+          "sentenceEn": "We watch a film on Friday.",
+          "sentenceCs": "V pátek se díváme na film.",
+          "note": "Britsky film, americky movie; G: watch a film",
+          "noteType": ""
+        },
+        {
+          "id": "football",
+          "en": "football",
+          "cs": "fotbal",
+          "sentenceEn": "My brother plays football.",
+          "sentenceCs": "Můj bratr hraje fotbal.",
+          "note": "Britsky football, americky soccer; V: čte se „fútból“",
+          "noteType": ""
+        },
+        {
+          "id": "sport",
+          "en": "sport",
+          "cs": "sport",
+          "sentenceEn": "I like sport.",
+          "sentenceCs": "Mám rád sport.",
+          "note": "Britsky sport, americky sports",
+          "noteType": ""
+        },
+        {
+          "id": "swim",
+          "en": "swim",
+          "cs": "plavat",
+          "sentenceEn": "Can you swim?",
+          "sentenceCs": "Umíš plavat?",
+          "note": "can = umět; V: w zakulacené rty",
+          "noteType": "grammar"
+        },
+        {
+          "id": "read",
+          "en": "read",
+          "cs": "číst",
+          "sentenceEn": "I like to read in the evening.",
+          "sentenceCs": "Večer rád čtu.",
+          "note": "v přítomném čase „rí-d“, v minulém read se čte „red“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "dance",
+          "en": "dance",
+          "cs": "tančit",
+          "sentenceEn": "She likes to dance.",
+          "sentenceCs": "Ráda tančí.",
+          "note": "britsky „dáns“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "walk",
+          "en": "walk",
+          "cs": "chodit, procházka",
+          "sentenceEn": "I walk to school.",
+          "sentenceCs": "Chodím do školy pěšky.",
+          "note": "l se nečte (wók)",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "play",
+          "en": "play",
+          "cs": "hrát (si)",
+          "sentenceEn": "We play in the park.",
+          "sentenceCs": "Hrajeme si v parku.",
+          "note": "play football (sport), ale play the guitar (nástroj)",
+          "noteType": "grammar"
+        },
+        {
+          "id": "cook",
+          "en": "cook",
+          "cs": "vařit",
+          "sentenceEn": "I cook dinner every day.",
+          "sentenceCs": "Každý den vařím večeři.",
+          "note": "krátké „ú“ (kúk)",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "friend",
+          "en": "friend",
+          "cs": "kamarád",
+          "sentenceEn": "She is my friend.",
+          "sentenceCs": "Je to moje kamarádka.",
+          "note": "čte se „frend“, i se nečte",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "game",
+          "en": "game",
+          "cs": "hra",
+          "sentenceEn": "Let us play a game.",
+          "sentenceCs": "Pojďme si zahrát hru.",
+          "note": "čte se „gejm“",
+          "noteType": "pronunciation"
+        }
+      ]
+    },
+    {
+      "id": "t15",
+      "title": "Cestování a restaurace",
+      "words": [
+        {
+          "id": "ticket",
+          "en": "ticket",
+          "cs": "jízdenka, vstupenka",
+          "sentenceEn": "One ticket to London, please.",
+          "sentenceCs": "Jednu jízdenku do Londýna, prosím.",
+          "note": "čte se „tikit“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "passport",
+          "en": "passport",
+          "cs": "cestovní pas",
+          "sentenceEn": "I have my passport.",
+          "sentenceCs": "Mám svůj pas.",
+          "note": "britsky „pá-spórt“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "airport",
+          "en": "airport",
+          "cs": "letiště",
+          "sentenceEn": "We are at the airport.",
+          "sentenceCs": "Jsme na letišti.",
+          "note": "at the airport",
+          "noteType": "grammar"
+        },
+        {
+          "id": "hotel",
+          "en": "hotel",
+          "cs": "hotel",
+          "sentenceEn": "The hotel is near the station.",
+          "sentenceCs": "Hotel je blízko nádraží.",
+          "note": "přízvuk na druhé slabice (hoTEL)",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "luggage",
+          "en": "luggage",
+          "cs": "zavazadla",
+          "sentenceEn": "Where is my luggage?",
+          "sentenceCs": "Kde jsou moje zavazadla?",
+          "note": "luggage je nepočitatelné, bez množného čísla (americky baggage)",
+          "noteType": "grammar"
+        },
+        {
+          "id": "reservation",
+          "en": "reservation",
+          "cs": "rezervace",
+          "sentenceEn": "I have a reservation.",
+          "sentenceCs": "Mám rezervaci.",
+          "note": "čte se „rezervejšn“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "menu",
+          "en": "menu",
+          "cs": "jídelní lístek",
+          "sentenceEn": "The menu, please.",
+          "sentenceCs": "Jídelní lístek, prosím.",
+          "note": "česky je „menu“ často denní nabídka, anglicky celý jídelní lístek",
+          "noteType": "falseFriend"
+        },
+        {
+          "id": "waiter",
+          "en": "waiter",
+          "cs": "číšník",
+          "sentenceEn": "The waiter is kind.",
+          "sentenceCs": "Číšník je laskavý.",
+          "note": "čte se „wejtr“; žena = waitress",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "order",
+          "en": "order",
+          "cs": "objednat",
+          "sentenceEn": "Can we order, please?",
+          "sentenceCs": "Můžeme si objednat, prosím?",
+          "note": "order = objednat jídlo",
+          "noteType": "grammar"
+        },
+        {
+          "id": "soup",
+          "en": "soup",
+          "cs": "polévka",
+          "sentenceEn": "I want the soup, please.",
+          "sentenceCs": "Chci polévku, prosím.",
+          "note": "čte se „súp“",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "dessert",
+          "en": "dessert",
+          "cs": "zákusek, dezert",
+          "sentenceEn": "What is for dessert?",
+          "sentenceCs": "Co je k dezertu?",
+          "note": "přízvuk na druhé slabice (dizért)",
+          "noteType": "pronunciation"
+        },
+        {
+          "id": "can-i-have",
+          "en": "Can I have...?",
+          "cs": "Můžu dostat...?",
+          "sentenceEn": "Can I have a coffee, please?",
+          "sentenceCs": "Můžu dostat kávu, prosím?",
+          "note": "Zdvořilá žádost, v obchodě a restauraci mnohem častější než I want",
+          "noteType": ""
+        }
+      ]
     }
   ]
 };
