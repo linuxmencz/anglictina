@@ -1,0 +1,182 @@
+:root {
+  --bg: #f5f5f7;
+  --card: #ffffff;
+  --text: #1d1d1f;
+  --muted: #6e6e73;
+  --line: #d2d2d7;
+  --accent: #0a84ff;
+  --accent-text: #ffffff;
+  --good: #1f9d55;
+  --good-bg: #e3f5ea;
+  --bad: #d63a3a;
+  --bad-bg: #fbe7e7;
+  --note-bg: #fff6dd;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #1c1c1e;
+    --card: #2c2c2e;
+    --text: #f5f5f7;
+    --muted: #a1a1a6;
+    --line: #48484a;
+    --accent: #409cff;
+    --accent-text: #0b0b0c;
+    --good: #4cd080;
+    --good-bg: #17382a;
+    --bad: #ff6b6b;
+    --bad-bg: #3d1f1f;
+    --note-bg: #3a331c;
+  }
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 17px/1.45 -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, sans-serif;
+}
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 12px 16px;
+}
+
+.brand {
+  border: 0;
+  background: none;
+  color: var(--text);
+  font: inherit;
+  font-weight: 700;
+  font-size: 1.15rem;
+  cursor: pointer;
+  padding: 4px 0;
+}
+
+.stats { display: flex; gap: 14px; font-weight: 600; }
+
+main {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 8px 16px 48px;
+}
+
+h1 { font-size: 1.5rem; margin: 8px 0 12px; }
+h2 { font-size: 1.25rem; margin: 20px 0 8px; }
+p { margin: 8px 0; }
+.muted { color: var(--muted); }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 16px;
+  margin: 12px 0;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+button:focus-visible, input:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.btn {
+  display: block;
+  width: 100%;
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  text-align: left;
+  margin: 8px 0;
+  min-height: 48px;
+}
+
+.btn.primary {
+  background: var(--accent);
+  color: var(--accent-text);
+  border-color: var(--accent);
+  text-align: center;
+  font-weight: 600;
+}
+
+.btn.small { display: inline-block; width: auto; padding: 8px 14px; min-height: 40px; margin: 4px 6px 4px 0; }
+.btn[disabled] { opacity: .5; cursor: default; }
+.btn.good { background: var(--good-bg); border-color: var(--good); }
+.btn.bad { background: var(--bad-bg); border-color: var(--bad); }
+
+.lesson { display: flex; align-items: center; gap: 12px; }
+.lesson .info { flex: 1; }
+.lesson .badge { font-size: 1.4rem; }
+.lesson.locked { opacity: .55; }
+
+.progress {
+  height: 8px;
+  background: var(--line);
+  border-radius: 99px;
+  overflow: hidden;
+  margin: 8px 0 16px;
+}
+
+.progress > div { height: 100%; background: var(--accent); transition: width .2s; }
+
+.big-word { font-size: 2rem; font-weight: 700; margin: 8px 0; }
+.sentence { font-style: italic; }
+
+.note {
+  background: var(--note-bg);
+  border-radius: 10px;
+  padding: 10px 12px;
+  margin: 10px 0;
+  font-size: .95rem;
+}
+
+.feedback { border-radius: 12px; padding: 12px 14px; margin: 12px 0; }
+.feedback.good { background: var(--good-bg); border: 1px solid var(--good); }
+.feedback.bad { background: var(--bad-bg); border: 1px solid var(--bad); }
+
+input[type="text"] {
+  width: 100%;
+  padding: 14px;
+  font: inherit;
+  font-size: 1.2rem;
+  border-radius: 12px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+}
+
+.row { display: flex; flex-wrap: wrap; gap: 4px; }
+.center { text-align: center; }
+.result-score { font-size: 3rem; font-weight: 700; margin: 12px 0; }
+
+.tiles { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0; min-height: 52px; }
+.tiles.answer { border-bottom: 2px solid var(--line); padding-bottom: 8px; margin-bottom: 14px; }
+.tile {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  color: var(--text);
+  min-height: 44px;
+}
+.tile.ghost { visibility: hidden; }
+.tile.good { background: var(--good-bg); border-color: var(--good); }
+.tile.bad { background: var(--bad-bg); border-color: var(--bad); }
+.tile.selected { border-color: var(--accent); outline: 2px solid var(--accent); }
+.tile[disabled] { opacity: .6; cursor: default; }
+
+.match { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 12px 0; }
+.match .col { display: flex; flex-direction: column; gap: 8px; }
+.match .tile { text-align: left; }
