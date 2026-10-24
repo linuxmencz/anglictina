@@ -276,6 +276,7 @@
         class: 'btn', type: 'button', 'aria-pressed': String(progress.settings.showPron),
         onclick: () => { Engine.setShowPron(progress, !progress.settings.showPron); save(); showHome(); },
       }, progress.settings.showPron ? '✅ Přepis výslovnosti: zapnuto' : '⬜ Přepis výslovnosti: vypnuto'),
+      voiceToggle(showHome),
       h('h2', {}, 'Záloha postupu'),
       h('p', { class: 'muted' }, 'Postup je uložený v prohlížeči. Pro jistotu si ho občas stáhni do souboru.'),
       h('div', { class: 'row' },
@@ -570,6 +571,7 @@
       h('h1', {}, 'Dialogy ze situací'),
       h('p', { class: 'muted' }, 'Nejdřív si dialog přečti a poslechni, pak odpovídej za svou roli.'),
       h('p', { class: 'muted' }, `Hotovo ${finished} z ${dialogs.length} dialogů.`),
+      voiceToggle(showDialogs),
       dialogs.map((d) => {
         const done = progress.dialogs[d.id];
         return h('div', { class: 'card lesson' },
@@ -583,8 +585,18 @@
     );
   }
 
+  // Replika protějšku má na výběr mužskou nahrávku (přípona -m); vaše role mluví vždy původním hlasem.
   function dialogFile(dialog, index) {
-    return `${dialog.id}-${index + 1}`;
+    const male = !dialog.lines[index].ty && progress.settings.partnerVoice === 'male';
+    return `${dialog.id}-${index + 1}` + (male ? '-m' : '');
+  }
+
+  function voiceToggle(rerender) {
+    const male = progress.settings.partnerVoice === 'male';
+    return h('button', {
+      class: 'btn', type: 'button', 'aria-pressed': String(male),
+      onclick: () => { Engine.setPartnerVoice(progress, male ? 'female' : 'male'); save(); rerender(); },
+    }, male ? '🧔 Protějšek v dialozích: mužský hlas' : '👩 Protějšek v dialozích: ženský hlas');
   }
 
   function dialogLine(dialog, index, { hideTy = false } = {}) {

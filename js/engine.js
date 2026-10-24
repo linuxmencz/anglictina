@@ -224,7 +224,7 @@
   function defaultProgress() {
     return {
       version: 1, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {}, dialogs: {}, history: {},
-      daily: { day: '', xp: 0 }, settings: { dailyGoal: DEFAULT_DAILY_GOAL, showPron: true },
+      daily: { day: '', xp: 0 }, settings: { dailyGoal: DEFAULT_DAILY_GOAL, showPron: true, partnerVoice: 'male' },
     };
   }
 
@@ -288,6 +288,12 @@
 
   function setShowPron(progress, value) {
     progress.settings.showPron = Boolean(value);
+    return progress;
+  }
+
+  // Hlas protějšku v dialozích: 'male' (bm_george) nebo 'female' (stejný hlas jako u vás).
+  function setPartnerVoice(progress, value) {
+    progress.settings.partnerVoice = value === 'female' ? 'female' : 'male';
     return progress;
   }
 
@@ -421,6 +427,7 @@
     const goal = raw.settings && typeof raw.settings === 'object' ? raw.settings.dailyGoal : null;
     if (DAILY_GOALS.includes(goal)) clean.settings.dailyGoal = goal;
     if (raw.settings && typeof raw.settings.showPron === 'boolean') clean.settings.showPron = raw.settings.showPron;
+    if (raw.settings && ['male', 'female'].includes(raw.settings.partnerVoice)) clean.settings.partnerVoice = raw.settings.partnerVoice;
     for (const kind of PRACTICE_KINDS) {
       const pr = raw.practice && typeof raw.practice === 'object' ? raw.practice[kind] : null;
       if (!pr || typeof pr !== 'object') continue;
@@ -468,7 +475,7 @@
     shuffle, normalize, levenshtein, checkTyped,
     pickDistractors, buildLesson, requeue,
     defaultProgress, dayKey, updateStreak, recordAnswer, addXp, completeLesson,
-    PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice, completeDialog, lastDays,
+    PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice, completeDialog, lastDays, setPartnerVoice,
     tokenize, buildSentences, checkSentence, buildMatching,
     isLessonUnlocked, knownWords, isDue, dueWords, buildReview, stats,
     sanitizeProgress, exportProgress, importProgress, loadProgress, saveProgress,
