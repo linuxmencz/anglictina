@@ -1502,14 +1502,14 @@ window.CONTENT = {
           "pron": "il"
         },
         {
-          "id": "headache",
-          "en": "headache",
-          "cs": "bolest hlavy",
-          "sentenceEn": "I have a headache.",
-          "sentenceCs": "Bolí mě hlava.",
-          "note": "I have a headache = bolí mě hlava (doslova „mám bolest hlavy“); V: čte se „hedejk“",
-          "noteType": "grammar",
-          "pron": "HEDejk"
+          "id": "address",
+          "en": "address",
+          "cs": "adresa",
+          "sentenceEn": "What is your address?",
+          "sentenceCs": "Jaká je vaše adresa?",
+          "note": "přízvuk na druhé slabice (e-DRES)",
+          "noteType": "pronunciation",
+          "pron": "eDRES"
         }
       ]
     },
@@ -1888,6 +1888,132 @@ window.CONTENT = {
           "note": "Zdvořilá žádost, v obchodě a restauraci mnohem častější než I want",
           "noteType": "",
           "pron": "ken aj hev"
+        }
+      ]
+    },
+    {
+      "id": "t16",
+      "title": "Ze situací",
+      "words": [
+        {
+          "id": "prescription",
+          "en": "prescription",
+          "cs": "lékařský recept",
+          "sentenceEn": "Do you have a prescription?",
+          "sentenceCs": "Máte recept?",
+          "note": "receipt je účtenka, prescription je recept od lékaře",
+          "noteType": "falseFriend",
+          "pron": "priSKRIPšn"
+        },
+        {
+          "id": "size",
+          "en": "size",
+          "cs": "velikost",
+          "sentenceEn": "What size is it?",
+          "sentenceCs": "Jaká je to velikost?",
+          "note": "",
+          "noteType": "",
+          "pron": "sajz"
+        },
+        {
+          "id": "gate",
+          "en": "gate",
+          "cs": "brána, východ (na letišti)",
+          "sentenceEn": "Gate five, please.",
+          "sentenceCs": "Východ pět, prosím.",
+          "note": "",
+          "noteType": "",
+          "pron": "gejt"
+        },
+        {
+          "id": "lost",
+          "en": "lost",
+          "cs": "ztracený, zabloudil",
+          "sentenceEn": "I am lost.",
+          "sentenceCs": "Zabloudil jsem.",
+          "note": "lost je i minulé tvar slovesa lose (ztratit)",
+          "noteType": "grammar",
+          "pron": "lost"
+        },
+        {
+          "id": "platform",
+          "en": "platform",
+          "cs": "nástupiště",
+          "sentenceEn": "The train is at platform two.",
+          "sentenceCs": "Vlak je na nástupišti dvě.",
+          "note": "",
+          "noteType": "",
+          "pron": "PLETfóm"
+        },
+        {
+          "id": "return",
+          "en": "return",
+          "cs": "zpáteční (jízdenka)",
+          "sentenceEn": "A return ticket to Oxford, please.",
+          "sentenceCs": "Zpáteční jízdenku do Oxfordu, prosím.",
+          "note": "",
+          "noteType": "",
+          "pron": "riTÉN"
+        },
+        {
+          "id": "headache",
+          "en": "headache",
+          "cs": "bolest hlavy",
+          "sentenceEn": "I have a headache.",
+          "sentenceCs": "Bolí mě hlava.",
+          "note": "česky „bolí mě hlava“, anglicky mám bolest hlavy",
+          "noteType": "grammar",
+          "pron": "HEDejk"
+        },
+        {
+          "id": "medicine",
+          "en": "medicine",
+          "cs": "lék",
+          "sentenceEn": "Take this medicine.",
+          "sentenceCs": "Vezměte si tento lék.",
+          "note": "čte se „medsn“, ne „medicín“",
+          "noteType": "pronunciation",
+          "pron": "MEdsn"
+        },
+        {
+          "id": "stamp",
+          "en": "stamp",
+          "cs": "poštovní známka",
+          "sentenceEn": "One stamp, please.",
+          "sentenceCs": "Jednu známku, prosím.",
+          "note": "",
+          "noteType": "",
+          "pron": "stemp"
+        },
+        {
+          "id": "parcel",
+          "en": "parcel",
+          "cs": "balík",
+          "sentenceEn": "I want to send this parcel.",
+          "sentenceCs": "Chci poslat tento balík.",
+          "note": "",
+          "noteType": "",
+          "pron": "PÁsl"
+        },
+        {
+          "id": "invitation",
+          "en": "invitation",
+          "cs": "pozvání",
+          "sentenceEn": "Thank you for the invitation.",
+          "sentenceCs": "Děkuji za pozvání.",
+          "note": "",
+          "noteType": "",
+          "pron": "inviTEJšn"
+        },
+        {
+          "id": "appointment",
+          "en": "appointment",
+          "cs": "schůzka, objednání",
+          "sentenceEn": "I have an appointment at nine.",
+          "sentenceCs": "Mám objednání v devět.",
+          "note": "přízvuk na druhé slabice (e-POJNT-ment)",
+          "noteType": "pronunciation",
+          "pron": "ePOJNTment"
         }
       ]
     }

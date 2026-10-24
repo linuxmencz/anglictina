@@ -10,6 +10,7 @@
     falseFriends: { title: 'Falešní přátelé', icon: '🎭', hint: 'Slova, která se jen tváří česky', items: window.EXTRAS.falseFriends },
     pairs: { title: 'Minimální páry', icon: '👂', hint: 'Poslech: ship nebo sheep?', items: window.EXTRAS.pairs },
     sounds: { title: 'Výslovnost: th a w/v', icon: '👅', hint: 'Návod, slova, jazykolamy a poslech', start: () => showSounds() },
+    dialogs: { title: 'Dialogy ze situací', icon: '💬', hint: 'Restaurace, letiště, lékař… poslech a odpovědi', start: () => showDialogs() },
     sentences: { title: 'Skládání vět', icon: '🧩', hint: 'Seřaď slova do správné věty', start: () => startSentences() },
     matching: { title: 'Přiřazování dvojic', icon: '🔗', hint: 'Spoj anglické slovo s českým', start: () => startMatching() },
   };
@@ -489,6 +490,108 @@
     runPractice({ kind: 'sounds', queue: exercises, index: 0, firstTry: 0, firstTryCorrect: 0, xpEarned: 0 });
   }
 
+  // ---------- dialogy ze situací ----------
+
+  const dialogs = window.EXTRAS.dialogs;
+
+  function showDialogs() {
+    const done = progress.practice.dialogs;
+    render(
+      h('h1', {}, 'Dialogy ze situací'),
+      h('p', { class: 'muted' }, 'Nejdřív si dialog přečti a poslechni, pak odpovídej za svou roli.'),
+      done ? h('p', { class: 'muted' }, `Nejlepší výsledek cvičení: ${Math.round(done.best * 100)} %`) : null,
+      dialogs.map((d) => h('div', { class: 'card lesson' },
+        h('div', { class: 'info' }, h('strong', {}, d.title),
+          h('div', { class: 'muted' }, `${d.lines.length} replik`)),
+        h('button', { class: 'btn small primary', type: 'button', onclick: () => showDialog(d) }, 'Otevřít'),
+      )),
+      h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Zpět'),
+    );
+  }
+
+  function dialogFile(dialog, index) {
+    return `${dialog.id}-${index + 1}`;
+  }
+
+  function dialogLine(dialog, index, { hideTy = false } = {}) {
+    const line = dialog.lines[index];
+    const mine = line.ty;
+    return h('div', { class: 'bubble' + (mine ? ' mine' : '') },
+      h('div', { class: 'muted' }, line.who),
+      hideTy && mine ? null : h('div', { class: 'sentence' }, line.en),
+      hideTy && mine ? null : h('div', { class: 'muted' }, line.cs),
+      hideTy && mine ? null : (progress.settings.showPron ? h('div', { class: 'pron' }, line.pron) : null),
+      hideTy && mine ? null : h('div', { class: 'row' },
+        h('button', { class: 'btn small', type: 'button', onclick: () => playFile(dialogFile(dialog, index), line.en) }, '🔊 Přehrát')),
+    );
+  }
+
+  function showDialog(dialog) {
+    render(
+      h('h1', {}, dialog.title),
+      pronLegend(),
+      dialog.lines.map((_, i) => dialogLine(dialog, i)),
+      h('button', { class: 'btn primary', type: 'button', onclick: () => startDialog(dialog) }, 'Začít cvičení'),
+      h('button', { class: 'btn', type: 'button', onclick: showDialogs }, 'Zpět na dialogy'),
+    );
+  }
+
+  function startDialog(dialog) {
+    const total = dialog.lines.filter((l) => l.ty).length;
+    runDialog({
+      kind: 'dialogs', dialog, index: 0, total, answered: 0, firstTry: 0, firstTryCorrect: 0, xpEarned: 0,
+      retry: () => startDialog(dialog),
+    });
+  }
+
+  // Zobrazí rozhovor až po další repliku „Ty“; na ni se vybírá odpověď.
+  function runDialog(state) {
+    const { dialog } = state;
+    let tyIndex = dialog.lines.findIndex((l, i) => i >= state.index && l.ty);
+    const end = tyIndex === -1 ? dialog.lines.length : tyIndex;
+    const bar = h('div', { class: 'progress' }, h('div', { style: `width:${Math.round((state.answered / state.total) * 100)}%` }));
+    const history = [];
+    for (let i = 0; i < end; i++) history.push(dialogLine(dialog, i));
+    const feedback = h('div');
+
+    if (tyIndex === -1) {
+      render(bar, h('h2', {}, dialog.title), history,
+        h('button', { class: 'btn primary', type: 'button', onclick: () => showPracticeResult(state) }, 'Dokončit'));
+      return;
+    }
+
+    const line = dialog.lines[tyIndex];
+    const body = h('div', {}, h('h2', {}, 'Co odpovíš?'));
+    const buttons = Engine.dialogOptions(line).map((opt) => {
+      const b = h('button', { class: 'btn', type: 'button' }, opt.text);
+      b.addEventListener('click', () => {
+        buttons.forEach((x) => { x.disabled = true; });
+        b.classList.add(opt.correct ? 'good' : 'bad');
+        if (!opt.correct) buttons.find((x) => x.textContent === line.en).classList.add('good');
+        state.firstTry += 1;
+        if (opt.correct) {
+          state.firstTryCorrect += 1;
+          Engine.addXp(progress, Engine.XP_PER_CORRECT);
+          state.xpEarned += Engine.XP_PER_CORRECT;
+        }
+        state.answered += 1;
+        save();
+        feedback.replaceChildren(
+          h('div', { class: 'feedback ' + (opt.correct ? 'good' : 'bad') },
+            h('strong', {}, opt.correct ? 'Správně!' : 'Tady se hodí jiná odpověď.'),
+            h('div', {}, `${line.en} – ${line.cs}`),
+          ),
+          h('button', { class: 'btn primary', type: 'button', onclick: () => { state.index = tyIndex + 1; runDialog(state); } }, 'Pokračovat'),
+        );
+        feedback.querySelector('.btn.primary').focus();
+        playFile(dialogFile(dialog, tyIndex), line.en);
+      });
+      return b;
+    });
+    body.append(...buttons);
+    render(bar, h('h2', {}, dialog.title), history, body, feedback);
+  }
+
   // ---------- skládání vět ----------
 
   function startSentences() {
@@ -662,7 +765,7 @@
         h('p', { class: 'muted' }, accuracy >= 0.8 ? 'Skvělá práce!' : 'Zkus to klidně znovu, pořadí se pokaždé zamíchá.'),
         goalLine(),
       ),
-      h('button', { class: 'btn primary', type: 'button', onclick: () => (state.kind === 'sounds' ? startSoundsQuiz() : startPractice(state.kind)) }, 'Zkusit znovu'),
+      h('button', { class: 'btn primary', type: 'button', onclick: () => (state.retry ? state.retry() : state.kind === 'sounds' ? startSoundsQuiz() : startPractice(state.kind)) }, 'Zkusit znovu'),
       h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Na přehled'),
     );
   }

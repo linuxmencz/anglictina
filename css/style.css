@@ -204,3 +204,6 @@ input[type="text"] {
 .pron { color: var(--muted); font-size: 1.1rem; letter-spacing: .02em; margin: -2px 0 6px; }
 details.card summary { cursor: pointer; font-weight: 600; }
 details.card ul { padding-left: 20px; margin: 8px 0 0; }
+
+.bubble { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 10px 14px; margin: 8px 40px 8px 0; }
+.bubble.mine { margin: 8px 0 8px 40px; border-color: var(--accent); }

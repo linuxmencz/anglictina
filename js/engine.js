@@ -10,7 +10,7 @@
   const TYPES = ['translate', 'listenChoose', 'listenType'];
   const REVIEW_SIZE = 12;
   const PRACTICE_SIZE = 10;
-  const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching', 'sounds'];
+  const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching', 'sounds', 'dialogs'];
   const SENTENCE_COUNT = 8;
   const SENTENCE_MIN_TOKENS = 3;
   const MATCHING_ROUNDS = 3;
@@ -149,6 +149,11 @@
 
   function buildPractice(kind, items, rng = Math.random, size = PRACTICE_SIZE) {
     return shuffle(items, rng).slice(0, size).map((item) => practiceExercise(kind, item, items, rng));
+  }
+
+  // Možnosti odpovědi v dialogu: správná replika a dvě špatné, zamíchané.
+  function dialogOptions(line, rng = Math.random) {
+    return shuffle([{ text: line.en, correct: true }, ...line.wrong.map((text) => ({ text, correct: false }))], rng);
   }
 
   // ---------- skládání vět a přiřazování dvojic ----------
@@ -425,7 +430,7 @@
     shuffle, normalize, levenshtein, checkTyped,
     pickDistractors, buildLesson, requeue,
     defaultProgress, dayKey, updateStreak, recordAnswer, addXp, completeLesson,
-    PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, completePractice,
+    PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice,
     tokenize, buildSentences, checkSentence, buildMatching,
     isLessonUnlocked, knownWords, isDue, dueWords, buildReview, stats,
     sanitizeProgress, exportProgress, importProgress, loadProgress, saveProgress,
