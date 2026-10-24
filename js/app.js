@@ -265,6 +265,11 @@
       list,
       h('h2', {}, 'Procvičování'),
       Object.keys(PRACTICE).map(practiceCard),
+      h('div', { class: 'card lesson' },
+        h('span', { class: 'badge' }, '📈'),
+        h('div', { class: 'info' }, h('strong', {}, 'Můj pokrok'), h('div', { class: 'muted' }, 'Přehled, série a body za týden')),
+        h('button', { class: 'btn small primary', type: 'button', onclick: showProgress }, 'Otevřít'),
+      ),
       statsSection(),
       h('h2', {}, 'Nastavení'),
       h('button', {
@@ -284,13 +289,21 @@
     );
   }
 
+  function practiceSubtitle(kind, def, done) {
+    if (kind === 'dialogs') {
+      const finished = dialogs.filter((d) => progress.dialogs[d.id]).length;
+      return `${def.hint} · hotovo ${finished} z ${dialogs.length}`;
+    }
+    return done ? `${def.hint} · nejlepší výsledek ${Math.round(done.best * 100)} %` : def.hint;
+  }
+
   function practiceCard(kind) {
     const def = PRACTICE[kind];
     const done = progress.practice[kind];
     return h('div', { class: 'card lesson' },
       h('span', { class: 'badge' }, def.icon),
       h('div', { class: 'info' }, h('strong', {}, def.title),
-        h('div', { class: 'muted' }, done ? `${def.hint} · nejlepší výsledek ${Math.round(done.best * 100)} %` : def.hint)),
+        h('div', { class: 'muted' }, practiceSubtitle(kind, def, done))),
       h('button', { class: 'btn small primary', type: 'button', onclick: () => startPractice(kind) }, done ? 'Znovu' : 'Začít'),
     );
   }
@@ -313,6 +326,63 @@
             st.weak.map((x) => h('div', {}, h('strong', {}, x.word.en), ` – ${x.word.cs} (chyb: ${x.wrong}, správně: ${x.correct})`)))
           : null,
       ),
+    );
+  }
+
+  // ---------- obrazovka Pokrok ----------
+
+  const WEEKDAYS = ['ne', 'po', 'út', 'st', 'čt', 'pá', 'so'];
+
+  function meterRow(label, done, total) {
+    return h('div', {},
+      h('div', {}, h('strong', {}, label), ` ${done} z ${total}`),
+      h('div', { class: 'progress', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': String(total), 'aria-valuenow': String(done), 'aria-label': label },
+        h('div', { style: `width:${total ? Math.round((done / total) * 100) : 0}%` })),
+    );
+  }
+
+  function weekChart() {
+    const days = Engine.lastDays(progress, 7);
+    const max = Math.max(1, ...days.map((d) => d.xp));
+    const total = days.reduce((sum, d) => sum + d.xp, 0);
+    const chart = h('div', { class: 'chart', role: 'img', 'aria-label': 'Body za posledních 7 dní: ' + days.map((d) => `${WEEKDAYS[d.weekday]} ${d.xp}`).join(', ') },
+      days.map((d, i) => h('div', { class: 'chart-col' },
+        h('div', { class: 'chart-value' }, d.xp ? String(d.xp) : ''),
+        h('div', { class: 'chart-track' }, h('div', { class: 'chart-bar' + (i === days.length - 1 ? ' today' : ''), style: `height:${Math.round((d.xp / max) * 100)}%` })),
+        h('div', { class: 'muted' }, WEEKDAYS[d.weekday]),
+      )));
+    return h('div', { class: 'card' },
+      h('strong', {}, 'Body za posledních 7 dní'),
+      chart,
+      h('div', { class: 'muted' }, `Celkem ${total} bodů, denní cíl je ${progress.settings.dailyGoal}.`),
+    );
+  }
+
+  function showProgress() {
+    const st = Engine.stats(progress, allWords);
+    const lessonsDone = lessons.filter((l) => progress.lessons[l.id] && progress.lessons[l.id].done).length;
+    const dialogsDone = dialogs.filter((d) => progress.dialogs[d.id]).length;
+    render(
+      h('h1', {}, 'Můj pokrok'),
+      h('div', { class: 'card' },
+        h('div', {}, `⭐ ${progress.xp} bodů`),
+        h('div', {}, `🔥 série ${progress.streak.count} ${progress.streak.count === 1 ? 'den' : progress.streak.count >= 2 && progress.streak.count <= 4 ? 'dny' : 'dní'} za sebou`),
+        goalLine(),
+      ),
+      weekChart(),
+      h('div', { class: 'card' },
+        meterRow('Slova, která znáš', st.known, st.total),
+        meterRow('Hotové lekce', lessonsDone, lessons.length),
+        meterRow('Hotové dialogy', dialogsDone, dialogs.length),
+        st.accuracy === null ? null : h('div', { class: 'muted' }, `Úspěšnost odpovědí u slov: ${Math.round(st.accuracy * 100)} %`),
+      ),
+      h('h2', {}, 'Procvičování'),
+      h('div', { class: 'card' }, Object.keys(PRACTICE).map((kind) => {
+        const done = progress.practice[kind];
+        return h('div', {}, h('strong', {}, PRACTICE[kind].title),
+          done ? ` – nejlepší ${Math.round(done.best * 100)} %, ${done.plays}× dokončeno` : ' – ještě nezkoušeno');
+      })),
+      h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Zpět'),
     );
   }
 
@@ -495,16 +565,20 @@
   const dialogs = window.EXTRAS.dialogs;
 
   function showDialogs() {
-    const done = progress.practice.dialogs;
+    const finished = dialogs.filter((d) => progress.dialogs[d.id]).length;
     render(
       h('h1', {}, 'Dialogy ze situací'),
       h('p', { class: 'muted' }, 'Nejdřív si dialog přečti a poslechni, pak odpovídej za svou roli.'),
-      done ? h('p', { class: 'muted' }, `Nejlepší výsledek cvičení: ${Math.round(done.best * 100)} %`) : null,
-      dialogs.map((d) => h('div', { class: 'card lesson' },
-        h('div', { class: 'info' }, h('strong', {}, d.title),
-          h('div', { class: 'muted' }, `${d.lines.length} replik`)),
-        h('button', { class: 'btn small primary', type: 'button', onclick: () => showDialog(d) }, 'Otevřít'),
-      )),
+      h('p', { class: 'muted' }, `Hotovo ${finished} z ${dialogs.length} dialogů.`),
+      dialogs.map((d) => {
+        const done = progress.dialogs[d.id];
+        return h('div', { class: 'card lesson' },
+          h('span', { class: 'badge' }, done ? '✅' : '💬'),
+          h('div', { class: 'info' }, h('strong', {}, d.title),
+            h('div', { class: 'muted' }, done ? `Nejlepší výsledek ${Math.round(done.best * 100)} %` : `${d.lines.length} replik`)),
+          h('button', { class: 'btn small primary', type: 'button', onclick: () => showDialog(d) }, done ? 'Znovu' : 'Otevřít'),
+        );
+      }),
       h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Zpět'),
     );
   }
@@ -755,6 +829,7 @@
   function showPracticeResult(state) {
     const accuracy = state.firstTry ? state.firstTryCorrect / state.firstTry : 0;
     Engine.completePractice(progress, state.kind, accuracy);
+    if (state.dialog) Engine.completeDialog(progress, state.dialog.id, accuracy);
     save();
     render(
       h('div', { class: 'center' },

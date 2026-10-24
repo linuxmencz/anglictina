@@ -10,6 +10,7 @@
   const TYPES = ['translate', 'listenChoose', 'listenType'];
   const REVIEW_SIZE = 12;
   const PRACTICE_SIZE = 10;
+  const HISTORY_DAYS = 60; // kolik dní se pamatují body pro graf
   const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching', 'sounds', 'dialogs'];
   const SENTENCE_COUNT = 8;
   const SENTENCE_MIN_TOKENS = 3;
@@ -207,11 +208,22 @@
     return progress;
   }
 
+  // Výsledek jednoho dialogu: nejlepší přesnost a počet průchodů; hotový je po prvním dokončení.
+  function completeDialog(progress, id, accuracy, now = new Date()) {
+    const previous = progress.dialogs[id];
+    progress.dialogs[id] = {
+      best: Math.max(previous ? previous.best : 0, accuracy),
+      plays: (previous ? previous.plays : 0) + 1,
+      completedAt: now.getTime(),
+    };
+    return progress;
+  }
+
   // ---------- postup ----------
 
   function defaultProgress() {
     return {
-      version: 1, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {},
+      version: 1, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {}, dialogs: {}, history: {},
       daily: { day: '', xp: 0 }, settings: { dailyGoal: DEFAULT_DAILY_GOAL, showPron: true },
     };
   }
@@ -252,7 +264,20 @@
     const today = dayKey(now);
     if (progress.daily.day !== today) progress.daily = { day: today, xp: 0 };
     progress.daily.xp += amount;
+    progress.history[today] = (progress.history[today] || 0) + amount;
+    const days = Object.keys(progress.history).sort();
+    days.slice(0, Math.max(0, days.length - HISTORY_DAYS)).forEach((d) => { delete progress.history[d]; });
     return progress;
+  }
+
+  // Body za posledních n dní (včetně dneška), od nejstaršího po dnešek.
+  function lastDays(progress, n = 7, now = new Date()) {
+    const result = [];
+    for (let i = n - 1; i >= 0; i--) {
+      const date = new Date(now.getFullYear(), now.getMonth(), now.getDate() - i);
+      result.push({ day: dayKey(date), weekday: date.getDay(), xp: progress.history[dayKey(date)] || 0 });
+    }
+    return result;
   }
 
   function dailyStatus(progress, now = new Date()) {
@@ -369,6 +394,19 @@
         completedAt: num(l.completedAt, 0, 1e15) ?? 0,
       };
     }
+    const history = raw.history && typeof raw.history === 'object' ? raw.history : {};
+    Object.keys(history).filter((d) => d !== '' && isDay(d)).sort().slice(-HISTORY_DAYS).forEach((d) => {
+      const xpDay = num(history[d], 0, 1e7);
+      if (xpDay !== null) clean.history[d] = Math.floor(xpDay);
+    });
+    for (const [id, d] of Object.entries(raw.dialogs && typeof raw.dialogs === 'object' ? raw.dialogs : {})) {
+      if (!isId(id) || !d || typeof d !== 'object') continue;
+      clean.dialogs[id] = {
+        best: num(d.best, 0, 1) ?? 0,
+        plays: Math.floor(num(d.plays, 0, 1e6) ?? 0),
+        completedAt: num(d.completedAt, 0, 1e15) ?? 0,
+      };
+    }
     for (const [id, w] of Object.entries(raw.words && typeof raw.words === 'object' ? raw.words : {})) {
       if (!isId(id) || !w || typeof w !== 'object') continue;
       clean.words[id] = {
@@ -430,7 +468,7 @@
     shuffle, normalize, levenshtein, checkTyped,
     pickDistractors, buildLesson, requeue,
     defaultProgress, dayKey, updateStreak, recordAnswer, addXp, completeLesson,
-    PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice,
+    PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice, completeDialog, lastDays,
     tokenize, buildSentences, checkSentence, buildMatching,
     isLessonUnlocked, knownWords, isDue, dueWords, buildReview, stats,
     sanitizeProgress, exportProgress, importProgress, loadProgress, saveProgress,

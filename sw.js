@@ -1,6 +1,6 @@
 // Service worker: offline režim. Blok GENERATED vytváří tools/build_sw.py – needituj ručně.
 /* BEGIN GENERATED */
-const VERSION = 'dac2f026da';
+const VERSION = '07c0516e99';
 const FILES = [
   "./",
   "audio/address-s-slow.mp3",
