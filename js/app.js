@@ -9,6 +9,7 @@
     mistakes: { title: 'Typické chyby Čechů', icon: '⚠️', hint: 'Vyber správnou větu', items: window.EXTRAS.mistakes },
     falseFriends: { title: 'Falešní přátelé', icon: '🎭', hint: 'Slova, která se jen tváří česky', items: window.EXTRAS.falseFriends },
     pairs: { title: 'Minimální páry', icon: '👂', hint: 'Poslech: ship nebo sheep?', items: window.EXTRAS.pairs },
+    listening: { title: 'Poslech', icon: '🎧', hint: 'Slyšíš slovo nebo větu: vyber význam nebo napiš', start: () => startListening() },
     sounds: { title: 'Výslovnost: th a w/v', icon: '👅', hint: 'Návod, slova, jazykolamy a poslech', start: () => showSounds() },
     dialogs: { title: 'Dialogy ze situací', icon: '💬', hint: 'Restaurace, letiště, lékař… poslech a odpovědi', start: () => showDialogs() },
     sentences: { title: 'Skládání vět', icon: '🧩', hint: 'Seřaď slova do správné věty', start: () => startSentences() },
@@ -53,10 +54,40 @@
   }
 
   function render(...nodes) {
-    app.replaceChildren(...nodes.flat());
+    app.replaceChildren(...nodes.flat().filter((n) => n !== null && n !== undefined && n !== false));
     backButton.hidden = renderingHome; // tlačítko Domů se na úvodní obrazovce nezobrazuje
     renderingHome = false;
     window.scrollTo(0, 0);
+  }
+
+  const THEME_COLORS = { light: '#f5f5f7', dark: '#1c1c1e' };
+  const THEME_LABELS = { system: '🖥️ Vzhled: podle systému', light: '☀️ Vzhled: světlý', dark: '🌙 Vzhled: tmavý' };
+  const themeMetas = [...document.querySelectorAll('meta[name="theme-color"]')].map((m) => ({ meta: m, content: m.content, media: m.getAttribute('media') }));
+
+  // Nastaví vzhled stránky a barvu horní lišty prohlížeče podle volby v nastavení.
+  function applyTheme() {
+    const theme = progress.settings.theme;
+    const root = document.documentElement;
+    if (theme === 'system') root.removeAttribute('data-theme');
+    else root.setAttribute('data-theme', theme);
+    themeMetas.forEach(({ meta, content, media }) => {
+      meta.content = theme === 'system' ? content : THEME_COLORS[theme];
+      if (theme === 'system' && media) meta.setAttribute('media', media);
+      else meta.removeAttribute('media');
+    });
+  }
+
+  function themeToggle() {
+    return h('button', {
+      class: 'btn', type: 'button',
+      onclick: () => {
+        const next = Engine.THEMES[(Engine.THEMES.indexOf(progress.settings.theme) + 1) % Engine.THEMES.length];
+        Engine.setTheme(progress, next);
+        save();
+        applyTheme();
+        showHome();
+      },
+    }, THEME_LABELS[progress.settings.theme]);
   }
 
   function save() {
@@ -249,11 +280,28 @@
     });
 
     const due = Engine.dueWords(progress, allWords);
-    const reviewCard = due.length
+    const reminderOn = progress.settings.reviewReminder;
+    // Výrazná připomínka nahoře (jde vypnout v nastavení); vypnutá varianta nechá opakování v seznamu procvičování.
+    const reviewReminder = due.length && reminderOn
+      ? h('div', { class: 'card reminder' },
+        h('strong', {}, `🔁 Dnes na tebe čeká ${due.length} ${wordForm(due.length)} k zopakování`),
+        h('div', { class: 'muted' }, 'Krátké opakování tě udrží v rytmu a slova ti zůstanou v hlavě.'),
+        h('button', { class: 'btn primary', type: 'button', onclick: () => startReview(due) }, 'Zopakovat teď'))
+      : null;
+    const reviewRow = due.length && !reminderOn
       ? h('div', { class: 'card lesson' },
         h('span', { class: 'badge' }, '🔁'),
         h('div', { class: 'info' }, h('strong', {}, 'Opakování'), h('div', { class: 'muted' }, `K zopakování: ${due.length} ${wordForm(due.length)}`)),
         h('button', { class: 'btn small primary', type: 'button', onclick: () => startReview(due) }, 'Zopakovat'))
+      : null;
+
+    // První odemčená lekce, kterou jsi ještě nedokončil.
+    const nextLesson = lessons.find((l, i) => Engine.isLessonUnlocked(progress, lessons, i) && !(progress.lessons[l.id] && progress.lessons[l.id].done));
+    const continueCard = nextLesson
+      ? h('div', { class: 'card lesson' },
+        h('span', { class: 'badge' }, '▶️'),
+        h('div', { class: 'info' }, h('strong', {}, 'Pokračovat'), h('div', { class: 'muted' }, nextLesson.title)),
+        h('button', { class: 'btn small primary', type: 'button', onclick: () => showIntro(nextLesson) }, 'Pokračovat'))
       : null;
 
     const fileInput = h('input', { type: 'file', accept: 'application/json,.json', hidden: '', onchange: importFile });
@@ -261,9 +309,11 @@
       h('h1', {}, 'Učíme se anglicky'),
       h('p', { class: 'muted' }, `Znáš už ${Engine.knownWords(progress)} slov z ${Object.keys(wordsById).length}.`),
       goalCard(),
-      reviewCard,
+      reviewReminder,
+      continueCard,
       list,
       h('h2', {}, 'Procvičování'),
+      reviewRow,
       Object.keys(PRACTICE).map(practiceCard),
       h('div', { class: 'card lesson' },
         h('span', { class: 'badge' }, '📈'),
@@ -276,6 +326,11 @@
         class: 'btn', type: 'button', 'aria-pressed': String(progress.settings.showPron),
         onclick: () => { Engine.setShowPron(progress, !progress.settings.showPron); save(); showHome(); },
       }, progress.settings.showPron ? '✅ Přepis výslovnosti: zapnuto' : '⬜ Přepis výslovnosti: vypnuto'),
+      h('button', {
+        class: 'btn', type: 'button', 'aria-pressed': String(progress.settings.reviewReminder),
+        onclick: () => { Engine.setReviewReminder(progress, !progress.settings.reviewReminder); save(); showHome(); },
+      }, progress.settings.reviewReminder ? '✅ Připomínka opakování: zapnuto' : '⬜ Připomínka opakování: vypnuto'),
+      themeToggle(),
       voiceToggle(showHome),
       h('h2', {}, 'Záloha postupu'),
       h('p', { class: 'muted' }, 'Postup je uložený v prohlížeči. Pro jistotu si ho občas stáhni do souboru.'),
@@ -478,10 +533,11 @@
     if (ex.big) body.append(h('div', { class: 'big-word' }, ex.big));
     if (ex.audioNow) {
       body.append(h('div', { class: 'row' },
-        h('button', { class: 'btn small', type: 'button', onclick: () => playFile(ex.audioNow, ex.speakNow) }, '🔊 Přehrát')));
+        h('button', { class: 'btn small', type: 'button', onclick: () => playFile(ex.audioNow, ex.speakNow) }, '🔊 Přehrát'),
+        ex.audioSlow ? h('button', { class: 'btn small', type: 'button', onclick: () => playFile(ex.audioSlow, ex.speakNow, true) }, '🐢 Pomalu') : null));
     }
 
-    function finish(ok) {
+    function finish(ok, typo = false) {
       if (!ex.retry) {
         state.firstTry += 1;
         if (ok) {
@@ -494,7 +550,7 @@
       save();
       feedback.replaceChildren(
         h('div', { class: 'feedback ' + (ok ? 'good' : 'bad') },
-          h('strong', {}, ok ? 'Správně!' : 'Chyba, ale to se stane.'),
+          h('strong', {}, typo ? 'Skoro! Pozor na překlep.' : ok ? 'Správně!' : 'Chyba, ale to se stane.'),
           h('div', {}, ex.explanation),
           ex.afterText ? h('div', { class: 'sentence' }, ex.afterText) : null,
         ),
@@ -502,6 +558,24 @@
       );
       feedback.querySelector('.btn.primary').focus();
       if (ex.audioAfter) playFile(ex.audioAfter, ex.speakAfter);
+    }
+
+    if (ex.typed) {
+      const input = h('input', { type: 'text', autocomplete: 'off', autocapitalize: 'off', spellcheck: 'false', 'aria-label': 'Napiš větu' });
+      const check = h('button', { class: 'btn primary', type: 'button' }, 'Zkontrolovat');
+      const submit = () => {
+        if (!input.value.trim()) return;
+        input.disabled = true;
+        check.disabled = true;
+        const result = Engine.checkDictation(input.value, ex.answer);
+        finish(result !== 'wrong', result === 'typo');
+      };
+      check.addEventListener('click', submit);
+      input.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
+      body.append(input, check);
+      render(bar, body, feedback);
+      input.focus();
+      return;
     }
 
     const buttons = ex.options.map((opt) => {
@@ -517,6 +591,14 @@
     body.append(...buttons);
 
     render(bar, body, feedback);
+  }
+
+  // Poslech: slovo -> význam, věta -> překlad, diktát věty. Bere slova, která už jsi viděl; když jich je málo, všechna.
+  function startListening() {
+    const seen = allWords.filter((w) => progress.words[w.id]);
+    const pool = seen.length >= 12 ? seen : allWords;
+    const exercises = Engine.buildPractice('listening', pool);
+    runPractice({ kind: 'listening', queue: exercises, index: 0, firstTry: 0, firstTryCorrect: 0, xpEarned: 0 });
   }
 
   // ---------- výslovnost th a w/v ----------
@@ -1001,5 +1083,6 @@
   document.getElementById('home').addEventListener('click', showHome);
   backButton.addEventListener('click', showHome);
   updateStats();
+  applyTheme();
   showHome();
 })();

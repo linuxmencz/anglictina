@@ -1,4 +1,5 @@
 :root {
+  color-scheme: light dark; /* formulářové prvky, posuvníky a lupa podle systému */
   --bg: #f5f5f7;
   --card: #ffffff;
   --text: #1d1d1f;
@@ -13,8 +14,9 @@
   --note-bg: #fff6dd;
 }
 
+/* Vzhled: ve výchozím stavu podle systému; ruční volba v nastavení nastaví data-theme na <html> */
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root:not([data-theme="light"]) {
     --bg: #1c1c1e;
     --card: #2c2c2e;
     --text: #f5f5f7;
@@ -28,6 +30,24 @@
     --bad-bg: #3d1f1f;
     --note-bg: #3a331c;
   }
+}
+
+:root[data-theme="light"] { color-scheme: light; }
+
+:root[data-theme="dark"] {
+  color-scheme: dark;
+    --bg: #1c1c1e;
+    --card: #2c2c2e;
+    --text: #f5f5f7;
+    --muted: #a1a1a6;
+    --line: #48484a;
+    --accent: #409cff;
+    --accent-text: #0b0b0c;
+    --good: #4cd080;
+    --good-bg: #17382a;
+    --bad: #ff6b6b;
+    --bad-bg: #3d1f1f;
+    --note-bg: #3a331c;
 }
 
 * { box-sizing: border-box; }
@@ -214,3 +234,6 @@ details.card ul { padding-left: 20px; margin: 8px 0 0; }
 .chart-bar { width: 100%; min-height: 2px; background: var(--line); border-radius: 6px 6px 0 0; }
 .chart-bar.today { background: var(--accent); }
 .chart-value { font-size: .8rem; min-height: 1.1em; }
+
+.reminder { border-color: var(--accent); border-width: 2px; }
+.reminder .btn { margin-top: 10px; }

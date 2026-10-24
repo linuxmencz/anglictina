@@ -11,7 +11,7 @@
   const REVIEW_SIZE = 12;
   const PRACTICE_SIZE = 10;
   const HISTORY_DAYS = 60; // kolik dní se pamatují body pro graf
-  const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching', 'sounds', 'dialogs'];
+  const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching', 'sounds', 'dialogs', 'listening'];
   const SENTENCE_COUNT = 8;
   const SENTENCE_MIN_TOKENS = 3;
   const MATCHING_ROUNDS = 3;
@@ -77,6 +77,22 @@
     return 'wrong';
   }
 
+  // Diktát věty: slovo po slovu; překlep (o jedno písmeno) se uzná jen u slov od 6 písmen a nejvýš ve dvou slovech.
+  function checkDictation(answer, expected) {
+    const a = normalize(answer).split(' ').filter(Boolean);
+    const e = normalize(expected).split(' ').filter(Boolean);
+    if (!a.length) return 'wrong';
+    if (a.join(' ') === e.join(' ')) return 'correct';
+    if (a.length !== e.length) return 'wrong';
+    let typos = 0;
+    for (let i = 0; i < e.length; i++) {
+      if (a[i] === e[i]) continue;
+      if (e[i].length >= 6 && levenshtein(a[i], e[i]) === 1) typos += 1;
+      else return 'wrong';
+    }
+    return typos <= 2 ? 'typo' : 'wrong';
+  }
+
   // ---------- sestavení lekce ----------
 
   function pickDistractors(word, pool, count, rng = Math.random) {
@@ -136,6 +152,25 @@
         afterText: `${item.sentenceEn} – ${item.sentenceCs}`,
         audioAfter: item.id + '-s',
         speakAfter: item.sentenceEn,
+      });
+    }
+    if (kind === 'listening') {
+      const variant = ['word', 'sentence', 'dictation'][Math.floor(rng() * 3)];
+      const sentence = variant !== 'word';
+      Object.assign(base, {
+        audioNow: item.id + (sentence ? '-s' : ''),
+        audioSlow: item.id + (sentence ? '-s-slow' : '-slow'),
+        speakNow: sentence ? item.sentenceEn : item.en,
+        explanation: sentence ? `${item.sentenceEn} – ${item.sentenceCs}` : `${item.en} = ${item.cs}`,
+      });
+      if (variant === 'dictation') {
+        return Object.assign(base, { prompt: 'Napiš větu, kterou slyšíš', typed: true, answer: item.sentenceEn });
+      }
+      const key = sentence ? 'sentenceCs' : 'cs';
+      const others = shuffle(allItems.filter((o) => o.id !== item.id && o.cs !== item.cs && o[key] !== item[key]), rng).slice(0, 3);
+      return Object.assign(base, {
+        prompt: sentence ? 'Poslechni si větu a vyber překlad' : 'Poslechni si slovo a vyber význam',
+        options: shuffle([item, ...others], rng).map((o) => ({ text: o[key], correct: o === item })),
       });
     }
     const heard = rng() < 0.5 ? item.a : item.b;
@@ -224,7 +259,7 @@
   function defaultProgress() {
     return {
       version: 1, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {}, dialogs: {}, history: {},
-      daily: { day: '', xp: 0 }, settings: { dailyGoal: DEFAULT_DAILY_GOAL, showPron: true, partnerVoice: 'male' },
+      daily: { day: '', xp: 0 }, settings: { dailyGoal: DEFAULT_DAILY_GOAL, showPron: true, partnerVoice: 'male', reviewReminder: true, theme: 'system' },
     };
   }
 
@@ -288,6 +323,20 @@
 
   function setShowPron(progress, value) {
     progress.settings.showPron = Boolean(value);
+    return progress;
+  }
+
+  const THEMES = ['system', 'light', 'dark'];
+
+  // Vzhled: podle systému, světlý nebo tmavý.
+  function setTheme(progress, value) {
+    progress.settings.theme = THEMES.includes(value) ? value : 'system';
+    return progress;
+  }
+
+  // Výrazná připomínka opakování nahoře na úvodní obrazovce (výchozí zapnuto).
+  function setReviewReminder(progress, value) {
+    progress.settings.reviewReminder = Boolean(value);
     return progress;
   }
 
@@ -427,6 +476,8 @@
     const goal = raw.settings && typeof raw.settings === 'object' ? raw.settings.dailyGoal : null;
     if (DAILY_GOALS.includes(goal)) clean.settings.dailyGoal = goal;
     if (raw.settings && typeof raw.settings.showPron === 'boolean') clean.settings.showPron = raw.settings.showPron;
+    if (raw.settings && typeof raw.settings.reviewReminder === 'boolean') clean.settings.reviewReminder = raw.settings.reviewReminder;
+    if (raw.settings && THEMES.includes(raw.settings.theme)) clean.settings.theme = raw.settings.theme;
     if (raw.settings && ['male', 'female'].includes(raw.settings.partnerVoice)) clean.settings.partnerVoice = raw.settings.partnerVoice;
     for (const kind of PRACTICE_KINDS) {
       const pr = raw.practice && typeof raw.practice === 'object' ? raw.practice[kind] : null;
@@ -472,10 +523,10 @@
 
   const Engine = {
     STORAGE_KEY, XP_PER_CORRECT, XP_LESSON_BONUS, DAILY_GOALS, dailyStatus, setDailyGoal, setShowPron, resetProgress,
-    shuffle, normalize, levenshtein, checkTyped,
+    shuffle, normalize, levenshtein, checkTyped, checkDictation,
     pickDistractors, buildLesson, requeue,
     defaultProgress, dayKey, updateStreak, recordAnswer, addXp, completeLesson,
-    PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice, completeDialog, lastDays, setPartnerVoice,
+    PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice, completeDialog, lastDays, setPartnerVoice, setReviewReminder, setTheme, THEMES,
     tokenize, buildSentences, checkSentence, buildMatching,
     isLessonUnlocked, knownWords, isDue, dueWords, buildReview, stats,
     sanitizeProgress, exportProgress, importProgress, loadProgress, saveProgress,
