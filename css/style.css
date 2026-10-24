@@ -12,6 +12,8 @@
   --bad: #d63a3a;
   --bad-bg: #fbe7e7;
   --note-bg: #fff6dd;
+  --badge-s: 75%; /* sytost a světlost kulatých ikon u témat (barva podle --hue) */
+  --badge-l: 92%;
 }
 
 /* Vzhled: ve výchozím stavu podle systému; ruční volba v nastavení nastaví data-theme na <html> */
@@ -29,6 +31,8 @@
     --bad: #ff6b6b;
     --bad-bg: #3d1f1f;
     --note-bg: #3a331c;
+    --badge-s: 35%;
+    --badge-l: 28%;
   }
 }
 
@@ -48,6 +52,8 @@
     --bad: #ff6b6b;
     --bad-bg: #3d1f1f;
     --note-bg: #3a331c;
+  --badge-s: 35%;
+  --badge-l: 28%;
 }
 
 * { box-sizing: border-box; }
@@ -153,7 +159,18 @@ button:focus-visible, input:focus-visible {
 
 .lesson { display: flex; align-items: center; gap: 12px; }
 .lesson .info { flex: 1; }
-.lesson .badge { font-size: 1.4rem; }
+.lesson { border-left: 4px solid hsl(var(--hue, 210) 60% 55%); }
+.lesson .badge {
+  flex: none;
+  width: 44px;
+  height: 44px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  font-size: 1.4rem;
+  background: hsl(var(--hue, 210) var(--badge-s) var(--badge-l));
+}
 .lesson.locked { opacity: .55; }
 
 .progress {
@@ -237,3 +254,7 @@ details.card ul { padding-left: 20px; margin: 8px 0 0; }
 
 .reminder { border-color: var(--accent); border-width: 2px; }
 .reminder .btn { margin-top: 10px; }
+
+.owl { display: flex; align-items: center; gap: 10px; margin: 12px 0; }
+.owl img { flex: none; border-radius: 12px; }
+.owl-bubble { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 12px; }

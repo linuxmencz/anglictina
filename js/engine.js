@@ -278,6 +278,36 @@
     return progress;
   }
 
+  // 'none' = ještě žádná série, 'alive' = dnes nebo včera jsi cvičil, 'lost' = série se přerušila.
+  function streakStatus(progress, now = new Date()) {
+    if (!progress.streak.count) return 'none';
+    const yesterday = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+    return [dayKey(now), dayKey(yesterday)].includes(progress.streak.lastDay) ? 'alive' : 'lost';
+  }
+
+  // ---------- sova: krátké hlášky (bez rodu, ať sedí každému) ----------
+
+  const OWL_MESSAGES = {
+    great: ['Výborně! To byla skvělá práce.', 'Skvělý výsledek, tohle ti jde!', 'Bravo! Takhle se angličtina učí.', 'Hotovo a téměř bez chyby, paráda!'],
+    good: ['Dobrá práce! Zbývá doladit pár slovíček.', 'Pěkný výsledek, jen tak dál.', 'Docela se to daří, další kolo bude ještě lepší.'],
+    keep: ['Nevadí, chyby patří k učení. Zkus to znovu.', 'Procvičování dělá mistra, zkus to ještě jednou.', 'Žádný stres, slova se ti vrátí a příště půjdou líp.'],
+    streakLost: ['Dlouho jsme se neviděli. Začneme novou sérii?', 'Série se přerušila, ale začít znovu jde hned.', 'Vítej zpátky! Dnešní cvičení nastartuje novou sérii.'],
+    goalDone: ['Dnešní cíl je splněný, to je radost!', 'Cíl na dnešek splněn. Klidně si ještě něco zopakuj.'],
+    welcome: ['Ahoj! Co si dnes procvičíme?', 'Dobrý den! Malé cvičení každý den dělá divy.', 'Jsem tu, kdybys potřeboval radu. Můžeme začít.'],
+    newUser: ['Ahoj, jsem sova a budu tě učením provázet. Začni první lekcí!'],
+  };
+
+  // Vybere hlášku pro danou situaci. kind: lessonDone | practiceDone | streakLost | goalDone | welcome | newUser.
+  function owlSay(kind, ctx = {}, rng = Math.random) {
+    let pool;
+    if (kind === 'lessonDone' || kind === 'practiceDone') {
+      pool = ctx.accuracy >= 0.9 ? OWL_MESSAGES.great : ctx.accuracy >= 0.7 ? OWL_MESSAGES.good : OWL_MESSAGES.keep;
+    } else {
+      pool = OWL_MESSAGES[kind] || OWL_MESSAGES.welcome;
+    }
+    return pool[Math.floor(rng() * pool.length)];
+  }
+
   // Leitnerovy krabičky: správně = o krabičku výš, špatně = zpět do první.
   function recordAnswer(progress, wordId, correct, now = new Date()) {
     const w = progress.words[wordId] || { box: 1, correct: 0, wrong: 0, last: 0 };
@@ -526,7 +556,7 @@
     shuffle, normalize, levenshtein, checkTyped, checkDictation,
     pickDistractors, buildLesson, requeue,
     defaultProgress, dayKey, updateStreak, recordAnswer, addXp, completeLesson,
-    PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice, completeDialog, lastDays, setPartnerVoice, setReviewReminder, setTheme, THEMES,
+    PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice, completeDialog, lastDays, setPartnerVoice, setReviewReminder, setTheme, THEMES, streakStatus, owlSay,
     tokenize, buildSentences, checkSentence, buildMatching,
     isLessonUnlocked, knownWords, isDue, dueWords, buildReview, stats,
     sanitizeProgress, exportProgress, importProgress, loadProgress, saveProgress,

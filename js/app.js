@@ -5,15 +5,31 @@
   lessons.forEach((l) => l.words.forEach((w) => { wordsById[w.id] = w; }));
   const allWords = Object.values(wordsById);
 
+  // Ikona a odstín barvy (0–359) podle tématu lekce; lekce bez záznamu dostane výchozí vzhled podle pořadí.
+  const LESSON_STYLES = {
+    t1: ['👋', 45], t2: ['🍞', 30], t3: ['👨‍👩‍👧', 340], t4: ['🔢', 220], t5: ['🏙️', 200], t6: ['📅', 260],
+    t7: ['🎨', 300], t8: ['🏠', 20], t9: ['🏃', 150], t10: ['🛍️', 330], t11: ['👕', 280], t12: ['🩺', 0],
+    t13: ['⛅', 195], t14: ['🎸', 270], t15: ['✈️', 210], t16: ['💬', 170], t17: ['💼', 35], t18: ['🐶', 25],
+    t19: ['🌲', 130], t20: ['✏️', 55], t21: ['💻', 230], t22: ['🚌', 190], t23: ['🍎', 5], t24: ['🛋️', 15],
+    t25: ['😊', 50], t26: ['🧭', 240],
+  };
+
+  function lessonStyle(lesson, index) {
+    const [icon, hue] = LESSON_STYLES[lesson.id] || ['📘', (index * 47) % 360];
+    return { icon, hue };
+  }
+
+  const hueStyle = (hue) => `--hue:${hue}`;
+
   const PRACTICE = {
-    mistakes: { title: 'Typické chyby Čechů', icon: '⚠️', hint: 'Vyber správnou větu', items: window.EXTRAS.mistakes },
-    falseFriends: { title: 'Falešní přátelé', icon: '🎭', hint: 'Slova, která se jen tváří česky', items: window.EXTRAS.falseFriends },
-    pairs: { title: 'Minimální páry', icon: '👂', hint: 'Poslech: ship nebo sheep?', items: window.EXTRAS.pairs },
-    listening: { title: 'Poslech', icon: '🎧', hint: 'Slyšíš slovo nebo větu: vyber význam nebo napiš', start: () => startListening() },
-    sounds: { title: 'Výslovnost: th a w/v', icon: '👅', hint: 'Návod, slova, jazykolamy a poslech', start: () => showSounds() },
-    dialogs: { title: 'Dialogy ze situací', icon: '💬', hint: 'Restaurace, letiště, lékař… poslech a odpovědi', start: () => showDialogs() },
-    sentences: { title: 'Skládání vět', icon: '🧩', hint: 'Seřaď slova do správné věty', start: () => startSentences() },
-    matching: { title: 'Přiřazování dvojic', icon: '🔗', hint: 'Spoj anglické slovo s českým', start: () => startMatching() },
+    mistakes: { hue: 40, title: 'Typické chyby Čechů', icon: '⚠️', hint: 'Vyber správnou větu', items: window.EXTRAS.mistakes },
+    falseFriends: { hue: 280, title: 'Falešní přátelé', icon: '🎭', hint: 'Slova, která se jen tváří česky', items: window.EXTRAS.falseFriends },
+    pairs: { hue: 180, title: 'Minimální páry', icon: '👂', hint: 'Poslech: ship nebo sheep?', items: window.EXTRAS.pairs },
+    listening: { hue: 200, title: 'Poslech', icon: '🎧', hint: 'Slyšíš slovo nebo větu: vyber význam nebo napiš', start: () => startListening() },
+    sounds: { hue: 340, title: 'Výslovnost: th a w/v', icon: '👅', hint: 'Návod, slova, jazykolamy a poslech', start: () => showSounds() },
+    dialogs: { hue: 160, title: 'Dialogy ze situací', icon: '💬', hint: 'Restaurace, letiště, lékař… poslech a odpovědi', start: () => showDialogs() },
+    sentences: { hue: 120, title: 'Skládání vět', icon: '🧩', hint: 'Seřaď slova do správné věty', start: () => startSentences() },
+    matching: { hue: 20, title: 'Přiřazování dvojic', icon: '🔗', hint: 'Spoj anglické slovo s českým', start: () => startMatching() },
   };
 
   const PRON_LEGEND = [
@@ -88,6 +104,22 @@
         showHome();
       },
     }, THEME_LABELS[progress.settings.theme]);
+  }
+
+  // Sova jako průvodce: ikona aplikace a bublina s krátkou hláškou.
+  function owl(text) {
+    return h('div', { class: 'owl' },
+      h('img', { src: 'icons/icon-192.png', alt: '', width: '48', height: '48' }),
+      h('div', { class: 'owl-bubble', role: 'status' }, text),
+    );
+  }
+
+  // Hláška na úvodní obrazovce: nový uživatel > přerušená série > splněný cíl > obecný pozdrav.
+  function homeOwl() {
+    if (progress.xp === 0 && !Object.keys(progress.lessons).length) return owl(Engine.owlSay('newUser'));
+    if (Engine.streakStatus(progress) === 'lost') return owl(Engine.owlSay('streakLost'));
+    if (Engine.dailyStatus(progress).done) return owl(Engine.owlSay('goalDone'));
+    return owl(Engine.owlSay('welcome'));
   }
 
   function save() {
@@ -267,12 +299,12 @@
     const list = lessons.map((lesson, index) => {
       const unlocked = Engine.isLessonUnlocked(progress, lessons, index);
       const state = progress.lessons[lesson.id];
-      const badge = state && state.done ? '✅' : unlocked ? '▶️' : '🔒';
+      const style = lessonStyle(lesson, index);
       const sub = state && state.done
-        ? `Hotovo, nejlepší výsledek ${Math.round(state.best * 100)} %`
-        : unlocked ? `${lesson.words.length} slov` : 'Zamčeno – dokonči předchozí lekci';
-      const card = h('div', { class: 'card lesson' + (unlocked ? '' : ' locked') },
-        h('span', { class: 'badge' }, badge),
+        ? `✅ Hotovo, nejlepší výsledek ${Math.round(state.best * 100)} %`
+        : unlocked ? `${lesson.words.length} slov` : '🔒 Zamčeno – dokonči předchozí lekci';
+      const card = h('div', { class: 'card lesson' + (unlocked ? '' : ' locked'), style: hueStyle(style.hue) },
+        h('span', { class: 'badge', 'aria-hidden': 'true' }, style.icon),
         h('div', { class: 'info' }, h('strong', {}, `${index + 1}. ${lesson.title}`), h('div', { class: 'muted' }, sub)),
         unlocked ? h('button', { class: 'btn small primary', type: 'button', onclick: () => showIntro(lesson) }, state && state.done ? 'Znovu' : 'Začít') : null,
       );
@@ -298,8 +330,8 @@
     // První odemčená lekce, kterou jsi ještě nedokončil.
     const nextLesson = lessons.find((l, i) => Engine.isLessonUnlocked(progress, lessons, i) && !(progress.lessons[l.id] && progress.lessons[l.id].done));
     const continueCard = nextLesson
-      ? h('div', { class: 'card lesson' },
-        h('span', { class: 'badge' }, '▶️'),
+      ? h('div', { class: 'card lesson', style: hueStyle(lessonStyle(nextLesson, lessons.indexOf(nextLesson)).hue) },
+        h('span', { class: 'badge', 'aria-hidden': 'true' }, lessonStyle(nextLesson, lessons.indexOf(nextLesson)).icon),
         h('div', { class: 'info' }, h('strong', {}, 'Pokračovat'), h('div', { class: 'muted' }, nextLesson.title)),
         h('button', { class: 'btn small primary', type: 'button', onclick: () => showIntro(nextLesson) }, 'Pokračovat'))
       : null;
@@ -308,6 +340,7 @@
     render(
       h('h1', {}, 'Učíme se anglicky'),
       h('p', { class: 'muted' }, `Znáš už ${Engine.knownWords(progress)} slov z ${Object.keys(wordsById).length}.`),
+      homeOwl(),
       goalCard(),
       reviewReminder,
       continueCard,
@@ -356,8 +389,8 @@
   function practiceCard(kind) {
     const def = PRACTICE[kind];
     const done = progress.practice[kind];
-    return h('div', { class: 'card lesson' },
-      h('span', { class: 'badge' }, def.icon),
+    return h('div', { class: 'card lesson', style: hueStyle(def.hue) },
+      h('span', { class: 'badge', 'aria-hidden': 'true' }, def.icon),
       h('div', { class: 'info' }, h('strong', {}, def.title),
         h('div', { class: 'muted' }, practiceSubtitle(kind, def, done))),
       h('button', { class: 'btn small primary', type: 'button', onclick: () => startPractice(kind) }, done ? 'Znovu' : 'Začít'),
@@ -929,6 +962,7 @@
       h('div', { class: 'center' },
         h('h1', {}, PRACTICE[state.kind].title + ': hotovo!'),
         h('div', { class: 'result-score' }, Math.round(accuracy * 100) + ' %'),
+        owl(Engine.owlSay('practiceDone', { accuracy })),
         h('p', {}, `Správně napoprvé: ${state.firstTryCorrect} z ${state.firstTry}`),
         h('p', {}, `Získané body: ${state.xpEarned}`),
         h('p', { class: 'muted' }, accuracy >= 0.8 ? 'Skvělá práce!' : 'Zkus to klidně znovu, pořadí se pokaždé zamíchá.'),
@@ -1041,6 +1075,7 @@
     render(
       h('div', { class: 'center' },
         h('h1', {}, 'Opakování hotové!'),
+        owl(Engine.owlSay('practiceDone', { accuracy: state.firstTry ? state.firstTryCorrect / state.firstTry : 0 })),
         h('p', {}, `Správně napoprvé: ${state.firstTryCorrect} z ${state.firstTry}`),
         h('p', {}, `Získané body: ${state.xpEarned}`),
         goalLine(),
@@ -1064,6 +1099,7 @@
       h('div', { class: 'center' },
         h('h1', {}, 'Lekce hotová!'),
         h('div', { class: 'result-score' }, Math.round(accuracy * 100) + ' %'),
+        owl(Engine.owlSay('lessonDone', { accuracy })),
         h('p', {}, `Správně napoprvé: ${state.firstTryCorrect} z ${state.firstTry}`),
         h('p', {}, `Získané body: ${state.xpEarned + bonus}${bonus ? ` (z toho ${bonus} bonus za první dokončení)` : ''}`),
         h('p', { class: 'muted' }, accuracy >= 0.8 ? 'Skvělá práce!' : 'Slova, která ti nešla, se ti ještě vrátí. Zkus lekci klidně zopakovat.'),
