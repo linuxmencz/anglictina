@@ -2493,7 +2493,7 @@ window.EXTRAS = {
           "en": "Welcome! Let me show you the office.",
           "cs": "Vítejte! Ukážu vám kancelář.",
           "ty": false,
-          "pron": "WELkem let mí šou jú dhe OfIs"
+          "pron": "WELkem let mí šou jú dhe Ofis"
         },
         {
           "who": "Ty",
@@ -2943,7 +2943,7 @@ window.EXTRAS = {
           "en": "Dr Smith's office. How can I help you?",
           "cs": "Ordinace doktora Smithe. Jak vám mohu pomoci?",
           "ty": false,
-          "pron": "DOKte smiths OfIs hau ken aj help jú"
+          "pron": "DOKte smiths Ofis hau ken aj help jú"
         },
         {
           "who": "Ty",

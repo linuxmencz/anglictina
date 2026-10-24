@@ -1502,14 +1502,14 @@ window.CONTENT = {
           "pron": "il"
         },
         {
-          "id": "address",
-          "en": "address",
-          "cs": "adresa",
-          "sentenceEn": "What is your address?",
-          "sentenceCs": "Jaká je vaše adresa?",
-          "note": "přízvuk na druhé slabice (e-DRES)",
-          "noteType": "pronunciation",
-          "pron": "eDRES"
+          "id": "headache",
+          "en": "headache",
+          "cs": "bolest hlavy",
+          "sentenceEn": "I have a headache.",
+          "sentenceCs": "Bolí mě hlava.",
+          "note": "česky „bolí mě hlava“, anglicky mám bolest hlavy",
+          "noteType": "grammar",
+          "pron": "HEDejk"
         }
       ]
     },
@@ -1956,14 +1956,14 @@ window.CONTENT = {
           "pron": "riTÉN"
         },
         {
-          "id": "headache",
-          "en": "headache",
-          "cs": "bolest hlavy",
-          "sentenceEn": "I have a headache.",
-          "sentenceCs": "Bolí mě hlava.",
-          "note": "česky „bolí mě hlava“, anglicky mám bolest hlavy",
-          "noteType": "grammar",
-          "pron": "HEDejk"
+          "id": "address",
+          "en": "address",
+          "cs": "adresa",
+          "sentenceEn": "What is your address?",
+          "sentenceCs": "Jaká je vaše adresa?",
+          "note": "přízvuk na druhé slabice (e-DRES)",
+          "noteType": "pronunciation",
+          "pron": "eDRES"
         },
         {
           "id": "medicine",
@@ -2014,6 +2014,1266 @@ window.CONTENT = {
           "note": "přízvuk na druhé slabice (e-POJNT-ment)",
           "noteType": "pronunciation",
           "pron": "ePOJNTment"
+        }
+      ]
+    },
+    {
+      "id": "t17",
+      "title": "Práce a povolání",
+      "words": [
+        {
+          "id": "job",
+          "en": "job",
+          "cs": "práce, zaměstnání",
+          "sentenceEn": "I have a new job.",
+          "sentenceCs": "Mám novou práci.",
+          "note": "job je konkrétní zaměstnání (a job), work je práce obecně",
+          "noteType": "grammar",
+          "pron": "džob"
+        },
+        {
+          "id": "student",
+          "en": "student",
+          "cs": "student",
+          "sentenceEn": "She is a student.",
+          "sentenceCs": "Je studentka.",
+          "note": "",
+          "noteType": "",
+          "pron": "STJÚdnt"
+        },
+        {
+          "id": "teacher",
+          "en": "teacher",
+          "cs": "učitel",
+          "sentenceEn": "The teacher is in the classroom.",
+          "sentenceCs": "Učitel je ve třídě.",
+          "note": "",
+          "noteType": "",
+          "pron": "TÍče"
+        },
+        {
+          "id": "nurse",
+          "en": "nurse",
+          "cs": "zdravotní sestra",
+          "sentenceEn": "The nurse is very kind.",
+          "sentenceCs": "Zdravotní sestra je velmi milá.",
+          "note": "",
+          "noteType": "",
+          "pron": "nés"
+        },
+        {
+          "id": "driver",
+          "en": "driver",
+          "cs": "řidič",
+          "sentenceEn": "He is a bus driver.",
+          "sentenceCs": "Je řidič autobusu.",
+          "note": "",
+          "noteType": "",
+          "pron": "DRAJve"
+        },
+        {
+          "id": "engineer",
+          "en": "engineer",
+          "cs": "inženýr",
+          "sentenceEn": "My brother is an engineer.",
+          "sentenceCs": "Můj bratr je inženýr.",
+          "note": "přízvuk na poslední slabice (en-dži-NIE)",
+          "noteType": "pronunciation",
+          "pron": "endžiNIE"
+        },
+        {
+          "id": "manager",
+          "en": "manager",
+          "cs": "vedoucí, manažer",
+          "sentenceEn": "The manager is in the office.",
+          "sentenceCs": "Vedoucí je v kanceláři.",
+          "note": "",
+          "noteType": "",
+          "pron": "MEnidže"
+        },
+        {
+          "id": "office",
+          "en": "office",
+          "cs": "kancelář",
+          "sentenceEn": "I work in an office.",
+          "sentenceCs": "Pracuji v kanceláři.",
+          "note": "",
+          "noteType": "",
+          "pron": "Ofis"
+        },
+        {
+          "id": "boss",
+          "en": "boss",
+          "cs": "šéf",
+          "sentenceEn": "My boss is on holiday.",
+          "sentenceCs": "Můj šéf je na dovolené.",
+          "note": "",
+          "noteType": "",
+          "pron": "bos"
+        },
+        {
+          "id": "colleague",
+          "en": "colleague",
+          "cs": "kolega",
+          "sentenceEn": "He is my colleague.",
+          "sentenceCs": "Je to můj kolega.",
+          "note": "čte se „kólíg“",
+          "noteType": "pronunciation",
+          "pron": "KOlíg"
+        },
+        {
+          "id": "meeting",
+          "en": "meeting",
+          "cs": "schůzka, porada",
+          "sentenceEn": "We have a meeting at ten.",
+          "sentenceCs": "Máme poradu v deset.",
+          "note": "",
+          "noteType": "",
+          "pron": "MÍting"
+        },
+        {
+          "id": "busy",
+          "en": "busy",
+          "cs": "zaneprázdněný",
+          "sentenceEn": "I am busy today.",
+          "sentenceCs": "Dnes mám moc práce.",
+          "note": "čte se „bizi“",
+          "noteType": "pronunciation",
+          "pron": "BIzi"
+        }
+      ]
+    },
+    {
+      "id": "t18",
+      "title": "Zvířata",
+      "words": [
+        {
+          "id": "dog",
+          "en": "dog",
+          "cs": "pes",
+          "sentenceEn": "I have a small dog.",
+          "sentenceCs": "Mám malého psa.",
+          "note": "",
+          "noteType": "",
+          "pron": "dog"
+        },
+        {
+          "id": "cat",
+          "en": "cat",
+          "cs": "kočka",
+          "sentenceEn": "The cat is on the bed.",
+          "sentenceCs": "Kočka je na posteli.",
+          "note": "",
+          "noteType": "",
+          "pron": "ket"
+        },
+        {
+          "id": "bird",
+          "en": "bird",
+          "cs": "pták",
+          "sentenceEn": "A bird is in the tree.",
+          "sentenceCs": "Pták je na stromě.",
+          "note": "",
+          "noteType": "",
+          "pron": "béd"
+        },
+        {
+          "id": "horse",
+          "en": "horse",
+          "cs": "kůň",
+          "sentenceEn": "The horse is big.",
+          "sentenceCs": "Kůň je velký.",
+          "note": "",
+          "noteType": "",
+          "pron": "hós"
+        },
+        {
+          "id": "cow",
+          "en": "cow",
+          "cs": "kráva",
+          "sentenceEn": "The cow is in the field.",
+          "sentenceCs": "Kráva je na poli.",
+          "note": "",
+          "noteType": "",
+          "pron": "kau"
+        },
+        {
+          "id": "pig",
+          "en": "pig",
+          "cs": "prase",
+          "sentenceEn": "The pig is pink.",
+          "sentenceCs": "Prase je růžové.",
+          "note": "",
+          "noteType": "",
+          "pron": "pig"
+        },
+        {
+          "id": "sheep",
+          "en": "sheep",
+          "cs": "ovce",
+          "sentenceEn": "The sheep is white.",
+          "sentenceCs": "Ovce je bílá.",
+          "note": "sheep je v množném čísle stejné (one sheep, two sheep)",
+          "noteType": "grammar",
+          "pron": "šíp"
+        },
+        {
+          "id": "rabbit",
+          "en": "rabbit",
+          "cs": "králík",
+          "sentenceEn": "The rabbit eats a carrot.",
+          "sentenceCs": "Králík jí mrkev.",
+          "note": "",
+          "noteType": "",
+          "pron": "REbit"
+        },
+        {
+          "id": "mouse",
+          "en": "mouse",
+          "cs": "myš",
+          "sentenceEn": "The mouse is small.",
+          "sentenceCs": "Myš je malá.",
+          "note": "množné číslo je mice",
+          "noteType": "grammar",
+          "pron": "maus"
+        },
+        {
+          "id": "lion",
+          "en": "lion",
+          "cs": "lev",
+          "sentenceEn": "The lion is strong.",
+          "sentenceCs": "Lev je silný.",
+          "note": "",
+          "noteType": "",
+          "pron": "LAjen"
+        },
+        {
+          "id": "animal",
+          "en": "animal",
+          "cs": "zvíře",
+          "sentenceEn": "A cat is an animal.",
+          "sentenceCs": "Kočka je zvíře.",
+          "note": "",
+          "noteType": "",
+          "pron": "ENiml"
+        },
+        {
+          "id": "fish",
+          "en": "fish",
+          "cs": "ryba",
+          "sentenceEn": "I like fish.",
+          "sentenceCs": "Mám rád ryby.",
+          "note": "fish je v množném čísle obvykle stejné",
+          "noteType": "grammar",
+          "pron": "fiš"
+        }
+      ]
+    },
+    {
+      "id": "t19",
+      "title": "Příroda a krajina",
+      "words": [
+        {
+          "id": "river",
+          "en": "river",
+          "cs": "řeka",
+          "sentenceEn": "The river is long.",
+          "sentenceCs": "Řeka je dlouhá.",
+          "note": "",
+          "noteType": "",
+          "pron": "RIve"
+        },
+        {
+          "id": "sea",
+          "en": "sea",
+          "cs": "moře",
+          "sentenceEn": "I swim in the sea.",
+          "sentenceCs": "Plavu v moři.",
+          "note": "",
+          "noteType": "",
+          "pron": "sí"
+        },
+        {
+          "id": "mountain",
+          "en": "mountain",
+          "cs": "hora",
+          "sentenceEn": "The mountain is high.",
+          "sentenceCs": "Hora je vysoká.",
+          "note": "",
+          "noteType": "",
+          "pron": "MAUNTin"
+        },
+        {
+          "id": "forest",
+          "en": "forest",
+          "cs": "les",
+          "sentenceEn": "We walk in the forest.",
+          "sentenceCs": "Chodíme po lese.",
+          "note": "",
+          "noteType": "",
+          "pron": "FOrist"
+        },
+        {
+          "id": "lake",
+          "en": "lake",
+          "cs": "jezero",
+          "sentenceEn": "The lake is very cold.",
+          "sentenceCs": "Jezero je velmi studené.",
+          "note": "",
+          "noteType": "",
+          "pron": "lejk"
+        },
+        {
+          "id": "beach",
+          "en": "beach",
+          "cs": "pláž",
+          "sentenceEn": "We go to the beach.",
+          "sentenceCs": "Jdeme na pláž.",
+          "note": "čte se „bíč“, ne „beč“",
+          "noteType": "pronunciation",
+          "pron": "bíč"
+        },
+        {
+          "id": "tree",
+          "en": "tree",
+          "cs": "strom",
+          "sentenceEn": "The tree is old.",
+          "sentenceCs": "Strom je starý.",
+          "note": "",
+          "noteType": "",
+          "pron": "trí"
+        },
+        {
+          "id": "flower",
+          "en": "flower",
+          "cs": "květina",
+          "sentenceEn": "She has a red flower.",
+          "sentenceCs": "Má červenou květinu.",
+          "note": "",
+          "noteType": "",
+          "pron": "FLAUe"
+        },
+        {
+          "id": "grass",
+          "en": "grass",
+          "cs": "tráva",
+          "sentenceEn": "The grass is green.",
+          "sentenceCs": "Tráva je zelená.",
+          "note": "",
+          "noteType": "",
+          "pron": "grás"
+        },
+        {
+          "id": "field",
+          "en": "field",
+          "cs": "pole",
+          "sentenceEn": "The cow is in the field.",
+          "sentenceCs": "Kráva je na poli.",
+          "note": "",
+          "noteType": "",
+          "pron": "fíld"
+        },
+        {
+          "id": "island",
+          "en": "island",
+          "cs": "ostrov",
+          "sentenceEn": "It is a small island.",
+          "sentenceCs": "Je to malý ostrov.",
+          "note": "s se nečte, čte se „ajlend“",
+          "noteType": "pronunciation",
+          "pron": "AJlend"
+        },
+        {
+          "id": "village",
+          "en": "village",
+          "cs": "vesnice",
+          "sentenceEn": "I live in a small village.",
+          "sentenceCs": "Bydlím v malé vesnici.",
+          "note": "",
+          "noteType": "",
+          "pron": "VIlidž"
+        }
+      ]
+    },
+    {
+      "id": "t20",
+      "title": "Škola a učení",
+      "words": [
+        {
+          "id": "lesson",
+          "en": "lesson",
+          "cs": "hodina, lekce",
+          "sentenceEn": "The lesson starts at nine.",
+          "sentenceCs": "Hodina začíná v devět.",
+          "note": "",
+          "noteType": "",
+          "pron": "LEsn"
+        },
+        {
+          "id": "homework",
+          "en": "homework",
+          "cs": "domácí úkol",
+          "sentenceEn": "I do my homework.",
+          "sentenceCs": "Dělám domácí úkol.",
+          "note": "homework je nepočitatelné, bez -s",
+          "noteType": "grammar",
+          "pron": "HOUMwék"
+        },
+        {
+          "id": "pen",
+          "en": "pen",
+          "cs": "propiska, pero",
+          "sentenceEn": "Can I use your pen?",
+          "sentenceCs": "Mohu použít tvoji propisku?",
+          "note": "",
+          "noteType": "",
+          "pron": "pen"
+        },
+        {
+          "id": "pencil",
+          "en": "pencil",
+          "cs": "tužka",
+          "sentenceEn": "I need a pencil.",
+          "sentenceCs": "Potřebuji tužku.",
+          "note": "",
+          "noteType": "",
+          "pron": "PENsl"
+        },
+        {
+          "id": "notebook",
+          "en": "notebook",
+          "cs": "sešit",
+          "sentenceEn": "Open your notebook.",
+          "sentenceCs": "Otevři si sešit.",
+          "note": "notebook je sešit, počítač je laptop",
+          "noteType": "falseFriend",
+          "pron": "NOUTbuk"
+        },
+        {
+          "id": "exam",
+          "en": "exam",
+          "cs": "zkouška",
+          "sentenceEn": "I have an exam tomorrow.",
+          "sentenceCs": "Zítra mám zkoušku.",
+          "note": "",
+          "noteType": "",
+          "pron": "igZEM"
+        },
+        {
+          "id": "question",
+          "en": "question",
+          "cs": "otázka",
+          "sentenceEn": "I have a question.",
+          "sentenceCs": "Mám otázku.",
+          "note": "",
+          "noteType": "",
+          "pron": "KWESčn"
+        },
+        {
+          "id": "answer",
+          "en": "answer",
+          "cs": "odpověď",
+          "sentenceEn": "What is the answer?",
+          "sentenceCs": "Jaká je odpověď?",
+          "note": "w se nečte, čte se „ánse“",
+          "noteType": "pronunciation",
+          "pron": "ÁNse"
+        },
+        {
+          "id": "language",
+          "en": "language",
+          "cs": "jazyk",
+          "sentenceEn": "English is a language.",
+          "sentenceCs": "Angličtina je jazyk.",
+          "note": "",
+          "noteType": "",
+          "pron": "LENgwidž"
+        },
+        {
+          "id": "learn",
+          "en": "learn",
+          "cs": "učit se",
+          "sentenceEn": "I learn English.",
+          "sentenceCs": "Učím se anglicky.",
+          "note": "",
+          "noteType": "",
+          "pron": "lén"
+        },
+        {
+          "id": "study",
+          "en": "study",
+          "cs": "studovat",
+          "sentenceEn": "I study every day.",
+          "sentenceCs": "Studuji každý den.",
+          "note": "",
+          "noteType": "",
+          "pron": "STAdi"
+        },
+        {
+          "id": "dictionary",
+          "en": "dictionary",
+          "cs": "slovník",
+          "sentenceEn": "I use a dictionary.",
+          "sentenceCs": "Používám slovník.",
+          "note": "",
+          "noteType": "",
+          "pron": "DIkšnri"
+        }
+      ]
+    },
+    {
+      "id": "t21",
+      "title": "Technika a komunikace",
+      "words": [
+        {
+          "id": "computer",
+          "en": "computer",
+          "cs": "počítač",
+          "sentenceEn": "My computer is new.",
+          "sentenceCs": "Můj počítač je nový.",
+          "note": "",
+          "noteType": "",
+          "pron": "kemPJÚte"
+        },
+        {
+          "id": "internet",
+          "en": "internet",
+          "cs": "internet",
+          "sentenceEn": "I use the internet every day.",
+          "sentenceCs": "Internet používám každý den.",
+          "note": "",
+          "noteType": "",
+          "pron": "INtenet"
+        },
+        {
+          "id": "email",
+          "en": "email",
+          "cs": "e-mail",
+          "sentenceEn": "I send an email.",
+          "sentenceCs": "Posílám e-mail.",
+          "note": "",
+          "noteType": "",
+          "pron": "Ímejl"
+        },
+        {
+          "id": "message",
+          "en": "message",
+          "cs": "zpráva",
+          "sentenceEn": "I get a message.",
+          "sentenceCs": "Dostávám zprávu.",
+          "note": "",
+          "noteType": "",
+          "pron": "MEsidž"
+        },
+        {
+          "id": "camera",
+          "en": "camera",
+          "cs": "fotoaparát, kamera",
+          "sentenceEn": "My phone has a good camera.",
+          "sentenceCs": "Můj telefon má dobrý fotoaparát.",
+          "note": "",
+          "noteType": "",
+          "pron": "KEmre"
+        },
+        {
+          "id": "password",
+          "en": "password",
+          "cs": "heslo",
+          "sentenceEn": "I forgot my password.",
+          "sentenceCs": "Zapomněl jsem heslo.",
+          "note": "",
+          "noteType": "",
+          "pron": "PÁSwéd"
+        },
+        {
+          "id": "website",
+          "en": "website",
+          "cs": "webová stránka",
+          "sentenceEn": "This website is useful.",
+          "sentenceCs": "Tato stránka je užitečná.",
+          "note": "",
+          "noteType": "",
+          "pron": "WEBsajt"
+        },
+        {
+          "id": "photo",
+          "en": "photo",
+          "cs": "fotka",
+          "sentenceEn": "I take a photo.",
+          "sentenceCs": "Dělám fotku.",
+          "note": "",
+          "noteType": "",
+          "pron": "FOUtou"
+        },
+        {
+          "id": "battery",
+          "en": "battery",
+          "cs": "baterie",
+          "sentenceEn": "The battery is empty.",
+          "sentenceCs": "Baterie je vybitá.",
+          "note": "",
+          "noteType": "",
+          "pron": "BEtri"
+        },
+        {
+          "id": "charger",
+          "en": "charger",
+          "cs": "nabíječka",
+          "sentenceEn": "I need a charger.",
+          "sentenceCs": "Potřebuji nabíječku.",
+          "note": "",
+          "noteType": "",
+          "pron": "ČÁdže"
+        },
+        {
+          "id": "call",
+          "en": "call",
+          "cs": "volat, hovor",
+          "sentenceEn": "I call my mother.",
+          "sentenceCs": "Volám mámě.",
+          "note": "",
+          "noteType": "",
+          "pron": "kól"
+        },
+        {
+          "id": "laptop",
+          "en": "laptop",
+          "cs": "notebook (počítač)",
+          "sentenceEn": "My laptop is on the table.",
+          "sentenceCs": "Můj notebook je na stole.",
+          "note": "",
+          "noteType": "",
+          "pron": "LEPtop"
+        }
+      ]
+    },
+    {
+      "id": "t22",
+      "title": "Doprava",
+      "words": [
+        {
+          "id": "car",
+          "en": "car",
+          "cs": "auto",
+          "sentenceEn": "My car is blue.",
+          "sentenceCs": "Moje auto je modré.",
+          "note": "",
+          "noteType": "",
+          "pron": "ká"
+        },
+        {
+          "id": "bike",
+          "en": "bike",
+          "cs": "kolo",
+          "sentenceEn": "I go to work by bike.",
+          "sentenceCs": "Do práce jezdím na kole.",
+          "note": "",
+          "noteType": "",
+          "pron": "bajk"
+        },
+        {
+          "id": "taxi",
+          "en": "taxi",
+          "cs": "taxi",
+          "sentenceEn": "We take a taxi.",
+          "sentenceCs": "Jedeme taxíkem.",
+          "note": "",
+          "noteType": "",
+          "pron": "TEksi"
+        },
+        {
+          "id": "plane",
+          "en": "plane",
+          "cs": "letadlo",
+          "sentenceEn": "The plane is late.",
+          "sentenceCs": "Letadlo má zpoždění.",
+          "note": "",
+          "noteType": "",
+          "pron": "plejn"
+        },
+        {
+          "id": "ship",
+          "en": "ship",
+          "cs": "loď",
+          "sentenceEn": "The ship is big.",
+          "sentenceCs": "Loď je velká.",
+          "note": "",
+          "noteType": "",
+          "pron": "šip"
+        },
+        {
+          "id": "road",
+          "en": "road",
+          "cs": "silnice",
+          "sentenceEn": "The road is long.",
+          "sentenceCs": "Silnice je dlouhá.",
+          "note": "",
+          "noteType": "",
+          "pron": "roud"
+        },
+        {
+          "id": "traffic",
+          "en": "traffic",
+          "cs": "doprava, provoz",
+          "sentenceEn": "There is a lot of traffic.",
+          "sentenceCs": "Je tu hodně provozu.",
+          "note": "traffic je nepočitatelné, bez -s",
+          "noteType": "grammar",
+          "pron": "TREfik"
+        },
+        {
+          "id": "petrol",
+          "en": "petrol",
+          "cs": "benzín",
+          "sentenceEn": "The car needs petrol.",
+          "sentenceCs": "Auto potřebuje benzín.",
+          "note": "britsky petrol, americky gas",
+          "noteType": "pronunciation",
+          "pron": "PEtrl"
+        },
+        {
+          "id": "tram",
+          "en": "tram",
+          "cs": "tramvaj",
+          "sentenceEn": "I take the tram.",
+          "sentenceCs": "Jedu tramvají.",
+          "note": "",
+          "noteType": "",
+          "pron": "trem"
+        },
+        {
+          "id": "tunnel",
+          "en": "tunnel",
+          "cs": "tunel",
+          "sentenceEn": "The tunnel is long.",
+          "sentenceCs": "Tunel je dlouhý.",
+          "note": "",
+          "noteType": "",
+          "pron": "TAnl"
+        },
+        {
+          "id": "bridge",
+          "en": "bridge",
+          "cs": "most",
+          "sentenceEn": "The bridge is old.",
+          "sentenceCs": "Most je starý.",
+          "note": "",
+          "noteType": "",
+          "pron": "bridž"
+        },
+        {
+          "id": "parking",
+          "en": "parking",
+          "cs": "parkování",
+          "sentenceEn": "Is there parking here?",
+          "sentenceCs": "Je tu parkování?",
+          "note": "",
+          "noteType": "",
+          "pron": "PÁking"
+        }
+      ]
+    },
+    {
+      "id": "t23",
+      "title": "Jídlo a pití 2",
+      "words": [
+        {
+          "id": "banana",
+          "en": "banana",
+          "cs": "banán",
+          "sentenceEn": "I eat a banana.",
+          "sentenceCs": "Jím banán.",
+          "note": "britsky „be-NÁ-ne“",
+          "noteType": "pronunciation",
+          "pron": "beNÁne"
+        },
+        {
+          "id": "orange",
+          "en": "orange",
+          "cs": "pomeranč",
+          "sentenceEn": "The orange is sweet.",
+          "sentenceCs": "Pomeranč je sladký.",
+          "note": "",
+          "noteType": "",
+          "pron": "Oridž"
+        },
+        {
+          "id": "potato",
+          "en": "potato",
+          "cs": "brambora",
+          "sentenceEn": "I like potato soup.",
+          "sentenceCs": "Mám rád bramborovou polévku.",
+          "note": "",
+          "noteType": "",
+          "pron": "peTEJtou"
+        },
+        {
+          "id": "tomato",
+          "en": "tomato",
+          "cs": "rajče",
+          "sentenceEn": "The tomato is red.",
+          "sentenceCs": "Rajče je červené.",
+          "note": "britsky „te-MÁ-tou“",
+          "noteType": "pronunciation",
+          "pron": "teMÁtou"
+        },
+        {
+          "id": "carrot",
+          "en": "carrot",
+          "cs": "mrkev",
+          "sentenceEn": "The rabbit likes carrots.",
+          "sentenceCs": "Králík má rád mrkev.",
+          "note": "",
+          "noteType": "",
+          "pron": "KErit"
+        },
+        {
+          "id": "onion",
+          "en": "onion",
+          "cs": "cibule",
+          "sentenceEn": "I cut an onion.",
+          "sentenceCs": "Krájím cibuli.",
+          "note": "",
+          "noteType": "",
+          "pron": "ANjen"
+        },
+        {
+          "id": "rice",
+          "en": "rice",
+          "cs": "rýže",
+          "sentenceEn": "I eat rice with chicken.",
+          "sentenceCs": "Jím rýži s kuřetem.",
+          "note": "",
+          "noteType": "",
+          "pron": "rajs"
+        },
+        {
+          "id": "egg",
+          "en": "egg",
+          "cs": "vejce",
+          "sentenceEn": "I want an egg.",
+          "sentenceCs": "Chci vajíčko.",
+          "note": "",
+          "noteType": "",
+          "pron": "eg"
+        },
+        {
+          "id": "meat",
+          "en": "meat",
+          "cs": "maso",
+          "sentenceEn": "I do not eat meat.",
+          "sentenceCs": "Nejím maso.",
+          "note": "",
+          "noteType": "",
+          "pron": "mít"
+        },
+        {
+          "id": "butter",
+          "en": "butter",
+          "cs": "máslo",
+          "sentenceEn": "Butter and bread, please.",
+          "sentenceCs": "Máslo a chléb, prosím.",
+          "note": "",
+          "noteType": "",
+          "pron": "BAte"
+        },
+        {
+          "id": "sugar",
+          "en": "sugar",
+          "cs": "cukr",
+          "sentenceEn": "No sugar, please.",
+          "sentenceCs": "Bez cukru, prosím.",
+          "note": "",
+          "noteType": "",
+          "pron": "ŠUge"
+        },
+        {
+          "id": "salt",
+          "en": "salt",
+          "cs": "sůl",
+          "sentenceEn": "Can I have some salt?",
+          "sentenceCs": "Mohu dostat sůl?",
+          "note": "",
+          "noteType": "",
+          "pron": "sólt"
+        }
+      ]
+    },
+    {
+      "id": "t24",
+      "title": "Bydlení",
+      "words": [
+        {
+          "id": "bathroom",
+          "en": "bathroom",
+          "cs": "koupelna",
+          "sentenceEn": "The bathroom is small.",
+          "sentenceCs": "Koupelna je malá.",
+          "note": "",
+          "noteType": "",
+          "pron": "BÁTHrúm"
+        },
+        {
+          "id": "bedroom",
+          "en": "bedroom",
+          "cs": "ložnice",
+          "sentenceEn": "My bedroom is quiet.",
+          "sentenceCs": "Moje ložnice je tichá.",
+          "note": "",
+          "noteType": "",
+          "pron": "BEDrúm"
+        },
+        {
+          "id": "garden",
+          "en": "garden",
+          "cs": "zahrada",
+          "sentenceEn": "We have a big garden.",
+          "sentenceCs": "Máme velkou zahradu.",
+          "note": "",
+          "noteType": "",
+          "pron": "GÁdn"
+        },
+        {
+          "id": "floor",
+          "en": "floor",
+          "cs": "podlaha, patro",
+          "sentenceEn": "The book is on the floor.",
+          "sentenceCs": "Kniha je na podlaze.",
+          "note": "",
+          "noteType": "",
+          "pron": "fló"
+        },
+        {
+          "id": "wall",
+          "en": "wall",
+          "cs": "zeď, stěna",
+          "sentenceEn": "There is a picture on the wall.",
+          "sentenceCs": "Na zdi je obraz.",
+          "note": "",
+          "noteType": "",
+          "pron": "wól"
+        },
+        {
+          "id": "roof",
+          "en": "roof",
+          "cs": "střecha",
+          "sentenceEn": "The roof is red.",
+          "sentenceCs": "Střecha je červená.",
+          "note": "",
+          "noteType": "",
+          "pron": "rúf"
+        },
+        {
+          "id": "stairs",
+          "en": "stairs",
+          "cs": "schody",
+          "sentenceEn": "The stairs are old.",
+          "sentenceCs": "Schody jsou staré.",
+          "note": "stairs je vždy množné číslo",
+          "noteType": "grammar",
+          "pron": "steəz"
+        },
+        {
+          "id": "lamp",
+          "en": "lamp",
+          "cs": "lampa",
+          "sentenceEn": "Turn on the lamp.",
+          "sentenceCs": "Rozsviť lampu.",
+          "note": "",
+          "noteType": "",
+          "pron": "lemp"
+        },
+        {
+          "id": "sofa",
+          "en": "sofa",
+          "cs": "pohovka",
+          "sentenceEn": "The sofa is comfortable.",
+          "sentenceCs": "Pohovka je pohodlná.",
+          "note": "",
+          "noteType": "",
+          "pron": "SOUfe"
+        },
+        {
+          "id": "towel",
+          "en": "towel",
+          "cs": "ručník",
+          "sentenceEn": "I need a clean towel.",
+          "sentenceCs": "Potřebuji čistý ručník.",
+          "note": "",
+          "noteType": "",
+          "pron": "TAUel"
+        },
+        {
+          "id": "fridge",
+          "en": "fridge",
+          "cs": "lednice",
+          "sentenceEn": "The milk is in the fridge.",
+          "sentenceCs": "Mléko je v lednici.",
+          "note": "",
+          "noteType": "",
+          "pron": "fridž"
+        },
+        {
+          "id": "shower",
+          "en": "shower",
+          "cs": "sprcha",
+          "sentenceEn": "I take a shower.",
+          "sentenceCs": "Jdu se osprchovat.",
+          "note": "",
+          "noteType": "",
+          "pron": "ŠAUe"
+        }
+      ]
+    },
+    {
+      "id": "t25",
+      "title": "Pocity a vlastnosti",
+      "words": [
+        {
+          "id": "happy",
+          "en": "happy",
+          "cs": "šťastný",
+          "sentenceEn": "I am happy today.",
+          "sentenceCs": "Dnes jsem šťastný.",
+          "note": "",
+          "noteType": "",
+          "pron": "HEpi"
+        },
+        {
+          "id": "sad",
+          "en": "sad",
+          "cs": "smutný",
+          "sentenceEn": "She is sad.",
+          "sentenceCs": "Je smutná.",
+          "note": "",
+          "noteType": "",
+          "pron": "sed"
+        },
+        {
+          "id": "tired",
+          "en": "tired",
+          "cs": "unavený",
+          "sentenceEn": "I am tired.",
+          "sentenceCs": "Jsem unavený.",
+          "note": "",
+          "noteType": "",
+          "pron": "TAjed"
+        },
+        {
+          "id": "angry",
+          "en": "angry",
+          "cs": "naštvaný",
+          "sentenceEn": "He is angry.",
+          "sentenceCs": "Je naštvaný.",
+          "note": "",
+          "noteType": "",
+          "pron": "ENgri"
+        },
+        {
+          "id": "afraid",
+          "en": "afraid",
+          "cs": "vyděšený",
+          "sentenceEn": "I am afraid of dogs.",
+          "sentenceCs": "Bojím se psů.",
+          "note": "česky „bojím se“, anglicky am afraid (být vystrašený)",
+          "noteType": "grammar",
+          "pron": "eFREJD"
+        },
+        {
+          "id": "bored",
+          "en": "bored",
+          "cs": "znuděný",
+          "sentenceEn": "I am bored.",
+          "sentenceCs": "Nudím se.",
+          "note": "bored = znuděný, boring = nudný",
+          "noteType": "grammar",
+          "pron": "bód"
+        },
+        {
+          "id": "excited",
+          "en": "excited",
+          "cs": "nadšený",
+          "sentenceEn": "We are excited.",
+          "sentenceCs": "Jsme nadšení.",
+          "note": "",
+          "noteType": "",
+          "pron": "ikSAJtid"
+        },
+        {
+          "id": "kind",
+          "en": "kind",
+          "cs": "laskavý",
+          "sentenceEn": "My boss is kind.",
+          "sentenceCs": "Můj šéf je laskavý.",
+          "note": "",
+          "noteType": "",
+          "pron": "kajnd"
+        },
+        {
+          "id": "funny",
+          "en": "funny",
+          "cs": "vtipný",
+          "sentenceEn": "He is very funny.",
+          "sentenceCs": "Je velmi vtipný.",
+          "note": "",
+          "noteType": "",
+          "pron": "FAni"
+        },
+        {
+          "id": "clever",
+          "en": "clever",
+          "cs": "chytrý",
+          "sentenceEn": "She is a clever girl.",
+          "sentenceCs": "Je to chytrá holka.",
+          "note": "",
+          "noteType": "",
+          "pron": "KLEve"
+        },
+        {
+          "id": "lazy",
+          "en": "lazy",
+          "cs": "líný",
+          "sentenceEn": "I am lazy on Sunday.",
+          "sentenceCs": "V neděli jsem líný.",
+          "note": "",
+          "noteType": "",
+          "pron": "LEJzi"
+        },
+        {
+          "id": "polite",
+          "en": "polite",
+          "cs": "zdvořilý",
+          "sentenceEn": "The waiter is polite.",
+          "sentenceCs": "Číšník je zdvořilý.",
+          "note": "",
+          "noteType": "",
+          "pron": "peLAJT"
+        }
+      ]
+    },
+    {
+      "id": "t26",
+      "title": "Kde a kdy",
+      "words": [
+        {
+          "id": "under",
+          "en": "under",
+          "cs": "pod",
+          "sentenceEn": "The cat is under the table.",
+          "sentenceCs": "Kočka je pod stolem.",
+          "note": "",
+          "noteType": "",
+          "pron": "ANde"
+        },
+        {
+          "id": "between",
+          "en": "between",
+          "cs": "mezi",
+          "sentenceEn": "The bank is between the shop and the park.",
+          "sentenceCs": "Banka je mezi obchodem a parkem.",
+          "note": "",
+          "noteType": "",
+          "pron": "biTWÍN"
+        },
+        {
+          "id": "near",
+          "en": "near",
+          "cs": "blízko",
+          "sentenceEn": "The station is near.",
+          "sentenceCs": "Nádraží je blízko.",
+          "note": "",
+          "noteType": "",
+          "pron": "nie"
+        },
+        {
+          "id": "next-to",
+          "en": "next to",
+          "cs": "vedle",
+          "sentenceEn": "The bag is next to the chair.",
+          "sentenceCs": "Taška je vedle židle.",
+          "note": "",
+          "noteType": "",
+          "pron": "nekst tu"
+        },
+        {
+          "id": "always",
+          "en": "always",
+          "cs": "vždy",
+          "sentenceEn": "I always drink tea.",
+          "sentenceCs": "Vždy piji čaj.",
+          "note": "always stojí před slovesem",
+          "noteType": "grammar",
+          "pron": "ÓLwejz"
+        },
+        {
+          "id": "often",
+          "en": "often",
+          "cs": "často",
+          "sentenceEn": "I often walk to work.",
+          "sentenceCs": "Často chodím do práce pěšky.",
+          "note": "t se obvykle nečte, čte se „ofn“",
+          "noteType": "pronunciation",
+          "pron": "OFn"
+        },
+        {
+          "id": "sometimes",
+          "en": "sometimes",
+          "cs": "někdy",
+          "sentenceEn": "Sometimes I cook dinner.",
+          "sentenceCs": "Někdy vařím večeři.",
+          "note": "",
+          "noteType": "",
+          "pron": "SAMtajmz"
+        },
+        {
+          "id": "usually",
+          "en": "usually",
+          "cs": "obvykle",
+          "sentenceEn": "I usually get up at seven.",
+          "sentenceCs": "Obvykle vstávám v sedm.",
+          "note": "",
+          "noteType": "",
+          "pron": "JÚžueli"
+        },
+        {
+          "id": "now",
+          "en": "now",
+          "cs": "nyní, teď",
+          "sentenceEn": "I am busy now.",
+          "sentenceCs": "Teď mám moc práce.",
+          "note": "",
+          "noteType": "",
+          "pron": "nau"
+        },
+        {
+          "id": "soon",
+          "en": "soon",
+          "cs": "brzy",
+          "sentenceEn": "See you soon!",
+          "sentenceCs": "Brzy na viděnou!",
+          "note": "",
+          "noteType": "",
+          "pron": "sún"
+        },
+        {
+          "id": "early",
+          "en": "early",
+          "cs": "brzy, časně",
+          "sentenceEn": "I get up early.",
+          "sentenceCs": "Vstávám brzy.",
+          "note": "",
+          "noteType": "",
+          "pron": "ÉLi"
+        },
+        {
+          "id": "late",
+          "en": "late",
+          "cs": "pozdě",
+          "sentenceEn": "I am late.",
+          "sentenceCs": "Jdu pozdě.",
+          "note": "",
+          "noteType": "",
+          "pron": "lejt"
         }
       ]
     }
