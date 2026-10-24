@@ -9,6 +9,7 @@
     mistakes: { title: 'Typické chyby Čechů', icon: '⚠️', hint: 'Vyber správnou větu', items: window.EXTRAS.mistakes },
     falseFriends: { title: 'Falešní přátelé', icon: '🎭', hint: 'Slova, která se jen tváří česky', items: window.EXTRAS.falseFriends },
     pairs: { title: 'Minimální páry', icon: '👂', hint: 'Poslech: ship nebo sheep?', items: window.EXTRAS.pairs },
+    sounds: { title: 'Výslovnost: th a w/v', icon: '👅', hint: 'Návod, slova, jazykolamy a poslech', start: () => showSounds() },
     sentences: { title: 'Skládání vět', icon: '🧩', hint: 'Seřaď slova do správné věty', start: () => startSentences() },
     matching: { title: 'Přiřazování dvojic', icon: '🔗', hint: 'Spoj anglické slovo s českým', start: () => startMatching() },
   };
@@ -446,6 +447,48 @@
     render(bar, body, feedback);
   }
 
+  // ---------- výslovnost th a w/v ----------
+
+  // Minimální páry, které se liší v th nebo w/v (poznámka páru obsahuje „th“ nebo „w / v“).
+  const soundPairs = window.EXTRAS.pairs.filter((p) => /\bth\b|w \/ v/.test(p.note));
+
+  function showSounds() {
+    const sounds = window.EXTRAS.sounds;
+    render(
+      h('h1', {}, 'Výslovnost: th a w/v'),
+      h('p', { class: 'muted' }, 'Tyhle zvuky česky nemáme. Přečti si návod, poslechni slova a zkus se nahrát.'),
+      sounds.guide.map((g) => h('div', { class: 'card' },
+        h('strong', {}, g.title), h('span', { class: 'muted' }, ' – ' + g.examples),
+        h('p', {}, g.text),
+      )),
+      pronLegend(),
+      h('h2', {}, 'Slova'),
+      sounds.words.map((w) => h('div', { class: 'card' },
+        h('div', { class: 'big-word' }, w.en),
+        pronLine(w),
+        h('div', {}, w.cs),
+        soundButtons(w, false, { record: true }),
+        h('p', { class: 'sentence' }, w.sentenceEn),
+        h('div', { class: 'muted' }, w.sentenceCs),
+        soundButtons(w, true, { record: true }),
+        noteBox(w),
+      )),
+      h('h2', {}, 'Jazykolamy'),
+      sounds.twisters.map((t) => h('div', { class: 'card' },
+        h('p', { class: 'sentence' }, t.sentenceEn),
+        h('div', { class: 'muted' }, t.sentenceCs + ' (' + t.goal + ')'),
+        soundButtons(t, true, { record: true }),
+      )),
+      h('button', { class: 'btn primary', type: 'button', onclick: startSoundsQuiz }, 'Poslechové cvičení'),
+      h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Zpět'),
+    );
+  }
+
+  function startSoundsQuiz() {
+    const exercises = Engine.buildPractice('sounds', soundPairs);
+    runPractice({ kind: 'sounds', queue: exercises, index: 0, firstTry: 0, firstTryCorrect: 0, xpEarned: 0 });
+  }
+
   // ---------- skládání vět ----------
 
   function startSentences() {
@@ -619,7 +662,7 @@
         h('p', { class: 'muted' }, accuracy >= 0.8 ? 'Skvělá práce!' : 'Zkus to klidně znovu, pořadí se pokaždé zamíchá.'),
         goalLine(),
       ),
-      h('button', { class: 'btn primary', type: 'button', onclick: () => startPractice(state.kind) }, 'Zkusit znovu'),
+      h('button', { class: 'btn primary', type: 'button', onclick: () => (state.kind === 'sounds' ? startSoundsQuiz() : startPractice(state.kind)) }, 'Zkusit znovu'),
       h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Na přehled'),
     );
   }

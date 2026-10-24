@@ -1,4 +1,4 @@
-// Generováno skriptem tools/build_content.py z obsah-faze2.md – needituj ručně.
+// Generováno skriptem tools/build_content.py z obsah-faze2.md a obsah-vyslovnost.md – needituj ručně.
 window.EXTRAS = {
   "mistakes": [
     {
@@ -510,6 +510,290 @@ window.EXTRAS = {
         "cs": "muži"
       },
       "note": "a / e"
+    },
+    {
+      "id": "mp-thing-sing",
+      "a": {
+        "id": "mp-thing",
+        "en": "thing",
+        "cs": "věc"
+      },
+      "b": {
+        "id": "mp-sing",
+        "en": "sing",
+        "cs": "zpívat"
+      },
+      "note": "th / s"
+    },
+    {
+      "id": "mp-thought-taught",
+      "a": {
+        "id": "mp-thought",
+        "en": "thought",
+        "cs": "myslel"
+      },
+      "b": {
+        "id": "mp-taught",
+        "en": "taught",
+        "cs": "učil"
+      },
+      "note": "th / t"
+    },
+    {
+      "id": "mp-path-pass",
+      "a": {
+        "id": "mp-path",
+        "en": "path",
+        "cs": "stezka"
+      },
+      "b": {
+        "id": "mp-pass",
+        "en": "pass",
+        "cs": "projít"
+      },
+      "note": "th / s"
+    },
+    {
+      "id": "mp-then-den",
+      "a": {
+        "id": "mp-then",
+        "en": "then",
+        "cs": "pak"
+      },
+      "b": {
+        "id": "mp-den",
+        "en": "den",
+        "cs": "doupě"
+      },
+      "note": "znělé th / d"
+    },
+    {
+      "id": "mp-whale-veil",
+      "a": {
+        "id": "mp-whale",
+        "en": "whale",
+        "cs": "velryba"
+      },
+      "b": {
+        "id": "mp-veil",
+        "en": "veil",
+        "cs": "závoj"
+      },
+      "note": "w / v"
+    },
+    {
+      "id": "mp-wow-vow",
+      "a": {
+        "id": "mp-wow",
+        "en": "wow",
+        "cs": "páni"
+      },
+      "b": {
+        "id": "mp-vow",
+        "en": "vow",
+        "cs": "slib"
+      },
+      "note": "w / v"
     }
-  ]
+  ],
+  "sounds": {
+    "guide": [
+      {
+        "title": "th neznělé",
+        "examples": "think, thanks, Thursday",
+        "text": "Špičku jazyka lehce vystrč mezi zuby a foukej vzduch. Zní to jako tichý šum, žádné „t“ ani „s“. Nezavírej zuby na jazyk."
+      },
+      {
+        "title": "th znělé",
+        "examples": "the, this, that, they",
+        "text": "Stejná poloha jazyka jako u neznělého th, ale k tomu zapni hlas (jako u „z“). Jazyk jemně vibruje."
+      },
+      {
+        "title": "w",
+        "examples": "we, why, water, window",
+        "text": "Zakulať rty jako na „u“ a hned je rozevři do následující samohlásky. Zuby se rtu nedotýkají. Slovo we zní skoro jako „uí“."
+      },
+      {
+        "title": "v",
+        "examples": "very, never, voice",
+        "text": "Spodní ret se lehce dotkne horních zubů, jako v češtině. Pozor: v češtině je „v“ i „w“ totéž, v angličtině je to rozdíl významu (west × vest)."
+      }
+    ],
+    "words": [
+      {
+        "id": "the",
+        "en": "the",
+        "cs": "ten, ta, to",
+        "sentenceEn": "The book is on the table.",
+        "sentenceCs": "Kniha je na stole.",
+        "pron": "dhe",
+        "note": "znělé th",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "this",
+        "en": "this",
+        "cs": "tento",
+        "sentenceEn": "This is my friend.",
+        "sentenceCs": "Tohle je můj kamarád.",
+        "pron": "dhis",
+        "note": "znělé th",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "that",
+        "en": "that",
+        "cs": "tamten",
+        "sentenceEn": "That is my car.",
+        "sentenceCs": "Tamto je moje auto.",
+        "pron": "dhat",
+        "note": "znělé th",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "they",
+        "en": "they",
+        "cs": "oni",
+        "sentenceEn": "They are at home.",
+        "sentenceCs": "Jsou doma.",
+        "pron": "dhej",
+        "note": "znělé th",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "with",
+        "en": "with",
+        "cs": "s",
+        "sentenceEn": "Come with me.",
+        "sentenceCs": "Pojď se mnou.",
+        "pron": "widh",
+        "note": "začíná w, končí znělé th",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "think",
+        "en": "think",
+        "cs": "myslet",
+        "sentenceEn": "I think it is good.",
+        "sentenceCs": "Myslím, že je to dobré.",
+        "pron": "think",
+        "note": "neznělé th, ne „sink“",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "thanks",
+        "en": "thanks",
+        "cs": "díky",
+        "sentenceEn": "Thanks for your help.",
+        "sentenceCs": "Díky za pomoc.",
+        "pron": "thenks",
+        "note": "neznělé th",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "thursday",
+        "en": "Thursday",
+        "cs": "čtvrtek",
+        "sentenceEn": "I work on Thursday.",
+        "sentenceCs": "Ve čtvrtek pracuji.",
+        "pron": "THÉZdej",
+        "note": "neznělé th, dlouhé „é“",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "thirty",
+        "en": "thirty",
+        "cs": "třicet",
+        "sentenceEn": "He is thirty years old.",
+        "sentenceCs": "Je mu třicet let.",
+        "pron": "THÉti",
+        "note": "neznělé th, dlouhé „é“",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "we",
+        "en": "we",
+        "cs": "my",
+        "sentenceEn": "We are friends.",
+        "sentenceCs": "Jsme kamarádi.",
+        "pron": "wí",
+        "note": "w, ne „v“",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "why",
+        "en": "why",
+        "cs": "proč",
+        "sentenceEn": "Why are you late?",
+        "sentenceCs": "Proč jdeš pozdě?",
+        "pron": "waj",
+        "note": "w, ne „v“",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "very",
+        "en": "very",
+        "cs": "velmi",
+        "sentenceEn": "It is very good.",
+        "sentenceCs": "Je to velmi dobré.",
+        "pron": "VEri",
+        "note": "v, ne „w“",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "never",
+        "en": "never",
+        "cs": "nikdy",
+        "sentenceEn": "I never eat meat.",
+        "sentenceCs": "Nikdy nejím maso.",
+        "pron": "NEve",
+        "note": "v; v češtině dvě záporná slova, v angličtině never stačí samo",
+        "noteType": "pronunciation"
+      },
+      {
+        "id": "voice",
+        "en": "voice",
+        "cs": "hlas",
+        "sentenceEn": "I like your voice.",
+        "sentenceCs": "Líbí se mi tvůj hlas.",
+        "pron": "vojs",
+        "note": "v, ne „w“",
+        "noteType": "pronunciation"
+      }
+    ],
+    "twisters": [
+      {
+        "id": "tw1",
+        "en": "Three thin thieves think thoughts.",
+        "sentenceEn": "Three thin thieves think thoughts.",
+        "cs": "Tři hubení zloději přemýšlejí.",
+        "sentenceCs": "Tři hubení zloději přemýšlejí.",
+        "goal": "neznělé th"
+      },
+      {
+        "id": "tw2",
+        "en": "This and that, these and those.",
+        "sentenceEn": "This and that, these and those.",
+        "cs": "Tohle a tamto, tyhle a tamty.",
+        "sentenceCs": "Tohle a tamto, tyhle a tamty.",
+        "goal": "znělé th"
+      },
+      {
+        "id": "tw3",
+        "en": "We went west on Wednesday.",
+        "sentenceEn": "We went west on Wednesday.",
+        "cs": "Šli jsme na západ ve středu.",
+        "sentenceCs": "Šli jsme na západ ve středu.",
+        "goal": "w"
+      },
+      {
+        "id": "tw4",
+        "en": "Very few voices were heard.",
+        "sentenceEn": "Very few voices were heard.",
+        "cs": "Bylo slyšet jen velmi málo hlasů.",
+        "sentenceCs": "Bylo slyšet jen velmi málo hlasů.",
+        "goal": "v × w"
+      }
+    ]
+  }
 };

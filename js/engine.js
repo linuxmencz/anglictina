@@ -10,7 +10,7 @@
   const TYPES = ['translate', 'listenChoose', 'listenType'];
   const REVIEW_SIZE = 12;
   const PRACTICE_SIZE = 10;
-  const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching'];
+  const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching', 'sounds'];
   const SENTENCE_COUNT = 8;
   const SENTENCE_MIN_TOKENS = 3;
   const MATCHING_ROUNDS = 3;
