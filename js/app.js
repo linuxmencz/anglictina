@@ -29,8 +29,10 @@
   };
 
   const app = document.getElementById('app');
+  const backButton = document.getElementById('back');
   let progress = Engine.loadProgress(window.localStorage);
   let currentAudio = null;
+  let renderingHome = false;
 
   // ---------- pomocné funkce ----------
 
@@ -50,6 +52,8 @@
 
   function render(...nodes) {
     app.replaceChildren(...nodes.flat());
+    backButton.hidden = renderingHome; // tlačítko Domů se na úvodní obrazovce nezobrazuje
+    renderingHome = false;
     window.scrollTo(0, 0);
   }
 
@@ -226,6 +230,7 @@
   // ---------- domovská obrazovka ----------
 
   function showHome() {
+    renderingHome = true;
     const list = lessons.map((lesson, index) => {
       const unlocked = Engine.isLessonUnlocked(progress, lessons, index);
       const state = progress.lessons[lesson.id];
@@ -439,7 +444,6 @@
     body.append(...buttons);
 
     render(bar, body, feedback);
-    if (ex.audioNow) playFile(ex.audioNow, ex.speakNow);
   }
 
   // ---------- skládání vět ----------
@@ -762,6 +766,7 @@
   }
 
   document.getElementById('home').addEventListener('click', showHome);
+  backButton.addEventListener('click', showHome);
   updateStats();
   showHome();
 })();
