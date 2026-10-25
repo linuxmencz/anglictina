@@ -29,6 +29,7 @@
     sounds: { hue: 340, title: 'Výslovnost: th a w/v', icon: '👅', hint: 'Návod, slova, jazykolamy a poslech', start: () => showSounds() },
     tenses: { hue: 250, title: 'Gramatika: Present Perfect', icon: '⏳', hint: 'Časové osy a kvíz Past Simple × Present Perfect', start: () => showGrammar('tenses') },
     prepositions: { hue: 25, title: 'Gramatika: předložky místa', icon: '📍', hint: 'Schémata at / on / in a kvíz', start: () => showGrammar('prepositions') },
+    timePrepositions: { hue: 80, title: 'Gramatika: předložky času', icon: '🕒', hint: 'Hodiny, kalendář a kvíz at / on / in', start: () => showGrammar('timePrepositions') },
     dialogs: { hue: 160, title: 'Dialogy ze situací', icon: '💬', hint: 'Restaurace, letiště, lékař… poslech a odpovědi', start: () => showDialogs() },
     sentences: { hue: 120, title: 'Skládání vět', icon: '🧩', hint: 'Seřaď slova do správné věty', start: () => startSentences() },
     matching: { hue: 20, title: 'Přiřazování dvojic', icon: '🔗', hint: 'Spoj anglické slovo s českým', start: () => startMatching() },
@@ -403,9 +404,11 @@
     }, MESSAGE_REANNOUNCE_DELAY);
   }
 
+  const SECTION_HUES = [210, 25, 160, 280, 340]; // odstín pruhu podle pořadí úseku
+
   function pathMap(message) {
     const width = pathWidth();
-    const layoutOptions = { width, amplitude: Math.round(width / 4) };
+    const layoutOptions = { width, amplitude: Math.round(width / 4), sectionStarts: PathMap.SECTIONS.map((s) => s.start) };
     const pathHeight = PathMap.height(lessons.length, layoutOptions);
     const points = PathMap.layout(lessons.length, layoutOptions);
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
@@ -454,7 +457,17 @@
           : null);
     });
 
-    return h('div', { class: 'path', style: `width:${width}px;height:${pathHeight}px` }, svg, steps);
+    // Pruhy úseků: nadpis a počet hotových lekcí, ležící na cestě nad první lekcí úseku.
+    const banners = PathMap.SECTIONS.filter((s) => s.start < lessons.length).map((section, i, all) => {
+      const end = i + 1 < all.length ? all[i + 1].start : lessons.length;
+      const total = end - section.start;
+      const doneCount = lessons.slice(section.start, end).filter(isDone).length;
+      return h('h2', { class: 'path-section' + (doneCount === total ? ' done' : ''), style: `top:${PathMap.bannerY(points, section.start, layoutOptions)}px;${hueStyle(SECTION_HUES[i % SECTION_HUES.length])}` },
+        h('span', {}, section.title),
+        h('span', { class: 'path-section-count' }, `${doneCount === total ? '✅ ' : ''}${doneCount} / ${total} hotovo`));
+    });
+
+    return h('div', { class: 'path', style: `width:${width}px;height:${pathHeight}px` }, svg, banners, steps);
   }
 
   // Po vykreslení Cesty odroluje aktuální bod (nebo poslední, když je vše hotové) doprostřed obrazovky.
@@ -947,6 +960,13 @@
       data: window.EXTRAS.prepositions,
       quizLabel: 'Kvíz: Která předložka?',
       kind: 'prepositions',
+    },
+    timePrepositions: {
+      title: 'Gramatika: předložky času',
+      intro: 'Česky řekneme „v“, „o“ nebo „na“. Angličtina se ptá, jestli je čas okamžik, den, nebo delší úsek: at, on, in.',
+      data: window.EXTRAS.timePrepositions,
+      quizLabel: 'Kvíz: Která předložka?',
+      kind: 'timePrepositions',
     },
   };
   const grammarScenesById = Object.fromEntries(

@@ -1,4 +1,4 @@
-// Generováno skriptem tools/build_content.py z obsah-faze2.md, obsah-vyslovnost.md, obsah-dialogy.md, obsah-gramatika.md a obsah-predlozky.md – needituj ručně.
+// Generováno skriptem tools/build_content.py z obsah-faze2.md, obsah-vyslovnost.md, obsah-dialogy.md, obsah-gramatika.md, obsah-predlozky.md a obsah-predlozky-casu.md – needituj ručně.
 window.EXTRAS = {
   "mistakes": [
     {
@@ -4179,6 +4179,655 @@ window.EXTRAS = {
         "why": "Taxi je malé uzavřené vozidlo, tedy prostor.",
         "pron": "ší iz in e TAKsi",
         "full": "She is in a taxi."
+      }
+    ]
+  },
+  "timePrepositions": {
+    "scenes": [
+      {
+        "id": "t1",
+        "title": "Čeština × angličtina",
+        "text": "Česky řekneme „v pět“, „v pondělí“, „v květnu“ a ani nás nenapadne, že jde o tři různé věci. Angličtina se ptá: je to okamžik, den, nebo delší úsek? Podle odpovědi použije at, on, nebo in.",
+        "elements": [
+          {
+            "id": "ho",
+            "type": "hodiny",
+            "label": "pět hodin",
+            "relation": null
+          },
+          {
+            "id": "dn",
+            "type": "den",
+            "label": "pondělí",
+            "relation": null
+          },
+          {
+            "id": "ob",
+            "type": "obdobi",
+            "label": "květen",
+            "relation": null
+          },
+          {
+            "id": "p1",
+            "type": "postava",
+            "label": "schůzka",
+            "relation": {
+              "kind": "at",
+              "target": "ho"
+            }
+          },
+          {
+            "id": "p2",
+            "type": "postava",
+            "label": "film",
+            "relation": {
+              "kind": "on",
+              "target": "dn"
+            }
+          },
+          {
+            "id": "p3",
+            "type": "postava",
+            "label": "dovolená",
+            "relation": {
+              "kind": "in",
+              "target": "ob"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "ho",
+              "p1"
+            ],
+            "text": "Okamžik: přesný čas na hodinách, třeba pět hodin. Říkáme at."
+          },
+          {
+            "show": [
+              "ho",
+              "p1",
+              "dn",
+              "p2"
+            ],
+            "text": "Den: celý den v týdnu nebo v kalendáři, třeba pondělí. Říkáme on."
+          },
+          {
+            "show": [
+              "ho",
+              "p1",
+              "dn",
+              "p2",
+              "ob",
+              "p3"
+            ],
+            "text": "Úsek: delší doba, třeba měsíc, roční období nebo rok. Říkáme in."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "t1-1",
+            "en": "The meeting is at five o'clock.",
+            "cs": "Schůzka je v pět hodin.",
+            "pron": "dhe MÍting iz et fajv eKLOK"
+          },
+          {
+            "id": "t1-2",
+            "en": "The film is on Monday.",
+            "cs": "Film je v pondělí.",
+            "pron": "dhe film iz on MANdej"
+          },
+          {
+            "id": "t1-3",
+            "en": "We have a holiday in May.",
+            "cs": "Máme dovolenou v květnu.",
+            "pron": "wí hev e HOlidej in mej"
+          }
+        ]
+      },
+      {
+        "id": "t2",
+        "title": "at = okamžik",
+        "text": "At použijeme, když čas bereme jako jeden okamžik na hodinách. Je to přesná hodina, poledne, půlnoc, noc nebo víkend (v britské angličtině at the weekend).",
+        "elements": [
+          {
+            "id": "ho",
+            "type": "hodiny",
+            "label": "pět hodin",
+            "relation": null
+          },
+          {
+            "id": "sc",
+            "type": "postava",
+            "label": "schůzka",
+            "relation": {
+              "kind": "at",
+              "target": "ho"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "ho"
+            ],
+            "text": "Hodiny ukazují jeden okamžik: pět hodin."
+          },
+          {
+            "show": [
+              "ho",
+              "sc"
+            ],
+            "text": "Schůzka začíná v tom okamžiku, tedy at five o'clock. Stejně: at noon, at midnight, at night, at the weekend."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "t2-1",
+            "en": "The meeting is at five o'clock.",
+            "cs": "Schůzka je v pět hodin.",
+            "pron": "dhe MÍting iz et fajv eKLOK"
+          },
+          {
+            "id": "t2-2",
+            "en": "The train leaves at noon.",
+            "cs": "Vlak odjíždí v poledne.",
+            "pron": "dhe trejn lívz et nún"
+          },
+          {
+            "id": "t2-3",
+            "en": "I sleep at night.",
+            "cs": "Spím v noci.",
+            "pron": "aj slíp et najt"
+          }
+        ]
+      },
+      {
+        "id": "t3",
+        "title": "on = den",
+        "text": "On použijeme, když mluvíme o dni: o dni v týdnu, o datu nebo o zvláštním dni, třeba narozeninách. Den je plocha v kalendáři, na kterou se událost zapíše.",
+        "elements": [
+          {
+            "id": "dn",
+            "type": "den",
+            "label": "pondělí",
+            "relation": null
+          },
+          {
+            "id": "fi",
+            "type": "postava",
+            "label": "film",
+            "relation": {
+              "kind": "on",
+              "target": "dn"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "dn"
+            ],
+            "text": "List kalendáře je jeden den: pondělí."
+          },
+          {
+            "show": [
+              "dn",
+              "fi"
+            ],
+            "text": "Film je zapsaný na ten den, tedy on Monday. Stejně: on Friday, on my birthday, on the fifth of May. Když přidáš část dne, den má přednost: on Monday morning."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "t3-1",
+            "en": "The film is on Monday.",
+            "cs": "Film je v pondělí.",
+            "pron": "dhe film iz on MANdej"
+          },
+          {
+            "id": "t3-2",
+            "en": "My birthday is on the fifth of May.",
+            "cs": "Moje narozeniny jsou pátého května.",
+            "pron": "maj BÉTHdej iz on dhe fifth ev mej"
+          },
+          {
+            "id": "t3-3",
+            "en": "We have a party on Saturday.",
+            "cs": "Máme party v sobotu.",
+            "pron": "wí hev e PÁti on SAtedej"
+          }
+        ]
+      },
+      {
+        "id": "t4",
+        "title": "in = úsek",
+        "text": "In použijeme, když je čas delší úsek, ve kterém se něco děje: měsíc, roční období, rok nebo část dne (in the morning, in the afternoon, in the evening). Je to rámec, uvnitř kterého něco je.",
+        "elements": [
+          {
+            "id": "ob",
+            "type": "obdobi",
+            "label": "květen",
+            "relation": null
+          },
+          {
+            "id": "dd",
+            "type": "postava",
+            "label": "dovolená",
+            "relation": {
+              "kind": "in",
+              "target": "ob"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "ob"
+            ],
+            "text": "Květen je delší úsek, má začátek a konec."
+          },
+          {
+            "show": [
+              "ob",
+              "dd"
+            ],
+            "text": "Dovolená se odehrává uvnitř toho úseku, tedy in May. Stejně: in summer, in winter, in twenty twenty-six, in the morning."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "t4-1",
+            "en": "We have a holiday in May.",
+            "cs": "Máme dovolenou v květnu.",
+            "pron": "wí hev e HOlidej in mej"
+          },
+          {
+            "id": "t4-2",
+            "en": "It is cold in winter.",
+            "cs": "V zimě je zima.",
+            "pron": "it iz kould in WINte"
+          },
+          {
+            "id": "t4-3",
+            "en": "I work in the morning.",
+            "cs": "Pracuji dopoledne.",
+            "pron": "aj wék in dhe MÓning"
+          }
+        ]
+      },
+      {
+        "id": "t5",
+        "title": "Výjimky a časté chyby",
+        "text": "Pár výrazů se nedá odvodit, je dobré si je zapamatovat. Říká se at night, ale in the morning. Když k dni přidáš část dne, drží se on: on Monday morning. Britové říkají at the weekend. A před tomorrow, today, yesterday, next week a this year se předložka vůbec neříká.",
+        "elements": [
+          {
+            "id": "no",
+            "type": "hodiny",
+            "label": "noc",
+            "relation": null,
+            "hour": 12
+          },
+          {
+            "id": "ra",
+            "type": "obdobi",
+            "label": "ráno",
+            "relation": null
+          },
+          {
+            "id": "po",
+            "type": "den",
+            "label": "pondělí",
+            "relation": null
+          },
+          {
+            "id": "p1",
+            "type": "postava",
+            "label": "spánek",
+            "relation": {
+              "kind": "at",
+              "target": "no"
+            }
+          },
+          {
+            "id": "p2",
+            "type": "postava",
+            "label": "snídaně",
+            "relation": {
+              "kind": "in",
+              "target": "ra"
+            }
+          },
+          {
+            "id": "p3",
+            "type": "postava",
+            "label": "schůzka",
+            "relation": {
+              "kind": "on",
+              "target": "po"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "no",
+              "p1"
+            ],
+            "text": "Noc se bere jako okamžik: at night."
+          },
+          {
+            "show": [
+              "no",
+              "p1",
+              "ra",
+              "p2"
+            ],
+            "text": "Ale ráno, odpoledne a večer jsou úseky: in the morning, in the afternoon, in the evening."
+          },
+          {
+            "show": [
+              "no",
+              "p1",
+              "ra",
+              "p2",
+              "po",
+              "p3"
+            ],
+            "text": "Ráno v pondělí patří ke konkrétnímu dni, proto on Monday morning. Dále: at the weekend. Žádnou předložku nepotřebuješ u tomorrow, today, yesterday, next week a this year."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "t5-1",
+            "en": "I sleep at night.",
+            "cs": "Spím v noci.",
+            "pron": "aj slíp et najt"
+          },
+          {
+            "id": "t5-2",
+            "en": "We have breakfast in the morning.",
+            "cs": "Snídáme ráno.",
+            "pron": "wí hev BREKfest in dhe MÓning"
+          },
+          {
+            "id": "t5-3",
+            "en": "The meeting is on Monday morning.",
+            "cs": "Schůzka je v pondělí ráno.",
+            "pron": "dhe MÍting iz on MANdej MÓning"
+          },
+          {
+            "id": "t5-4",
+            "en": "I am at home at the weekend.",
+            "cs": "O víkendu jsem doma.",
+            "pron": "aj em et houm et dhe wíkEND"
+          }
+        ]
+      },
+      {
+        "id": "t6",
+        "title": "Shrnutí",
+        "text": "Tři otázky: je to okamžik (at), den (on), nebo úsek (in)? Stejné české „v“ nebo „o“ tak dostane správnou anglickou předložku.",
+        "elements": [
+          {
+            "id": "ho",
+            "type": "hodiny",
+            "label": "pět hodin",
+            "relation": null
+          },
+          {
+            "id": "dn",
+            "type": "den",
+            "label": "pondělí",
+            "relation": null
+          },
+          {
+            "id": "ob",
+            "type": "obdobi",
+            "label": "léto",
+            "relation": null
+          },
+          {
+            "id": "p1",
+            "type": "postava",
+            "label": "večeře",
+            "relation": {
+              "kind": "at",
+              "target": "ho"
+            }
+          },
+          {
+            "id": "p2",
+            "type": "postava",
+            "label": "koncert",
+            "relation": {
+              "kind": "on",
+              "target": "dn"
+            }
+          },
+          {
+            "id": "p3",
+            "type": "postava",
+            "label": "prázdniny",
+            "relation": {
+              "kind": "in",
+              "target": "ob"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "ho",
+              "p1"
+            ],
+            "text": "Jeden okamžik: at five o'clock."
+          },
+          {
+            "show": [
+              "ho",
+              "p1",
+              "dn",
+              "p2"
+            ],
+            "text": "Jeden den: on Monday."
+          },
+          {
+            "show": [
+              "ho",
+              "p1",
+              "dn",
+              "p2",
+              "ob",
+              "p3"
+            ],
+            "text": "Jeden úsek: in summer. Před každou předložkou si řekni: okamžik, den, úsek?"
+          }
+        ],
+        "sentences": [
+          {
+            "id": "t6-1",
+            "en": "We have dinner at five o'clock.",
+            "cs": "Večeříme v pět hodin.",
+            "pron": "wí hev DINe et fajv eKLOK"
+          },
+          {
+            "id": "t6-2",
+            "en": "The concert is on Monday.",
+            "cs": "Koncert je v pondělí.",
+            "pron": "dhe KONsət iz on MANdej"
+          },
+          {
+            "id": "t6-3",
+            "en": "We have holidays in summer.",
+            "cs": "Máme prázdniny v létě.",
+            "pron": "wí hev HOlidejz in SAme"
+          }
+        ]
+      }
+    ],
+    "quiz": [
+      {
+        "id": "tq1",
+        "en": "The meeting is ___ five o'clock.",
+        "cs": "Schůzka je v pět hodin.",
+        "answer": "at",
+        "why": "Přesná hodina je okamžik.",
+        "pron": "dhe MÍting iz et fajv eKLOK",
+        "full": "The meeting is at five o'clock."
+      },
+      {
+        "id": "tq2",
+        "en": "The film is ___ Monday.",
+        "cs": "Film je v pondělí.",
+        "answer": "on",
+        "why": "Den v týdnu je den, tedy on.",
+        "pron": "dhe film iz on MANdej",
+        "full": "The film is on Monday."
+      },
+      {
+        "id": "tq3",
+        "en": "We have a holiday ___ May.",
+        "cs": "Máme dovolenou v květnu.",
+        "answer": "in",
+        "why": "Měsíc je delší úsek.",
+        "pron": "wí hev e HOlidej in mej",
+        "full": "We have a holiday in May."
+      },
+      {
+        "id": "tq4",
+        "en": "The train leaves ___ noon.",
+        "cs": "Vlak odjíždí v poledne.",
+        "answer": "at",
+        "why": "Poledne je okamžik.",
+        "pron": "dhe trejn lívz et nún",
+        "full": "The train leaves at noon."
+      },
+      {
+        "id": "tq5",
+        "en": "My birthday is ___ the fifth of May.",
+        "cs": "Moje narozeniny jsou pátého května.",
+        "answer": "on",
+        "why": "Datum je den.",
+        "pron": "maj BÉTHdej iz on dhe fifth ev mej",
+        "full": "My birthday is on the fifth of May."
+      },
+      {
+        "id": "tq6",
+        "en": "It is cold ___ winter.",
+        "cs": "V zimě je zima.",
+        "answer": "in",
+        "why": "Roční období je delší úsek.",
+        "pron": "it iz kould in WINte",
+        "full": "It is cold in winter."
+      },
+      {
+        "id": "tq7",
+        "en": "I sleep ___ night.",
+        "cs": "Spím v noci.",
+        "answer": "at",
+        "why": "Noc se v angličtině bere jako okamžik.",
+        "pron": "aj slíp et najt",
+        "full": "I sleep at night."
+      },
+      {
+        "id": "tq8",
+        "en": "We have a party ___ Saturday.",
+        "cs": "Máme party v sobotu.",
+        "answer": "on",
+        "why": "Den v týdnu je den, tedy on.",
+        "pron": "wí hev e PÁti on SAtedej",
+        "full": "We have a party on Saturday."
+      },
+      {
+        "id": "tq9",
+        "en": "I work ___ the morning.",
+        "cs": "Pracuji dopoledne.",
+        "answer": "in",
+        "why": "Část dne (ráno, odpoledne, večer) je úsek.",
+        "pron": "aj wék in dhe MÓning",
+        "full": "I work in the morning."
+      },
+      {
+        "id": "tq10",
+        "en": "We have lunch ___ one o'clock.",
+        "cs": "Obědváme v jednu hodinu.",
+        "answer": "at",
+        "why": "Přesná hodina je okamžik.",
+        "pron": "wí hev lanč et wan eKLOK",
+        "full": "We have lunch at one o'clock."
+      },
+      {
+        "id": "tq11",
+        "en": "The concert is ___ Monday.",
+        "cs": "Koncert je v pondělí.",
+        "answer": "on",
+        "why": "Den v týdnu je den, tedy on.",
+        "pron": "dhe KONsət iz on MANdej",
+        "full": "The concert is on Monday."
+      },
+      {
+        "id": "tq12",
+        "en": "We have holidays ___ summer.",
+        "cs": "Máme prázdniny v létě.",
+        "answer": "in",
+        "why": "Roční období je delší úsek.",
+        "pron": "wí hev HOlidejz in SAme",
+        "full": "We have holidays in summer."
+      },
+      {
+        "id": "tq13",
+        "en": "I am at home ___ the weekend.",
+        "cs": "O víkendu jsem doma.",
+        "answer": "at",
+        "why": "Britové říkají at the weekend, víkend je jako okamžik.",
+        "pron": "aj em et houm et dhe wíkEND",
+        "full": "I am at home at the weekend."
+      },
+      {
+        "id": "tq14",
+        "en": "The meeting is ___ Monday morning.",
+        "cs": "Schůzka je v pondělí ráno.",
+        "answer": "on",
+        "why": "Když je u dne část dne, drží se on.",
+        "pron": "dhe MÍting iz on MANdej MÓning",
+        "full": "The meeting is on Monday morning."
+      },
+      {
+        "id": "tq15",
+        "en": "We have breakfast ___ the morning.",
+        "cs": "Snídáme ráno.",
+        "answer": "in",
+        "why": "Ráno je úsek.",
+        "pron": "wí hev BREKfest in dhe MÓning",
+        "full": "We have breakfast in the morning."
+      },
+      {
+        "id": "tq16",
+        "en": "The party is ___ Friday.",
+        "cs": "Party je v pátek.",
+        "answer": "on",
+        "why": "Den v týdnu je den, tedy on.",
+        "pron": "dhe PÁti iz on FRAJdej",
+        "full": "The party is on Friday."
+      },
+      {
+        "id": "tq17",
+        "en": "She was born ___ nineteen ninety.",
+        "cs": "Narodila se v roce devatenáct set devadesát.",
+        "answer": "in",
+        "why": "Rok je delší úsek.",
+        "pron": "ší woz bón in NAJNTÍN NAJNti",
+        "full": "She was born in nineteen ninety."
+      },
+      {
+        "id": "tq18",
+        "en": "The shop opens ___ half past nine.",
+        "cs": "Obchod se otevírá v půl desáté.",
+        "answer": "at",
+        "why": "Přesný čas je okamžik.",
+        "pron": "dhe šop OUpnz et háf pást najn",
+        "full": "The shop opens at half past nine."
       }
     ]
   }

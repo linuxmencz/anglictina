@@ -1,9 +1,10 @@
-// Vykreslení prostorových schémat (předložky místa) jako SVG – testuje se v Node, v prohlížeči běží jako window.Spatial.
+// Vykreslení prostorových schémat (předložky místa a času) jako SVG – testuje se v Node, v prohlížeči běží jako window.Spatial.
 // Veškerý text se vkládá přes textContent, nikdy jako HTML.
 (function (root) {
   const NS = 'http://www.w3.org/2000/svg';
   const WIDTH = 600; // šířka viewBoxu
   const R = 14; // poloměr postavy
+  const round2 = (n) => Math.round(n * 100) / 100;
 
   function el(doc, name, attrs = {}, text) {
     const node = doc.createElementNS(NS, name);
@@ -12,7 +13,7 @@
     return node;
   }
 
-  // Předmět: svislý kolík (bod), deska na podstavci (plocha) nebo obrys prostoru.
+  // Předmět: svislý kolík (bod), deska na podstavci (plocha), obrys prostoru, nebo časové předměty (hodiny, list dne, období).
   // Vrací { g, box } – box = {x, y, width, height} pro umístění postav.
   function drawLandmark(doc, item, cx, ground, colW, mini) {
     const g = el(doc, 'g', { 'data-element': item.id, class: 'sp-' + item.type });
@@ -27,6 +28,36 @@
         el(doc, 'rect', { x: box.x, y: box.y, width: w, height: 12, rx: 3, class: 'sp-slab' }),
         el(doc, 'line', { x1: box.x + 12, y1: box.y + 12, x2: box.x + 12, y2: ground, class: 'sp-leg' }),
         el(doc, 'line', { x1: box.x + w - 12, y1: box.y + 12, x2: box.x + w - 12, y2: ground, class: 'sp-leg' }),
+      );
+    } else if (item.type === 'hodiny') {
+      // Ciferník na stojanu; box je stojan (jako kolík), postava stojí vedle něj. Hodinová ručička ukazuje item.hour (výchozí pět).
+      box = { x: cx - 4, y: ground - 56, width: 8, height: 56 };
+      const r = mini ? 22 : 30; // v mini režimu menší, aby se ciferník vešel nad stojan
+      const cy = box.y - r;
+      const hour = (((item.hour || 5) % 12) * 30 * Math.PI) / 180; // výchozí pět hodin
+      g.append(
+        el(doc, 'rect', { x: box.x, y: box.y, width: box.width, height: box.height, rx: 3, class: 'sp-peg' }),
+        el(doc, 'circle', { cx, cy, r, class: 'sp-clock' }),
+        el(doc, 'line', { x1: cx, y1: cy, x2: cx, y2: round2(cy - 0.8 * r), class: 'sp-hand' }),
+        el(doc, 'line', { x1: cx, y1: cy, x2: round2(cx + 0.53 * r * Math.sin(hour)), y2: round2(cy - 0.53 * r * Math.cos(hour)), class: 'sp-hand' }),
+      );
+    } else if (item.type === 'den') {
+      // List kalendáře s hlavičkou; postava sedí na jeho horní hraně.
+      const w = Math.min(colW - 16, 110);
+      box = { x: cx - w / 2, y: ground - 80, width: w, height: 68 };
+      g.append(
+        el(doc, 'rect', { x: box.x, y: box.y, width: w, height: 68, rx: 6, class: 'sp-page' }),
+        el(doc, 'rect', { x: box.x, y: box.y, width: w, height: 18, rx: 6, class: 'sp-pagehead' }),
+        el(doc, 'line', { x1: box.x + 14, y1: box.y + 38, x2: box.x + w - 14, y2: box.y + 38, class: 'sp-leg' }),
+        el(doc, 'line', { x1: box.x + 14, y1: box.y + 52, x2: box.x + w - 34, y2: box.y + 52, class: 'sp-leg' }),
+      );
+    } else if (item.type === 'obdobi') {
+      // Rámeček s pruhem nahoře (úsek na ose); událost je uvnitř.
+      const w = Math.min(colW - 16, 170);
+      box = { x: cx - w / 2, y: ground - 100, width: w, height: 100 };
+      g.append(
+        el(doc, 'rect', { x: box.x, y: box.y, width: w, height: 100, rx: 14, class: 'sp-period' }),
+        el(doc, 'rect', { x: box.x + 10, y: box.y + 10, width: w - 20, height: 10, rx: 5, class: 'sp-band' }),
       );
     } else {
       const w = Math.min(colW - 16, 170);

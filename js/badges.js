@@ -37,7 +37,7 @@
       test: (p, ctx) => ctx.dialogsTotal > 0 && Object.keys(p.dialogs || {}).length >= ctx.dialogsTotal,
     },
     { id: 'grammar-tenses', icon: '⏳', title: 'Čas pod kontrolou', hint: 'Dokonči kvíz Present Perfect.', area: 'gramatika', test: (p) => plays(p, 'tenses') >= 1 },
-    { id: 'grammar-prepositions', icon: '📍', title: 'Správná předložka', hint: 'Dokonči kvíz předložek.', area: 'gramatika', test: (p) => plays(p, 'prepositions') >= 1 },
+    { id: 'grammar-prepositions', icon: '📍', title: 'Správná předložka', hint: 'Dokonči kvíz předložek místa.', area: 'gramatika', test: (p) => plays(p, 'prepositions') >= 1 },
     { id: 'challenge-1', icon: '🎯', title: 'Týdenní výzva', hint: 'Splň týdenní výzvu.', area: 'výzvy', test: (p) => challengeCount(p) >= 1 },
     { id: 'challenge-5', icon: '🏅', title: 'Pět výzev', hint: 'Splň 5 týdenních výzev.', area: 'výzvy', test: (p) => challengeCount(p) >= 5 },
     { id: 'challenge-10', icon: '🥇', title: 'Deset výzev', hint: 'Splň 10 týdenních výzev.', area: 'výzvy', test: (p) => challengeCount(p) >= 10 },

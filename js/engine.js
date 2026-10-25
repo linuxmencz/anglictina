@@ -13,7 +13,7 @@
   const MAX_CHALLENGES = 60; // horní mez počtu splněných týdnů výzev při importu zálohy
   const MAX_BADGES = 200; // horní mez počtu odznaků při importu zálohy
   const HISTORY_DAYS = 60; // kolik dní se pamatují body pro graf
-  const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching', 'sounds', 'dialogs', 'listening', 'tenses', 'prepositions'];
+  const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching', 'sounds', 'dialogs', 'listening', 'tenses', 'prepositions', 'timePrepositions'];
   const SENTENCE_COUNT = 8;
   const SENTENCE_MIN_TOKENS = 3;
   const MATCHING_ROUNDS = 3;
@@ -171,15 +171,16 @@
         afterText: `${item.en} – ${item.cs}`,
       });
     }
-    if (kind === 'prepositions') {
-      // sceneId = scéna předložek, jejíž diagram se ukáže u možnosti (p2 = at, p3 = on, p4 = in); věta se čte až po odpovědi
+    if (kind === 'prepositions' || kind === 'timePrepositions') {
+      // sceneId = scéna předložek, jejíž diagram se ukáže u možnosti (p2 / t2 = at, p3 / t3 = on, p4 / t4 = in); věta se čte až po odpovědi
+      const sc = kind === 'prepositions' ? 'p' : 't';
       return Object.assign(base, {
         prompt: 'Která předložka patří do věty?',
         big: item.en,
         options: shuffle([
-          { text: 'at', correct: item.answer === 'at', sceneId: 'p2' },
-          { text: 'on', correct: item.answer === 'on', sceneId: 'p3' },
-          { text: 'in', correct: item.answer === 'in', sceneId: 'p4' },
+          { text: 'at', correct: item.answer === 'at', sceneId: sc + '2' },
+          { text: 'on', correct: item.answer === 'on', sceneId: sc + '3' },
+          { text: 'in', correct: item.answer === 'in', sceneId: sc + '4' },
         ], rng),
         explanation: item.why,
         afterText: `${item.full} – ${item.cs}`,
