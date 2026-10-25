@@ -23,7 +23,7 @@
 </head>
 <body>
   <header class="topbar">
-    <button id="back" class="back" type="button" hidden>← Domů</button>
+    <button id="back" class="back" type="button" hidden>← Zpět</button>
     <button id="home" class="brand" type="button"><img src="icons/icon-192.png" alt="" width="32" height="32">Angličtina</button>
     <div class="stats">
       <span id="streak" title="Série dní za sebou">🔥 0</span>
@@ -31,10 +31,21 @@
     </div>
   </header>
   <main id="app" aria-live="polite"></main>
+  <nav id="tabs" class="tabbar" aria-label="Hlavní navigace" hidden>
+    <button type="button" data-tab="path">🗺️ Cesta</button>
+    <button type="button" data-tab="practice">🏋️ Procvičování</button>
+    <button type="button" data-tab="progress">📈 Pokrok</button>
+    <button type="button" data-tab="settings">⚙️ Nastavení</button>
+  </nav>
 
   <script src="js/data/words.js"></script>
   <script src="js/data/extras.js"></script>
   <script src="js/engine.js"></script>
+  <script src="js/timeline.js"></script>
+  <script src="js/spatial.js"></script>
+  <script src="js/path.js"></script>
+  <script src="js/badges.js"></script>
+  <script src="js/challenges.js"></script>
   <script src="js/recorder.js"></script>
   <script src="js/app.js"></script>
 </body>

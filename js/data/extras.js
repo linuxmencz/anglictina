@@ -1,4 +1,4 @@
-// Generováno skriptem tools/build_content.py z obsah-faze2.md a obsah-vyslovnost.md – needituj ručně.
+// Generováno skriptem tools/build_content.py z obsah-faze2.md, obsah-vyslovnost.md, obsah-dialogy.md, obsah-gramatika.md a obsah-predlozky.md – needituj ručně.
 window.EXTRAS = {
   "mistakes": [
     {
@@ -3090,5 +3090,1096 @@ window.EXTRAS = {
         }
       ]
     }
-  ]
+  ],
+  "grammar": {
+    "scenes": [
+      {
+        "id": "g1",
+        "title": "Čeština × angličtina",
+        "text": "Čeština má jednu minulost, ale angličtina se ptá: skončil ten děj, nebo se týká i přítomnosti? Podle odpovědi použije Past Simple nebo Present Perfect.",
+        "events": [
+          {
+            "id": "cz",
+            "from": 5,
+            "to": 55,
+            "type": "rámec",
+            "label": "česky: jedna minulost"
+          },
+          {
+            "id": "ps",
+            "from": 20,
+            "to": 20,
+            "type": "bod",
+            "label": "skončilo to"
+          },
+          {
+            "id": "pp",
+            "from": 20,
+            "to": 60,
+            "type": "výsledek",
+            "label": "týká se to i teď"
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "cz"
+            ],
+            "text": "Česky stačí jedna minulost: „viděl jsem ten film“. Je jedno, jestli s tím něco souvisí i dnes."
+          },
+          {
+            "show": [
+              "cz",
+              "ps"
+            ],
+            "text": "Angličtina se nejdřív ptá: je to uzavřená událost v minulosti (třeba loni)? Pak použije Past Simple."
+          },
+          {
+            "show": [
+              "cz",
+              "ps",
+              "pp"
+            ],
+            "text": "Nebo má děj následek či význam teď (třeba zkušenost)? Pak použije Present Perfect."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "g1-1",
+            "en": "I saw that film last year.",
+            "cs": "Ten film jsem viděl loni.",
+            "pron": "aj só dhat film last jie"
+          },
+          {
+            "id": "g1-2",
+            "en": "I have seen that film.",
+            "cs": "Ten film jsem už viděl.",
+            "pron": "aj hev sín dhat film"
+          }
+        ]
+      },
+      {
+        "id": "g2",
+        "title": "Past Simple: uzavřený bod",
+        "text": "Past Simple říká, že se něco stalo v určitém okamžiku v minulosti. Ten okamžik je odříznutý od přítomnosti a obvykle ho řekneme: yesterday, last week, two days ago.",
+        "events": [
+          {
+            "id": "l",
+            "from": 25,
+            "to": 25,
+            "type": "bod",
+            "label": "ztratil jsem klíče"
+          },
+          {
+            "id": "y",
+            "from": 15,
+            "to": 35,
+            "type": "rámec",
+            "label": "včera"
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "l"
+            ],
+            "text": "Past Simple: děj se stal v jednom bodě v minulosti a skončil."
+          },
+          {
+            "show": [
+              "l",
+              "y"
+            ],
+            "text": "Většinou řekneme kdy: yesterday, last year, in May, two days ago. Od TEĎ je to oddělené."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "g2-1",
+            "en": "I lost my keys yesterday.",
+            "cs": "Včera jsem ztratil klíče.",
+            "pron": "aj lost maj kíz JEStedej"
+          },
+          {
+            "id": "g2-2",
+            "en": "She called me two days ago.",
+            "cs": "Volala mi před dvěma dny.",
+            "pron": "ší kóld mí tu dejz eGOU"
+          },
+          {
+            "id": "g2-3",
+            "en": "We went to London last year.",
+            "cs": "Loni jsme jeli do Londýna.",
+            "pron": "wí went tu LAndn last jie"
+          }
+        ]
+      },
+      {
+        "id": "g3",
+        "title": "Present Perfect: výsledek trvá teď",
+        "text": "Present Perfect spojuje minulost s přítomností. Něco se stalo dřív, ale důležitý je výsledek teď. Tvoří se have nebo has a třetí tvar slovesa (lost, seen, been).",
+        "events": [
+          {
+            "id": "l",
+            "from": 30,
+            "to": 30,
+            "type": "bod",
+            "label": "ztratil jsem klíče"
+          },
+          {
+            "id": "r",
+            "from": 30,
+            "to": 60,
+            "type": "výsledek",
+            "label": "nemám je teď"
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "l"
+            ],
+            "text": "Něco se stalo v minulosti, ale nezajímá nás kdy."
+          },
+          {
+            "show": [
+              "l",
+              "r"
+            ],
+            "text": "Zajímá nás následek, který trvá do TEĎ: klíče jsou pořád pryč. Proto have + lost."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "g3-1",
+            "en": "I have lost my keys.",
+            "cs": "Ztratil jsem klíče (a nemám je).",
+            "pron": "aj hev lost maj kíz"
+          },
+          {
+            "id": "g3-2",
+            "en": "She has broken her phone.",
+            "cs": "Rozbila si telefon (a je rozbitý).",
+            "pron": "ší hez BROUken he FOUN"
+          },
+          {
+            "id": "g3-3",
+            "en": "They have missed the bus.",
+            "cs": "Ujel jim autobus (a teď čekají).",
+            "pron": "dhej hev mist dhe bas"
+          }
+        ]
+      },
+      {
+        "id": "g4",
+        "title": "Zkušenost",
+        "text": "Present Perfect říká i „někdy v životě“. Celé dosavadní období až do TEĎ je jedno velké období a nezáleží na tom, kdy přesně to bylo. Ptáme se Have you ever…? a odpovídáme I have / I have never…",
+        "events": [
+          {
+            "id": "zivot",
+            "from": 0,
+            "to": 60,
+            "type": "rámec",
+            "label": "celý život až do teď"
+          },
+          {
+            "id": "a",
+            "from": 15,
+            "to": 15,
+            "type": "bod",
+            "label": "jednou"
+          },
+          {
+            "id": "b",
+            "from": 40,
+            "to": 40,
+            "type": "bod",
+            "label": "podruhé"
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "zivot"
+            ],
+            "text": "Celý dosavadní život je jedno období až do TEĎ."
+          },
+          {
+            "show": [
+              "zivot",
+              "a",
+              "b"
+            ],
+            "text": "Zkušenost se mohla stát kdykoli. Nezáleží kdy, záleží, že ji máš: ever = někdy, never = nikdy dosud."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "g4-1",
+            "en": "Have you ever been to London?",
+            "cs": "Byl jsi někdy v Londýně?",
+            "pron": "hev jú EVe bín tu LAndn"
+          },
+          {
+            "id": "g4-2",
+            "en": "I have never eaten sushi.",
+            "cs": "Nikdy jsem nejedl sushi.",
+            "pron": "aj hev NEve ítn SÚši"
+          },
+          {
+            "id": "g4-3",
+            "en": "She has visited Paris twice.",
+            "cs": "Dvakrát navštívila Paříž.",
+            "pron": "ší hez VIzitid PAris twajs"
+          }
+        ]
+      },
+      {
+        "id": "g5",
+        "title": "for a since",
+        "text": "Když děj začal v minulosti a trvá dodnes, česky použijeme přítomný čas („bydlím tu pět let“). Angličtina použije Present Perfect: I have lived here for five years.",
+        "events": [
+          {
+            "id": "s",
+            "from": 20,
+            "to": 20,
+            "type": "bod",
+            "label": "začátek"
+          },
+          {
+            "id": "d",
+            "from": 20,
+            "to": 60,
+            "type": "úsek",
+            "label": "trvá dodnes"
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "s"
+            ],
+            "text": "Děj začal v minulosti."
+          },
+          {
+            "show": [
+              "s",
+              "d"
+            ],
+            "text": "A trvá až do TEĎ. Česky řekneš „bydlím tu pět let“ (přítomný čas), anglicky „I have lived here…“"
+          },
+          {
+            "show": [
+              "s",
+              "d"
+            ],
+            "text": "for = jak dlouho (for five years), since = od kdy (since Monday)."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "g5-1",
+            "en": "I have lived here for five years.",
+            "cs": "Bydlím tu pět let.",
+            "pron": "aj hev livd hie fó fajv jiez"
+          },
+          {
+            "id": "g5-2",
+            "en": "He has worked here since Monday.",
+            "cs": "Pracuje tu od pondělí.",
+            "pron": "hí hez wékt hie sins MAndej"
+          },
+          {
+            "id": "g5-3",
+            "en": "How long have you lived here?",
+            "cs": "Jak dlouho tu bydlíš?",
+            "pron": "hau long hev jú livd hie"
+          }
+        ]
+      },
+      {
+        "id": "g6",
+        "title": "just, already, yet",
+        "text": "Tři malá slovíčka s Present Perfectem: just (právě teď), already (už) a yet (zatím; v otázce a záporu).",
+        "events": [
+          {
+            "id": "j",
+            "from": 55,
+            "to": 55,
+            "type": "bod",
+            "label": "just: právě teď"
+          },
+          {
+            "id": "al",
+            "from": 40,
+            "to": 40,
+            "type": "bod",
+            "label": "already: už"
+          },
+          {
+            "id": "ye",
+            "from": 75,
+            "to": 75,
+            "type": "bod",
+            "label": "yet: zatím ne"
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "j"
+            ],
+            "text": "just = právě teď, těsně před TEĎ: I have just finished."
+          },
+          {
+            "show": [
+              "j",
+              "al"
+            ],
+            "text": "already = už (dřív, než se čekalo): She has already left."
+          },
+          {
+            "show": [
+              "j",
+              "al",
+              "ye"
+            ],
+            "text": "yet = zatím (ne): I haven't eaten yet. Tečka za TEĎ ukazuje, že to ještě přijde."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "g6-1",
+            "en": "I have just finished.",
+            "cs": "Právě jsem skončil.",
+            "pron": "aj hev džast FIništ"
+          },
+          {
+            "id": "g6-2",
+            "en": "She has already left.",
+            "cs": "Už odešla.",
+            "pron": "ší hez ólREdi left"
+          },
+          {
+            "id": "g6-3",
+            "en": "I haven't eaten yet.",
+            "cs": "Ještě jsem nejedl.",
+            "pron": "aj HEvnt ítn jet"
+          }
+        ]
+      }
+    ],
+    "quiz": [
+      {
+        "id": "gq1",
+        "en": "I lost my keys yesterday.",
+        "cs": "Včera jsem ztratil klíče.",
+        "answer": "PS",
+        "why": "Je tam yesterday, tedy konkrétní čas v minulosti.",
+        "pron": "aj lost maj kíz JEStedej"
+      },
+      {
+        "id": "gq2",
+        "en": "She visited Paris last year.",
+        "cs": "Loni navštívila Paříž.",
+        "answer": "PS",
+        "why": "Last year je uzavřené období, které skončilo.",
+        "pron": "ší VIzitid PAris last jie"
+      },
+      {
+        "id": "gq3",
+        "en": "We saw that film two days ago.",
+        "cs": "Ten film jsme viděli před dvěma dny.",
+        "answer": "PS",
+        "why": "Ago říká, kdy přesně se to stalo.",
+        "pron": "wí só dhat film tu dejz eGOU"
+      },
+      {
+        "id": "gq4",
+        "en": "He didn't call me on Monday.",
+        "cs": "V pondělí mi nezavolal.",
+        "answer": "PS",
+        "why": "On Monday je konkrétní den v minulosti.",
+        "pron": "hí DIdnt kól mí on MAndej"
+      },
+      {
+        "id": "gq5",
+        "en": "I bought this bag last month.",
+        "cs": "Tu tašku jsem koupil minulý měsíc.",
+        "answer": "PS",
+        "why": "Last month je uzavřený čas v minulosti.",
+        "pron": "aj bót dhis beg last manth"
+      },
+      {
+        "id": "gq6",
+        "en": "They arrived at six o'clock.",
+        "cs": "Přijeli v šest hodin.",
+        "answer": "PS",
+        "why": "Přesná hodina znamená Past Simple.",
+        "pron": "dhej eRAJvd et siks eKLOK"
+      },
+      {
+        "id": "gq7",
+        "en": "When did you finish school?",
+        "cs": "Kdy jsi dokončil školu?",
+        "answer": "PS",
+        "why": "Otázka s When ptá na konkrétní čas, proto Past Simple.",
+        "pron": "wen did jú FInIš skúl"
+      },
+      {
+        "id": "gq8",
+        "en": "I have lost my keys.",
+        "cs": "Ztratil jsem klíče (a nemám je).",
+        "answer": "PP",
+        "why": "Čas neříkáme, důležitý je následek: klíče jsou pryč teď.",
+        "pron": "aj hev lost maj kíz"
+      },
+      {
+        "id": "gq9",
+        "en": "Have you ever been to Prague?",
+        "cs": "Byl jsi někdy v Praze?",
+        "answer": "PP",
+        "why": "Ever znamená někdy v životě, to je zkušenost.",
+        "pron": "hev jú EVe bín tu prág"
+      },
+      {
+        "id": "gq10",
+        "en": "I have never eaten sushi.",
+        "cs": "Nikdy jsem nejedl sushi.",
+        "answer": "PP",
+        "why": "Never znamená nikdy dosud, tedy až do teď.",
+        "pron": "aj hev NEve ítn SÚši"
+      },
+      {
+        "id": "gq11",
+        "en": "She has already left.",
+        "cs": "Už odešla.",
+        "answer": "PP",
+        "why": "Already a následek teď: už tu není.",
+        "pron": "ší hez ólREdi left"
+      },
+      {
+        "id": "gq12",
+        "en": "We have lived here for ten years.",
+        "cs": "Bydlíme tu deset let.",
+        "answer": "PP",
+        "why": "For ukazuje, že to trvá až do teď.",
+        "pron": "wí hev livd hie fó ten jiez"
+      },
+      {
+        "id": "gq13",
+        "en": "He has just finished work.",
+        "cs": "Právě skončil práci.",
+        "answer": "PP",
+        "why": "Just znamená právě teď, výsledek platí teď.",
+        "pron": "hí hez džast FIništ wék"
+      },
+      {
+        "id": "gq14",
+        "en": "I haven't seen him since Monday.",
+        "cs": "Neviděl jsem ho od pondělí.",
+        "answer": "PP",
+        "why": "Since znamená od kdy a trvá až do teď.",
+        "pron": "aj HEvnt sín him sins MAndej"
+      }
+    ]
+  },
+  "prepositions": {
+    "scenes": [
+      {
+        "id": "p1",
+        "title": "Čeština × angličtina",
+        "text": "Česky řekneme skoro vždy „v“ nebo „na“. Angličtina se ptá jinak: je to místo jako bod, plocha, nebo prostor? Podle odpovědi použije at, on, nebo in.",
+        "elements": [
+          {
+            "id": "dv",
+            "type": "bod",
+            "label": "dveře",
+            "relation": null
+          },
+          {
+            "id": "st",
+            "type": "plocha",
+            "label": "stůl",
+            "relation": null
+          },
+          {
+            "id": "mi",
+            "type": "prostor",
+            "label": "místnost",
+            "relation": null
+          },
+          {
+            "id": "p1",
+            "type": "postava",
+            "label": "já",
+            "relation": {
+              "kind": "at",
+              "target": "dv"
+            }
+          },
+          {
+            "id": "p2",
+            "type": "postava",
+            "label": "šálek",
+            "relation": {
+              "kind": "on",
+              "target": "st"
+            }
+          },
+          {
+            "id": "p3",
+            "type": "postava",
+            "label": "pes",
+            "relation": {
+              "kind": "in",
+              "target": "mi"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "dv",
+              "p1"
+            ],
+            "text": "Bod: místo vnímáme jako značku na mapě, třeba dveře. Říkáme at."
+          },
+          {
+            "show": [
+              "dv",
+              "p1",
+              "st",
+              "p2"
+            ],
+            "text": "Plocha: něco leží nebo visí na povrchu, třeba na stole. Říkáme on."
+          },
+          {
+            "show": [
+              "dv",
+              "p1",
+              "st",
+              "p2",
+              "mi",
+              "p3"
+            ],
+            "text": "Prostor: něco je uvnitř, obklopené stěnami nebo hranicemi, třeba v místnosti. Říkáme in."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "p1-1",
+            "en": "I am at the door.",
+            "cs": "Jsem u dveří.",
+            "pron": "aj em et dhe dó"
+          },
+          {
+            "id": "p1-2",
+            "en": "The cup is on the table.",
+            "cs": "Šálek je na stole.",
+            "pron": "dhe kap iz on dhe TEjbl"
+          },
+          {
+            "id": "p1-3",
+            "en": "The dog is in the room.",
+            "cs": "Pes je v místnosti.",
+            "pron": "dhe dog iz in dhe rúm"
+          }
+        ]
+      },
+      {
+        "id": "p2",
+        "title": "at = bod",
+        "text": "At použijeme, když místo bereme jako jeden bod, kde se něco děje nebo kde se potkáme. Je to třeba dveře, škola, zastávka, nádraží nebo práce.",
+        "elements": [
+          {
+            "id": "dv",
+            "type": "bod",
+            "label": "dveře",
+            "relation": null
+          },
+          {
+            "id": "ja",
+            "type": "postava",
+            "label": "já",
+            "relation": {
+              "kind": "at",
+              "target": "dv"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "dv"
+            ],
+            "text": "Dveře jsou jeden bod, místo, kde se dá stát nebo na někoho počkat."
+          },
+          {
+            "show": [
+              "dv",
+              "ja"
+            ],
+            "text": "Stojím u toho bodu, tedy at the door. Stejně: at school, at the bus stop, at the station, at work."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "p2-1",
+            "en": "I am at the door.",
+            "cs": "Jsem u dveří.",
+            "pron": "aj em et dhe dó"
+          },
+          {
+            "id": "p2-2",
+            "en": "She is at school.",
+            "cs": "Je ve škole.",
+            "pron": "ší iz et skúl"
+          },
+          {
+            "id": "p2-3",
+            "en": "He is at the bus stop.",
+            "cs": "Je na zastávce.",
+            "pron": "hí iz et dhe bas stop"
+          }
+        ]
+      },
+      {
+        "id": "p3",
+        "title": "on = plocha / linka",
+        "text": "On použijeme, když je něco na povrchu: na zdi, na stole, na podlaží budovy. Je to plocha nebo linka, na které něco leží, visí nebo se nachází.",
+        "elements": [
+          {
+            "id": "st",
+            "type": "plocha",
+            "label": "stůl",
+            "relation": null
+          },
+          {
+            "id": "kn",
+            "type": "postava",
+            "label": "kniha",
+            "relation": {
+              "kind": "on",
+              "target": "st"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "st"
+            ],
+            "text": "Stůl je plocha. Něco na ní může ležet."
+          },
+          {
+            "show": [
+              "st",
+              "kn"
+            ],
+            "text": "Kniha leží na ploše, tedy on the table. Stejně: on the wall, on the first floor."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "p3-1",
+            "en": "The picture is on the wall.",
+            "cs": "Obraz visí na zdi.",
+            "pron": "dhe PIkče iz on dhe wól"
+          },
+          {
+            "id": "p3-2",
+            "en": "The book is on the table.",
+            "cs": "Kniha je na stole.",
+            "pron": "dhe buk iz on dhe TEjbl"
+          },
+          {
+            "id": "p3-3",
+            "en": "My room is on the first floor.",
+            "cs": "Můj pokoj je v prvním patře.",
+            "pron": "maj rúm iz on dhe fést fló"
+          }
+        ]
+      },
+      {
+        "id": "p4",
+        "title": "in = prostor",
+        "text": "In použijeme, když je něco uvnitř prostoru, který něco obklopuje: místnost, zahrada, město nebo země. Je to prostor s hranicemi.",
+        "elements": [
+          {
+            "id": "mi",
+            "type": "prostor",
+            "label": "místnost",
+            "relation": null
+          },
+          {
+            "id": "ja",
+            "type": "postava",
+            "label": "já",
+            "relation": {
+              "kind": "in",
+              "target": "mi"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "mi"
+            ],
+            "text": "Místnost je prostor. Má stěny, podlahu a strop, takže se v ní dá být uvnitř."
+          },
+          {
+            "show": [
+              "mi",
+              "ja"
+            ],
+            "text": "Jsem uvnitř toho prostoru, tedy in the room. Stejně: in the garden, in London."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "p4-1",
+            "en": "I am in the room.",
+            "cs": "Jsem v místnosti.",
+            "pron": "aj em in dhe rúm"
+          },
+          {
+            "id": "p4-2",
+            "en": "The dog is in the garden.",
+            "cs": "Pes je na zahradě.",
+            "pron": "dhe dog iz in dhe GÁdn"
+          },
+          {
+            "id": "p4-3",
+            "en": "They live in London.",
+            "cs": "Bydlí v Londýně.",
+            "pron": "dhej liv in LAndn"
+          }
+        ]
+      },
+      {
+        "id": "p5",
+        "title": "Doprava",
+        "text": "Po autobuse, vlaku nebo letadle se dá chodit, proto jsou to plochy a říkáme on. Auto a taxi jsou malé a uzavřené, proto jsou to prostory a říkáme in.",
+        "elements": [
+          {
+            "id": "autobus",
+            "type": "plocha",
+            "label": "autobus",
+            "relation": null
+          },
+          {
+            "id": "auto",
+            "type": "prostor",
+            "label": "auto",
+            "relation": null
+          },
+          {
+            "id": "p1",
+            "type": "postava",
+            "label": "já",
+            "relation": {
+              "kind": "on",
+              "target": "autobus"
+            }
+          },
+          {
+            "id": "p2",
+            "type": "postava",
+            "label": "ona",
+            "relation": {
+              "kind": "in",
+              "target": "auto"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "autobus",
+              "p1"
+            ],
+            "text": "Po velkém vozidle se dá chodit: on the bus, on the train, on the plane. Je to plocha."
+          },
+          {
+            "show": [
+              "autobus",
+              "p1",
+              "auto",
+              "p2"
+            ],
+            "text": "Malé uzavřené vozidlo je prostor: in the car, in a taxi."
+          },
+          {
+            "show": [
+              "autobus",
+              "p1",
+              "auto",
+              "p2"
+            ],
+            "text": "Pozor, výjimky: na kole a na koni se sedí nahoře, proto on a bike, on a horse."
+          }
+        ],
+        "sentences": [
+          {
+            "id": "p5-1",
+            "en": "I am on the bus.",
+            "cs": "Jsem v autobuse.",
+            "pron": "aj em on dhe bas"
+          },
+          {
+            "id": "p5-2",
+            "en": "She is in the car.",
+            "cs": "Sedí v autě.",
+            "pron": "ší iz in dhe ká"
+          },
+          {
+            "id": "p5-3",
+            "en": "We are in a taxi.",
+            "cs": "Jedeme v taxíku.",
+            "pron": "wí á in e TAKsi"
+          }
+        ]
+      },
+      {
+        "id": "p6",
+        "title": "Shrnutí",
+        "text": "Tři otázky: je to bod (at), plocha (on), nebo prostor (in)? Stejné slovo „v“ nebo „na“ z češtiny tak dostane správnou anglickou předložku.",
+        "elements": [
+          {
+            "id": "dv",
+            "type": "bod",
+            "label": "dveře",
+            "relation": null
+          },
+          {
+            "id": "st",
+            "type": "plocha",
+            "label": "stůl",
+            "relation": null
+          },
+          {
+            "id": "mi",
+            "type": "prostor",
+            "label": "místnost",
+            "relation": null
+          },
+          {
+            "id": "p1",
+            "type": "postava",
+            "label": "kočka",
+            "relation": {
+              "kind": "at",
+              "target": "dv"
+            }
+          },
+          {
+            "id": "p2",
+            "type": "postava",
+            "label": "šálek",
+            "relation": {
+              "kind": "on",
+              "target": "st"
+            }
+          },
+          {
+            "id": "p3",
+            "type": "postava",
+            "label": "pes",
+            "relation": {
+              "kind": "in",
+              "target": "mi"
+            }
+          }
+        ],
+        "steps": [
+          {
+            "show": [
+              "dv",
+              "p1"
+            ],
+            "text": "Jeden bod: at the door."
+          },
+          {
+            "show": [
+              "dv",
+              "p1",
+              "st",
+              "p2"
+            ],
+            "text": "Jedna plocha: on the table."
+          },
+          {
+            "show": [
+              "dv",
+              "p1",
+              "st",
+              "p2",
+              "mi",
+              "p3"
+            ],
+            "text": "Jeden prostor: in the room. Před každou předložkou si řekni: bod, plocha, prostor?"
+          }
+        ],
+        "sentences": [
+          {
+            "id": "p6-1",
+            "en": "The cat is at the door.",
+            "cs": "Kočka je u dveří.",
+            "pron": "dhe ket iz et dhe dó"
+          },
+          {
+            "id": "p6-2",
+            "en": "The cup is on the table.",
+            "cs": "Šálek je na stole.",
+            "pron": "dhe kap iz on dhe TEjbl"
+          },
+          {
+            "id": "p6-3",
+            "en": "The dog is in the room.",
+            "cs": "Pes je v místnosti.",
+            "pron": "dhe dog iz in dhe rúm"
+          }
+        ]
+      }
+    ],
+    "quiz": [
+      {
+        "id": "pq1",
+        "en": "She is ___ the door.",
+        "cs": "Je u dveří.",
+        "answer": "at",
+        "why": "Dveře jsou bod, místo, u kterého stojíme.",
+        "pron": "ší iz et dhe dó",
+        "full": "She is at the door."
+      },
+      {
+        "id": "pq2",
+        "en": "The picture is ___ the wall.",
+        "cs": "Obraz visí na zdi.",
+        "answer": "on",
+        "why": "Zeď je plocha, na které něco visí.",
+        "pron": "dhe PIkče iz on dhe wól",
+        "full": "The picture is on the wall."
+      },
+      {
+        "id": "pq3",
+        "en": "The chair is ___ the room.",
+        "cs": "Židle je v místnosti.",
+        "answer": "in",
+        "why": "Místnost je prostor, jsme v ní uvnitř.",
+        "pron": "dhe čeə iz in dhe rúm",
+        "full": "The chair is in the room."
+      },
+      {
+        "id": "pq4",
+        "en": "I am ___ school.",
+        "cs": "Jsem ve škole.",
+        "answer": "at",
+        "why": "Škola je místo chápané jako bod.",
+        "pron": "aj em et skúl",
+        "full": "I am at school."
+      },
+      {
+        "id": "pq5",
+        "en": "The cup is ___ the table.",
+        "cs": "Šálek je na stole.",
+        "answer": "on",
+        "why": "Stůl je plocha, na které něco leží.",
+        "pron": "dhe kap iz on dhe TEjbl",
+        "full": "The cup is on the table."
+      },
+      {
+        "id": "pq6",
+        "en": "The children are ___ the garden.",
+        "cs": "Děti jsou na zahradě.",
+        "answer": "in",
+        "why": "Zahrada je prostor s hranicemi, jsme v ní uvnitř.",
+        "pron": "dhe ČILdren á in dhe GÁdn",
+        "full": "The children are in the garden."
+      },
+      {
+        "id": "pq7",
+        "en": "We are ___ the bus stop.",
+        "cs": "Jsme na zastávce.",
+        "answer": "at",
+        "why": "Zastávka je bod, místo setkání.",
+        "pron": "wí á et dhe bas stop",
+        "full": "We are at the bus stop."
+      },
+      {
+        "id": "pq8",
+        "en": "My flat is ___ the first floor.",
+        "cs": "Můj byt je v prvním patře.",
+        "answer": "on",
+        "why": "Patro je úroveň, tedy plocha budovy.",
+        "pron": "maj flet iz on dhe fést fló",
+        "full": "My flat is on the first floor."
+      },
+      {
+        "id": "pq9",
+        "en": "My aunt lives ___ London.",
+        "cs": "Moje teta bydlí v Londýně.",
+        "answer": "in",
+        "why": "Město je prostor, ve kterém se bydlí.",
+        "pron": "maj ánt livz in LAndn",
+        "full": "My aunt lives in London."
+      },
+      {
+        "id": "pq10",
+        "en": "He is ___ the station.",
+        "cs": "Je na nádraží.",
+        "answer": "at",
+        "why": "Nádraží je místo chápané jako bod.",
+        "pron": "hí iz et dhe STejšn",
+        "full": "He is at the station."
+      },
+      {
+        "id": "pq11",
+        "en": "I am ___ the bus.",
+        "cs": "Jsem v autobuse.",
+        "answer": "on",
+        "why": "Po autobuse se dá chodit, je to plocha.",
+        "pron": "aj em on dhe bas",
+        "full": "I am on the bus."
+      },
+      {
+        "id": "pq12",
+        "en": "He is ___ the car.",
+        "cs": "Sedí v autě.",
+        "answer": "in",
+        "why": "Auto je malé uzavřené vozidlo, tedy prostor.",
+        "pron": "hí iz in dhe ká",
+        "full": "He is in the car."
+      },
+      {
+        "id": "pq13",
+        "en": "They are ___ work.",
+        "cs": "Jsou v práci.",
+        "answer": "at",
+        "why": "Práce je místo chápané jako bod.",
+        "pron": "dhej á et wék",
+        "full": "They are at work."
+      },
+      {
+        "id": "pq14",
+        "en": "We are ___ the plane.",
+        "cs": "Jsme v letadle.",
+        "answer": "on",
+        "why": "Po letadle se dá chodit, je to plocha.",
+        "pron": "wí á on dhe plejn",
+        "full": "We are on the plane."
+      },
+      {
+        "id": "pq15",
+        "en": "She is ___ a taxi.",
+        "cs": "Jede v taxíku.",
+        "answer": "in",
+        "why": "Taxi je malé uzavřené vozidlo, tedy prostor.",
+        "pron": "ší iz in e TAKsi",
+        "full": "She is in a taxi."
+      }
+    ]
+  }
 };

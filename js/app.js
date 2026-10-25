@@ -27,6 +27,8 @@
     pairs: { hue: 180, title: 'Minimální páry', icon: '👂', hint: 'Poslech: ship nebo sheep?', items: window.EXTRAS.pairs },
     listening: { hue: 200, title: 'Poslech', icon: '🎧', hint: 'Slyšíš slovo nebo větu: vyber význam nebo napiš', start: () => startListening() },
     sounds: { hue: 340, title: 'Výslovnost: th a w/v', icon: '👅', hint: 'Návod, slova, jazykolamy a poslech', start: () => showSounds() },
+    tenses: { hue: 250, title: 'Gramatika: Present Perfect', icon: '⏳', hint: 'Časové osy a kvíz Past Simple × Present Perfect', start: () => showGrammar('tenses') },
+    prepositions: { hue: 25, title: 'Gramatika: předložky místa', icon: '📍', hint: 'Schémata at / on / in a kvíz', start: () => showGrammar('prepositions') },
     dialogs: { hue: 160, title: 'Dialogy ze situací', icon: '💬', hint: 'Restaurace, letiště, lékař… poslech a odpovědi', start: () => showDialogs() },
     sentences: { hue: 120, title: 'Skládání vět', icon: '🧩', hint: 'Seřaď slova do správné věty', start: () => startSentences() },
     matching: { hue: 20, title: 'Přiřazování dvojic', icon: '🔗', hint: 'Spoj anglické slovo s českým', start: () => startMatching() },
@@ -49,9 +51,12 @@
 
   const app = document.getElementById('app');
   const backButton = document.getElementById('back');
+  const tabBar = document.getElementById('tabs');
   let progress = Engine.loadProgress(window.localStorage);
   let currentAudio = null;
-  let renderingHome = false;
+  let lastTab = 'path'; // naposledy zobrazená záložka, kam vede tlačítko Zpět
+  let messageTimer = null; // časovač hlášky na Cestě (zpoždění oznámení a samovolné smazání)
+  let renderingTab = null; // název záložky, kterou právě vykresluje showTab (jinak null)
 
   // ---------- pomocné funkce ----------
 
@@ -70,9 +75,17 @@
   }
 
   function render(...nodes) {
+    clearTimeout(messageTimer); // hláška patří k předchozí obrazovce
     app.replaceChildren(...nodes.flat().filter((n) => n !== null && n !== undefined && n !== false));
-    backButton.hidden = renderingHome; // tlačítko Domů se na úvodní obrazovce nezobrazuje
-    renderingHome = false;
+    const onTab = renderingTab !== null;
+    backButton.hidden = onTab; // tlačítko Domů se na záložkách nezobrazuje
+    tabBar.hidden = !onTab; // spodní lišta je jen na čtyřech hlavních obrazovkách
+    document.body.classList.toggle('has-tabs', onTab);
+    tabBar.querySelectorAll('button').forEach((b) => {
+      if (b.dataset.tab === renderingTab) b.setAttribute('aria-current', 'page');
+      else b.removeAttribute('aria-current');
+    });
+    renderingTab = null;
     window.scrollTo(0, 0);
   }
 
@@ -101,7 +114,7 @@
         Engine.setTheme(progress, next);
         save();
         applyTheme();
-        showHome();
+        showTab('settings');
       },
     }, THEME_LABELS[progress.settings.theme]);
   }
@@ -120,6 +133,74 @@
     if (Engine.streakStatus(progress) === 'lost') return owl(Engine.owlSay('streakLost'));
     if (Engine.dailyStatus(progress).done) return owl(Engine.owlSay('goalDone'));
     return owl(Engine.owlSay('welcome'));
+  }
+
+  // ---------- odznaky ----------
+
+  // Společné přidělení po události: nejdřív týdenní výzva (odznaky za výzvy na ní závisí), pak odznaky;
+  // při jakékoli změně jedno uložení. Vrací nově získané odznaky a příznak právě splněné výzvy.
+  function settleProgress() {
+    const challengeDone = Challenges.complete(progress);
+    const ctx = { knownWords: Engine.knownWords(progress), lessonsTotal: lessons.length, dialogsTotal: dialogs.length };
+    const gained = Badges.award(progress, ctx);
+    if (gained.length || challengeDone) save();
+    return { gained, challengeDone };
+  }
+
+  // Karta „Nový odznak“ / „Týdenní výzva splněna“ pod skóre na výsledkové obrazovce; bez události nic (null).
+  function badgeAwardCard(gained, challengeDone) {
+    if (!gained.length && !challengeDone) return null;
+    return h('div', {},
+      h('div', { class: 'card badge-award' },
+        challengeDone ? h('strong', {}, '🏅 Týdenní výzva splněna') : null,
+        gained.length ? h('strong', {}, gained.length === 1 ? '🏅 Nový odznak' : '🏅 Nové odznaky') : null,
+        gained.map((b) => h('div', { class: 'badge-award-row' }, `${b.icon} `, h('strong', {}, b.title), ` – ${b.hint}`)),
+      ),
+      gained.length ? owl(Engine.owlSay('badge')) : null, // sova jen u nového odznaku; samotná výzva má vlastní řádek
+    );
+  }
+
+  // ---------- oslavy ----------
+
+  const CONFETTI_PIECES = 28;
+  const CONFETTI_COLORS = ['var(--accent)', 'var(--good)', 'var(--bad)'];
+  const CONFETTI_MAX_MS = 3000;
+  let goalCelebratedDay = '';
+  // Po nahrazení postupu (start, import, reset): už splněný cíl se zpětně neoslavuje, nesplněný se oslaví při dosažení.
+  function syncGoalCelebration() {
+    goalCelebratedDay = Engine.dailyStatus(progress).done ? Engine.dayKey(new Date()) : '';
+  }
+  syncGoalCelebration();
+  let lastCompletedLessonId = null; // jednorázové vyskočení bodu při příštím vykreslení Cesty
+
+  // Konfety přes celou obrazovku; při omezeném pohybu nebo bez matchMedia nic. Nikdy nevyhodí chybu.
+  function celebrate() {
+    try {
+      if (typeof window.matchMedia !== 'function') return;
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      const pieces = [];
+      for (let i = 0; i < CONFETTI_PIECES; i++) {
+        pieces.push(h('span', {
+          class: 'confetti-piece',
+          style: `left:${Math.round(Math.random() * 100)}%;animation-delay:${(Math.random() * 0.4).toFixed(2)}s;background:${CONFETTI_COLORS[i % CONFETTI_COLORS.length]}`,
+        }));
+      }
+      const box = h('div', { class: 'confetti', 'aria-hidden': 'true' }, pieces);
+      let ended = 0;
+      let timer = null;
+      const remove = () => { clearTimeout(timer); box.remove(); }; // předčasné odstranění zruší i pojistný časovač
+      box.addEventListener('animationend', () => { ended += 1; if (ended >= CONFETTI_PIECES) remove(); });
+      document.body.append(box);
+      timer = setTimeout(remove, CONFETTI_MAX_MS);
+    } catch (e) { /* oslava je jen dekorace */ }
+  }
+
+  // Společné spouštění oslav po výsledku: nový odznak, splněná výzva, první splnění denního cíle v dni, případně 100 %.
+  function celebrateResult(gained, challengeDone, perfect) {
+    const today = Engine.dayKey(new Date());
+    const goalReached = Engine.dailyStatus(progress).done && goalCelebratedDay !== today;
+    if (goalReached) goalCelebratedDay = today;
+    if (gained.length || challengeDone || goalReached || perfect) celebrate();
   }
 
   function save() {
@@ -281,7 +362,7 @@
       class: 'btn small' + (value === g.goal ? ' primary' : ''),
       type: 'button',
       'aria-pressed': String(value === g.goal),
-      onclick: () => { Engine.setDailyGoal(progress, value); save(); showHome(); },
+      onclick: () => { Engine.setDailyGoal(progress, value); save(); showTab('path', { keepScroll: true }); },
     }, String(value)));
     return h('div', { class: 'card' },
       h('strong', {}, g.done ? '🎯 Denní cíl splněn!' : '🎯 Denní cíl'),
@@ -292,43 +373,114 @@
     );
   }
 
-  // ---------- domovská obrazovka ----------
+  // ---------- záložky spodní lišty ----------
 
-  function showHome() {
-    renderingHome = true;
-    const list = lessons.map((lesson, index) => {
+  const isDone = (lesson) => Boolean(progress.lessons[lesson.id] && progress.lessons[lesson.id].done);
+
+  // Index první odemčené nedokončené lekce (aktuální na cestě, karta Pokračovat); -1, když žádná není.
+  function currentLessonIndex() {
+    return lessons.findIndex((l, i) => Engine.isLessonUnlocked(progress, lessons, i) && !isDone(l));
+  }
+
+  // Klikatá cesta lekcemi: jedna SVG křivka a nad ní tlačítka bodů na vypočtených souřadnicích.
+  // Aktuální je první odemčená nedokončená lekce; zamčený bod jen ukáže hlášku v živé oblasti pod cestou.
+  // Šířka cesty: nejvýš 320 px, na úzkém displeji podle místa v obsahu (bez odsazení); v jsdom je 0 → 320.
+  function pathWidth() {
+    const cs = window.getComputedStyle(app);
+    const inner = app.clientWidth - (parseFloat(cs.paddingLeft) || 0) - (parseFloat(cs.paddingRight) || 0);
+    return inner > 0 ? Math.min(320, inner) : 320;
+  }
+
+  // Hláška v živé oblasti: nejdřív se vymaže a za chvilku znovu nastaví (čtečka ji oznámí i při opakování), po čase zmizí.
+  const MESSAGE_TIMEOUT = 4000;
+  const MESSAGE_REANNOUNCE_DELAY = 50;
+  function showPathMessage(message, textValue) {
+    clearTimeout(messageTimer);
+    message.textContent = '';
+    messageTimer = setTimeout(() => {
+      message.textContent = textValue;
+      messageTimer = setTimeout(() => { message.textContent = ''; }, MESSAGE_TIMEOUT);
+    }, MESSAGE_REANNOUNCE_DELAY);
+  }
+
+  function pathMap(message) {
+    const width = pathWidth();
+    const layoutOptions = { width, amplitude: Math.round(width / 4) };
+    const pathHeight = PathMap.height(lessons.length, layoutOptions);
+    const points = PathMap.layout(lessons.length, layoutOptions);
+    const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+    svg.setAttribute('class', 'path-line');
+    svg.setAttribute('width', String(width));
+    svg.setAttribute('height', String(pathHeight));
+    svg.setAttribute('viewBox', `0 0 ${width} ${pathHeight}`);
+    svg.setAttribute('aria-hidden', 'true');
+    const line = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+    line.setAttribute('class', 'path-line-bg');
+    line.setAttribute('d', PathMap.curve(points));
+    svg.append(line);
+
+    const currentIndex = currentLessonIndex();
+    const justDoneId = lastCompletedLessonId;
+    lastCompletedLessonId = null; // vyskočení hraje jen při prvním vykreslení
+    const steps = lessons.map((lesson, index) => {
       const unlocked = Engine.isLessonUnlocked(progress, lessons, index);
-      const state = progress.lessons[lesson.id];
+      const done = isDone(lesson);
+      const isCurrent = index === currentIndex;
+      const best = done ? Math.round((progress.lessons[lesson.id].best || 0) * 100) : null;
+      const state = done ? 'done' : isCurrent ? 'current' : unlocked ? 'open' : 'locked';
       const style = lessonStyle(lesson, index);
-      const sub = state && state.done
-        ? `✅ Hotovo, nejlepší výsledek ${Math.round(state.best * 100)} %`
-        : unlocked ? `${lesson.words.length} slov` : '🔒 Zamčeno – dokonči předchozí lekci';
-      const card = h('div', { class: 'card lesson' + (unlocked ? '' : ' locked'), style: hueStyle(style.hue) },
-        h('span', { class: 'badge', 'aria-hidden': 'true' }, style.icon),
-        h('div', { class: 'info' }, h('strong', {}, `${index + 1}. ${lesson.title}`), h('div', { class: 'muted' }, sub)),
-        unlocked ? h('button', { class: 'btn small primary', type: 'button', onclick: () => showIntro(lesson) }, state && state.done ? 'Znovu' : 'Začít') : null,
-      );
-      return card;
+      const point = points[index];
+      const wordCount = `${lesson.words.length} ${wordForm(lesson.words.length)}`;
+      const stateLabel = done ? `hotovo, nejlepší výsledek ${best} %`
+        : isCurrent ? `další lekce, ${wordCount}` : unlocked ? 'otevřeno' : 'zamčeno';
+      const label = `Lekce ${index + 1}: ${lesson.title}, ${stateLabel}`;
+      const node = h('button', {
+        class: `path-node ${state}${lesson.id === justDoneId ? ' just-done' : ''}`, type: 'button', 'aria-label': label, style: hueStyle(style.hue),
+        onclick: () => {
+          if (state === 'locked') showPathMessage(message, 'Dokonči předchozí lekci.');
+          else showIntro(lesson);
+        },
+      },
+      h('span', { class: 'path-icon', 'aria-hidden': 'true' }, style.icon),
+      done ? h('span', { class: 'path-badge', 'aria-hidden': 'true' }, '✅') : null,
+      state === 'locked' ? h('span', { class: 'path-badge', 'aria-hidden': 'true' }, '🔒') : null);
+      if (state === 'locked') node.setAttribute('aria-disabled', 'true');
+      return h('div', { class: 'path-step', style: `left:${point.x}px;top:${point.y}px;transform:translate(-50%,-50%)` },
+        node,
+        h('span', { class: 'path-caption' }, `${index + 1}. ${lesson.title}`, done ? h('span', { class: 'path-best' }, `${best} %`) : null,
+          isCurrent ? h('span', { class: 'path-words' }, wordCount) : null),
+        isCurrent
+          ? h('button', { class: 'btn small primary path-start' + (point.x > width / 2 ? ' left' : ''), type: 'button', onclick: () => showIntro(lesson) }, 'Začít')
+          : null);
     });
 
+    return h('div', { class: 'path', style: `width:${width}px;height:${pathHeight}px` }, svg, steps);
+  }
+
+  // Po vykreslení Cesty odroluje aktuální bod (nebo poslední, když je vše hotové) doprostřed obrazovky.
+  function scrollPathIntoView() {
+    // Při zobrazené připomínce opakování zůstane stránka nahoře, ať je připomínka vidět.
+    if (Engine.dueWords(progress, allWords).length && progress.settings.reviewReminder) return;
+    const target = app.querySelector('.path-node.current') || [...app.querySelectorAll('.path-node')].pop();
+    if (target && typeof target.scrollIntoView === 'function') target.scrollIntoView({ block: 'center' });
+  }
+
+  // Obsah záložky Cesta: úvod, denní cíl, připomínka opakování, Pokračovat a cesta lekcí.
+  function pathScreen() {
+    const message = h('p', { class: 'path-message', role: 'status', 'aria-live': 'polite' });
+    const list = [pathMap(message), message];
+
     const due = Engine.dueWords(progress, allWords);
-    const reminderOn = progress.settings.reviewReminder;
     // Výrazná připomínka nahoře (jde vypnout v nastavení); vypnutá varianta nechá opakování v seznamu procvičování.
-    const reviewReminder = due.length && reminderOn
+    const reviewReminder = due.length && progress.settings.reviewReminder
       ? h('div', { class: 'card reminder' },
         h('strong', {}, `🔁 Dnes na tebe čeká ${due.length} ${wordForm(due.length)} k zopakování`),
         h('div', { class: 'muted' }, 'Krátké opakování tě udrží v rytmu a slova ti zůstanou v hlavě.'),
         h('button', { class: 'btn primary', type: 'button', onclick: () => startReview(due) }, 'Zopakovat teď'))
       : null;
-    const reviewRow = due.length && !reminderOn
-      ? h('div', { class: 'card lesson' },
-        h('span', { class: 'badge' }, '🔁'),
-        h('div', { class: 'info' }, h('strong', {}, 'Opakování'), h('div', { class: 'muted' }, `K zopakování: ${due.length} ${wordForm(due.length)}`)),
-        h('button', { class: 'btn small primary', type: 'button', onclick: () => startReview(due) }, 'Zopakovat'))
-      : null;
 
     // První odemčená lekce, kterou jsi ještě nedokončil.
-    const nextLesson = lessons.find((l, i) => Engine.isLessonUnlocked(progress, lessons, i) && !(progress.lessons[l.id] && progress.lessons[l.id].done));
+    const nextLesson = lessons[currentLessonIndex()];
     const continueCard = nextLesson
       ? h('div', { class: 'card lesson', style: hueStyle(lessonStyle(nextLesson, lessons.indexOf(nextLesson)).hue) },
         h('span', { class: 'badge', 'aria-hidden': 'true' }, lessonStyle(nextLesson, lessons.indexOf(nextLesson)).icon),
@@ -336,35 +488,50 @@
         h('button', { class: 'btn small primary', type: 'button', onclick: () => showIntro(nextLesson) }, 'Pokračovat'))
       : null;
 
-    const fileInput = h('input', { type: 'file', accept: 'application/json,.json', hidden: '', onchange: importFile });
-    render(
+    return [
       h('h1', {}, 'Učíme se anglicky'),
       h('p', { class: 'muted' }, `Znáš už ${Engine.knownWords(progress)} slov z ${Object.keys(wordsById).length}.`),
       homeOwl(),
       goalCard(),
       reviewReminder,
       continueCard,
+      challengeCard(),
+      badgeStrip(),
       list,
-      h('h2', {}, 'Procvičování'),
+    ];
+  }
+
+  // Obsah záložky Procvičování: opakování (když je připomínka vypnutá) a karty procvičování.
+  function practiceScreen() {
+    const due = Engine.dueWords(progress, allWords);
+    const reviewRow = due.length && !progress.settings.reviewReminder
+      ? h('div', { class: 'card lesson' },
+        h('span', { class: 'badge' }, '🔁'),
+        h('div', { class: 'info' }, h('strong', {}, 'Opakování'), h('div', { class: 'muted' }, `K zopakování: ${due.length} ${wordForm(due.length)}`)),
+        h('button', { class: 'btn small primary', type: 'button', onclick: () => startReview(due) }, 'Zopakovat'))
+      : null;
+    return [
+      h('h1', {}, 'Procvičování'),
       reviewRow,
       Object.keys(PRACTICE).map(practiceCard),
-      h('div', { class: 'card lesson' },
-        h('span', { class: 'badge' }, '📈'),
-        h('div', { class: 'info' }, h('strong', {}, 'Můj pokrok'), h('div', { class: 'muted' }, 'Přehled, série a body za týden')),
-        h('button', { class: 'btn small primary', type: 'button', onclick: showProgress }, 'Otevřít'),
-      ),
-      statsSection(),
-      h('h2', {}, 'Nastavení'),
+    ];
+  }
+
+  // Obsah záložky Nastavení: přepínače, záloha a smazání postupu.
+  function settingsScreen() {
+    const fileInput = h('input', { type: 'file', accept: 'application/json,.json', hidden: '', onchange: importFile });
+    return [
+      h('h1', {}, 'Nastavení'),
       h('button', {
         class: 'btn', type: 'button', 'aria-pressed': String(progress.settings.showPron),
-        onclick: () => { Engine.setShowPron(progress, !progress.settings.showPron); save(); showHome(); },
+        onclick: () => { Engine.setShowPron(progress, !progress.settings.showPron); save(); showTab('settings'); },
       }, progress.settings.showPron ? '✅ Přepis výslovnosti: zapnuto' : '⬜ Přepis výslovnosti: vypnuto'),
       h('button', {
         class: 'btn', type: 'button', 'aria-pressed': String(progress.settings.reviewReminder),
-        onclick: () => { Engine.setReviewReminder(progress, !progress.settings.reviewReminder); save(); showHome(); },
+        onclick: () => { Engine.setReviewReminder(progress, !progress.settings.reviewReminder); save(); showTab('settings'); },
       }, progress.settings.reviewReminder ? '✅ Připomínka opakování: zapnuto' : '⬜ Připomínka opakování: vypnuto'),
       themeToggle(),
-      voiceToggle(showHome),
+      voiceToggle(() => showTab('settings')),
       h('h2', {}, 'Záloha postupu'),
       h('p', { class: 'muted' }, 'Postup je uložený v prohlížeči. Pro jistotu si ho občas stáhni do souboru.'),
       h('div', { class: 'row' },
@@ -375,8 +542,33 @@
       h('p', { class: 'muted' }, 'Smaže všechny body, sérii, dokončené lekce i statistiky slov. Denní cíl zůstane.'),
       h('button', { class: 'btn small bad', type: 'button', onclick: resetAll }, '🗑️ Smazat postup'),
       fileInput,
-    );
+    ];
   }
+
+  const TAB_SCREENS = {
+    path: pathScreen,
+    practice: practiceScreen,
+    progress: () => [progressScreen(), statsSection()],
+    settings: settingsScreen,
+  };
+
+  // Vykreslí jednu ze čtyř hlavních obrazovek se spodní lištou.
+  // S { keepScroll: true } (změna denního cíle) se zachová pozice posunu a neodroluje se na aktuální bod.
+  function showTab(name, { keepScroll = false } = {}) {
+    const y = window.scrollY;
+    renderingTab = name;
+    lastTab = name;
+    render(...TAB_SCREENS[name]());
+    if (keepScroll) window.scrollTo(0, y);
+    else if (name === 'path') scrollPathIntoView(); // render() posouvá nahoru, odrolování na aktuální bod následuje po něm
+  }
+
+  // Návrat na Cestu (úvodní záložka).
+  function showHome() {
+    showTab('path');
+  }
+
+  const showPractice = () => showTab('practice');
 
   function practiceSubtitle(kind, def, done) {
     if (kind === 'dialogs') {
@@ -430,6 +622,11 @@
     );
   }
 
+  // Tvar slova „den“ podle počtu (1 den, 2–4 dny, jinak dní).
+  function dayForm(n) {
+    return n === 1 ? 'den' : n >= 2 && n <= 4 ? 'dny' : 'dní';
+  }
+
   function weekChart() {
     const days = Engine.lastDays(progress, 7);
     const max = Math.max(1, ...days.map((d) => d.xp));
@@ -447,15 +644,69 @@
     );
   }
 
-  function showProgress() {
+  // Datum zisku odznaku (čeština); neplatný čas dá prázdný text.
+  const badgeDate = (time) => new Date(time).toLocaleDateString('cs-CZ');
+
+  // Odznaky z postupu, které katalog zná (neznámá id se ignorují), od nejnovějšího.
+  function earnedBadges() {
+    return Object.entries(progress.badges || {})
+      .map(([id, time]) => ({ badge: Badges.byId(id), time }))
+      .filter((x) => x.badge)
+      .sort((a, b) => b.time - a.time);
+  }
+
+  // Galerie v Pokroku: získané s ikonou a datem, ostatní šedé s nápovědou „co udělat“.
+  function badgeGallery() {
+    const earned = new Map(earnedBadges().map((x) => [x.badge.id, x.time]));
+    return h('div', {},
+      h('h2', {}, 'Odznaky'),
+      h('p', { class: 'muted' }, `Získáno ${earned.size} z ${Badges.CATALOG.length}`),
+      h('div', { class: 'badge-grid' }, Badges.CATALOG.map((b) => (earned.has(b.id)
+        ? h('div', { class: 'badge-tile earned', 'aria-label': `${b.title}, získáno ${badgeDate(earned.get(b.id))}` },
+          h('div', { class: 'badge-tile-icon', 'aria-hidden': 'true' }, b.icon),
+          h('strong', {}, b.title),
+          h('div', { class: 'muted' }, badgeDate(earned.get(b.id))))
+        : h('div', { class: 'badge-tile locked', 'aria-label': `${b.title}, zamčeno: ${b.hint}` },
+          h('div', { class: 'badge-tile-icon', 'aria-hidden': 'true' }, '🔒'),
+          h('strong', {}, b.title),
+          h('div', { class: 'muted' }, b.hint))))),
+    );
+  }
+
+  // Karta týdenní výzvy na Cestě: název, nápověda, ukazatel a zbývající dny (po splnění jen potvrzení).
+  function challengeCard() {
+    const c = Challenges.current(progress);
+    return h('div', { class: 'card challenge-card' },
+      h('strong', {}, `🎯 Týdenní výzva: ${c.title}`),
+      h('div', { class: 'muted' }, c.hint),
+      h('div', { class: 'progress', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': String(c.goal), 'aria-valuenow': String(c.value), 'aria-label': c.title },
+        h('div', { style: `width:${Math.round((c.value / c.goal) * 100)}%` })),
+      h('div', {}, `${c.value} / ${c.goal}`),
+      h('div', { class: 'muted' }, c.done ? '✅ Výzva splněna – další přijde v pondělí' : `Zbývá ${c.daysLeft} ${dayForm(c.daysLeft)}`),
+    );
+  }
+
+  // Řada 3 naposledy získaných odznaků na Cestě; bez odznaků nic (null).
+  function badgeStrip() {
+    const recent = earnedBadges().slice(0, 3);
+    if (!recent.length) return null;
+    return h('div', { class: 'card badge-strip' },
+      h('div', { class: 'row' }, recent.map((x) => h('div', { class: 'badge-chip', 'data-badge': x.badge.id },
+        h('div', { class: 'badge-tile-icon', 'aria-hidden': 'true' }, x.badge.icon),
+        h('div', { class: 'muted' }, x.badge.title)))),
+      h('button', { class: 'btn small', type: 'button', onclick: () => showTab('progress') }, 'Všechny odznaky'),
+    );
+  }
+
+  function progressScreen() {
     const st = Engine.stats(progress, allWords);
     const lessonsDone = lessons.filter((l) => progress.lessons[l.id] && progress.lessons[l.id].done).length;
     const dialogsDone = dialogs.filter((d) => progress.dialogs[d.id]).length;
-    render(
+    return [
       h('h1', {}, 'Můj pokrok'),
       h('div', { class: 'card' },
         h('div', {}, `⭐ ${progress.xp} bodů`),
-        h('div', {}, `🔥 série ${progress.streak.count} ${progress.streak.count === 1 ? 'den' : progress.streak.count >= 2 && progress.streak.count <= 4 ? 'dny' : 'dní'} za sebou`),
+        h('div', {}, `🔥 série ${progress.streak.count} ${dayForm(progress.streak.count)} za sebou`),
         goalLine(),
       ),
       weekChart(),
@@ -465,14 +716,14 @@
         meterRow('Hotové dialogy', dialogsDone, dialogs.length),
         st.accuracy === null ? null : h('div', { class: 'muted' }, `Úspěšnost odpovědí u slov: ${Math.round(st.accuracy * 100)} %`),
       ),
+      badgeGallery(),
       h('h2', {}, 'Procvičování'),
       h('div', { class: 'card' }, Object.keys(PRACTICE).map((kind) => {
         const done = progress.practice[kind];
         return h('div', {}, h('strong', {}, PRACTICE[kind].title),
           done ? ` – nejlepší ${Math.round(done.best * 100)} %, ${done.plays}× dokončeno` : ' – ještě nezkoušeno');
       })),
-      h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Zpět'),
-    );
+    ];
   }
 
   function exportFile() {
@@ -492,8 +743,9 @@
     );
     if (!sure) return;
     progress = Engine.resetProgress(progress);
+    syncGoalCelebration();
     save();
-    showHome();
+    showTab('settings');
   }
 
   function importFile(event) {
@@ -506,8 +758,10 @@
         alert('Tento soubor není platná záloha aplikace.');
       } else if (confirm('Obnovením ze zálohy přepíšeš současný postup. Pokračovat?')) {
         progress = imported;
+        syncGoalCelebration();
+        settleProgress(); // tiché doplnění výzvy a odznaků podle importovaného postupu (uloží jen při změně)
         save();
-        showHome();
+        showTab('settings');
       }
     };
     reader.readAsText(file);
@@ -612,7 +866,7 @@
     }
 
     const buttons = ex.options.map((opt) => {
-      const b = h('button', { class: 'btn', type: 'button' }, opt.text);
+      const b = h('button', { class: 'btn', type: 'button' }, opt.text, opt.sceneId ? miniDiagram(opt.sceneId) : null);
       b.addEventListener('click', () => {
         buttons.forEach((x) => { x.disabled = true; });
         b.classList.add(opt.correct ? 'good' : 'bad');
@@ -667,13 +921,94 @@
         soundButtons(t, true, { record: true }),
       )),
       h('button', { class: 'btn primary', type: 'button', onclick: startSoundsQuiz }, 'Poslechové cvičení'),
-      h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Zpět'),
+      h('button', { class: 'btn', type: 'button', onclick: showPractice }, 'Zpět'),
     );
   }
 
   function startSoundsQuiz() {
     const exercises = Engine.buildPractice('sounds', soundPairs);
     runPractice({ kind: 'sounds', queue: exercises, index: 0, firstTry: 0, firstTryCorrect: 0, xpEarned: 0 });
+  }
+
+  // ---------- gramatika: časové osy a kvíz ----------
+
+  // Skupiny gramatiky: stejné obrazovky, jiný obsah (časové osy × schémata míst).
+  const GRAMMAR_GROUPS = {
+    tenses: {
+      title: 'Gramatika: Present Perfect',
+      intro: 'Čeština má jen minulý, přítomný a budoucí čas. Na časových osách uvidíš, kdy se děj stal a jak se dotýká přítomnosti.',
+      data: window.EXTRAS.grammar,
+      quizLabel: 'Kvíz: Kam patří věta?',
+      kind: 'tenses',
+    },
+    prepositions: {
+      title: 'Gramatika: předložky místa',
+      intro: 'Česky řekneme skoro vždy „v“ nebo „na“. Angličtina se ptá, jestli je místo bod, plocha, nebo prostor: at, on, in.',
+      data: window.EXTRAS.prepositions,
+      quizLabel: 'Kvíz: Která předložka?',
+      kind: 'prepositions',
+    },
+  };
+  const grammarScenesById = Object.fromEntries(
+    Object.values(GRAMMAR_GROUPS).flatMap((g) => g.data.scenes.map((sc) => [sc.id, sc])));
+
+  // Scéna s `elements` se kreslí schématem míst, scéna s `events` časovou osou.
+  function sceneSvg(scene, visibleIds, options) {
+    return scene.elements ? Spatial.svg(document, scene, visibleIds, options) : Timeline.svg(document, scene, visibleIds, options);
+  }
+
+  function showGrammar(groupKey = 'tenses') {
+    const group = GRAMMAR_GROUPS[groupKey];
+    render(
+      h('h1', {}, group.title),
+      h('p', { class: 'muted' }, group.intro),
+      group.data.scenes.map((scene, index) => h('div', { class: 'card lesson' },
+        h('div', { class: 'info' }, h('strong', {}, `${index + 1}. ${scene.title}`)),
+        h('button', { class: 'btn small primary', type: 'button', onclick: () => showGrammarScene(scene, 0, groupKey) }, 'Otevřít'),
+      )),
+      h('button', { class: 'btn primary', type: 'button', onclick: () => startGrammarQuiz(groupKey) }, group.quizLabel),
+      h('button', { class: 'btn', type: 'button', onclick: showPractice }, 'Zpět'),
+    );
+  }
+
+  function showGrammarScene(scene, step = 0, groupKey = 'tenses') {
+    const current = scene.steps[step];
+    const last = step === scene.steps.length - 1;
+    render(
+      h('h1', {}, scene.title),
+      h('p', { class: 'scene-text' }, scene.text),
+      sceneSvg(scene, current.show, { label: current.text }),
+      h('p', { class: 'muted' }, `Krok ${step + 1} z ${scene.steps.length}`),
+      h('div', { class: 'card' }, current.text),
+      h('div', { class: 'row' },
+        h('button', { class: 'btn', type: 'button', onclick: () => (step === 0 ? showGrammar(groupKey) : showGrammarScene(scene, step - 1, groupKey)) }, 'Zpět'),
+        h('button', { class: 'btn primary', type: 'button', onclick: () => (last ? showGrammar(groupKey) : showGrammarScene(scene, step + 1, groupKey)) }, last ? 'Hotovo' : 'Další'),
+      ),
+      h('h2', {}, 'Příklady'),
+      scene.sentences.map((sentence) => h('div', { class: 'card' },
+        h('p', { class: 'sentence' }, sentence.en),
+        pronLine(sentence),
+        h('div', { class: 'muted' }, sentence.cs),
+        h('button', { class: 'btn small', type: 'button', onclick: () => playFile(sentence.id, sentence.en) }, '🔊 Přehrát'),
+      )),
+    );
+  }
+
+  // Kvíz skupiny gramatiky: `kind` a otázky bere z GRAMMAR_GROUPS.
+  function startGrammarQuiz(groupKey) {
+    const group = GRAMMAR_GROUPS[groupKey];
+    const exercises = Engine.buildPractice(group.kind, group.data.quiz);
+    runPractice({ kind: group.kind, queue: exercises, index: 0, firstTry: 0, firstTryCorrect: 0, xpEarned: 0, retry: () => startGrammarQuiz(groupKey) });
+  }
+
+  // Malé schéma celé scény (všechny prvky) pro možnost v kvízu.
+  function miniDiagram(sceneId) {
+    const scene = grammarScenesById[sceneId];
+    const ids = (scene.elements || scene.events).map((x) => x.id);
+    const svg = sceneSvg(scene, ids, { mini: true });
+    svg.setAttribute('aria-hidden', 'true');
+    svg.removeAttribute('role');
+    return svg;
   }
 
   // ---------- dialogy ze situací ----------
@@ -696,7 +1031,7 @@
           h('button', { class: 'btn small primary', type: 'button', onclick: () => showDialog(d) }, done ? 'Znovu' : 'Otevřít'),
         );
       }),
-      h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Zpět'),
+      h('button', { class: 'btn', type: 'button', onclick: showPractice }, 'Zpět'),
     );
   }
 
@@ -958,6 +1293,8 @@
     Engine.completePractice(progress, state.kind, accuracy);
     if (state.dialog) Engine.completeDialog(progress, state.dialog.id, accuracy);
     save();
+    const { gained, challengeDone } = settleProgress();
+    celebrateResult(gained, challengeDone, false);
     render(
       h('div', { class: 'center' },
         h('h1', {}, PRACTICE[state.kind].title + ': hotovo!'),
@@ -968,8 +1305,9 @@
         h('p', { class: 'muted' }, accuracy >= 0.8 ? 'Skvělá práce!' : 'Zkus to klidně znovu, pořadí se pokaždé zamíchá.'),
         goalLine(),
       ),
+      badgeAwardCard(gained, challengeDone),
       h('button', { class: 'btn primary', type: 'button', onclick: () => (state.retry ? state.retry() : state.kind === 'sounds' ? startSoundsQuiz() : startPractice(state.kind)) }, 'Zkusit znovu'),
-      h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Na přehled'),
+      h('button', { class: 'btn', type: 'button', onclick: showPractice }, 'Na přehled'),
     );
   }
 
@@ -1071,6 +1409,8 @@
   function showReviewResult(state) {
     Engine.updateStreak(progress);
     save();
+    const { gained, challengeDone } = settleProgress();
+    celebrateResult(gained, challengeDone, false);
     const left = Engine.dueWords(progress, allWords).length;
     render(
       h('div', { class: 'center' },
@@ -1081,6 +1421,7 @@
         goalLine(),
         h('p', { class: 'muted' }, left ? `Ještě zbývá ${left} ${wordForm(left)} k zopakování.` : 'Na dnes máš všechno zopakované.'),
       ),
+      badgeAwardCard(gained, challengeDone),
       left ? h('button', { class: 'btn primary', type: 'button', onclick: () => startReview(Engine.dueWords(progress, allWords)) }, 'Pokračovat v opakování') : null,
       h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Na přehled lekcí'),
     );
@@ -1092,6 +1433,9 @@
     const bonusBefore = progress.xp;
     Engine.completeLesson(progress, state.lesson.id, accuracy);
     save();
+    const { gained, challengeDone } = settleProgress();
+    celebrateResult(gained, challengeDone, accuracy === 1);
+    lastCompletedLessonId = state.lesson.id;
     const bonus = progress.xp - bonusBefore;
     const index = lessons.indexOf(state.lesson);
     const next = lessons[index + 1];
@@ -1105,6 +1449,7 @@
         h('p', { class: 'muted' }, accuracy >= 0.8 ? 'Skvělá práce!' : 'Slova, která ti nešla, se ti ještě vrátí. Zkus lekci klidně zopakovat.'),
         goalLine(),
       ),
+      badgeAwardCard(gained, challengeDone),
       next ? h('button', { class: 'btn primary', type: 'button', onclick: () => showIntro(next) }, 'Další lekce') : null,
       h('button', { class: 'btn', type: 'button', onclick: () => startLesson(state.lesson) }, 'Zopakovat lekci'),
       h('button', { class: 'btn', type: 'button', onclick: showHome }, 'Na přehled lekcí'),
@@ -1117,8 +1462,20 @@
   }
 
   document.getElementById('home').addEventListener('click', showHome);
-  backButton.addEventListener('click', showHome);
+  backButton.addEventListener('click', () => showTab(lastTab));
+  // Po otočení displeje nebo změně velikosti okna se cesta přepočítá, pokud se změnila její šířka.
+  let resizeTimer = null;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(() => {
+      const rendered = app.querySelector('.path');
+      if (lastTab !== 'path' || !rendered || tabBar.hidden) return; // jen na záložce Cesta
+      if (pathWidth() !== parseFloat(rendered.style.width)) showTab('path', { keepScroll: true });
+    }, 150);
+  });
+  tabBar.querySelectorAll('button').forEach((b) => b.addEventListener('click', () => showTab(b.dataset.tab)));
   updateStats();
   applyTheme();
+  settleProgress(); // tiché doplnění výzvy a odznaků při startu (bez karty), aby uživatelé s existujícím postupem nedostali hromadu karet
   showHome();
 })();

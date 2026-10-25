@@ -38,6 +38,9 @@
 
 :root[data-theme="light"] { color-scheme: light; }
 
+/* rozměr, ne barva: mimo hlavní blok, aby se nemusel opakovat v tmavých režimech */
+:root { --tabbar-h: 57px; /* tlačítka min. 56px + 1px ohraničení */ }
+
 :root[data-theme="dark"] {
   color-scheme: dark;
     --bg: #1c1c1e;
@@ -107,6 +110,38 @@ main {
   margin: 0 auto;
   padding: 8px 16px 48px;
 }
+
+/* Spodní lišta záložek (jen na hlavních obrazovkách); body.has-tabs odsadí obsah */
+body.has-tabs main { padding-bottom: calc(var(--tabbar-h) + 23px + env(safe-area-inset-bottom)); }
+.tabbar {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  display: flex;
+  background: var(--card);
+  border-top: 1px solid var(--line);
+  padding-bottom: env(safe-area-inset-bottom);
+}
+.tabbar[hidden] { display: none; }
+.tabbar button {
+  flex: 1 1 0;
+  min-width: 0;
+  min-height: 56px;
+  padding: 6px 2px;
+  background: none;
+  border: 0;
+  color: var(--muted);
+  font: inherit;
+  font-size: .68rem;
+  font-weight: 600;
+  line-height: 1.2;
+  cursor: pointer;
+  white-space: nowrap;
+}
+.tabbar button[aria-current="page"] { color: var(--accent); }
+.tabbar button:focus-visible { outline: 3px solid var(--accent); outline-offset: -3px; }
 
 h1 { font-size: 1.5rem; margin: 8px 0 12px; }
 h2 { font-size: 1.25rem; margin: 20px 0 8px; }
@@ -258,3 +293,129 @@ details.card ul { padding-left: 20px; margin: 8px 0 0; }
 .owl { display: flex; align-items: center; gap: 10px; margin: 12px 0; }
 .owl img { flex: none; border-radius: 12px; }
 .owl-bubble { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 8px 12px; }
+
+/* časové osy (Gramatika) */
+.timeline { display: block; width: 100%; height: auto; margin: 8px 0; }
+.timeline-mini { max-width: 260px; margin: 6px 0 0; pointer-events: none; }
+.tl-axis { stroke: var(--muted); stroke-width: 3; }
+.tl-axis-head { fill: var(--muted); }
+.tl-side { fill: var(--muted); font-size: 16px; }
+.tl-label { fill: var(--text); font-size: 20px; paint-order: stroke; stroke: var(--bg); stroke-width: 5px; stroke-linejoin: round; }
+.tl-now line { stroke: var(--accent); stroke-width: 3; }
+.tl-now text { fill: var(--accent); font-size: 20px; font-weight: 700; }
+.tl-mark { fill: var(--bad); font-size: 30px; font-weight: 700; }
+.tl-bar { fill: var(--good); }
+.tl-arrow-line { stroke: var(--good); stroke-width: 4; }
+.tl-arrow-head { fill: var(--good); }
+.tl-frame { fill: var(--accent); fill-opacity: .15; stroke: var(--accent); stroke-width: 2; stroke-dasharray: 4 4; }
+.scene-text { font-size: 1.05rem; }
+.quiz-option-diagram { display: block; }
+
+/* prostorová schémata (předložky místa) */
+.spatial { display: block; width: 100%; height: auto; margin: 8px 0; }
+.spatial-mini { max-width: 260px; margin: 6px 0 0; pointer-events: none; }
+.sp-ground { stroke: var(--muted); stroke-width: 3; }
+.sp-peg { fill: var(--muted); }
+.sp-slab { fill: var(--muted); }
+.sp-leg { stroke: var(--muted); stroke-width: 4; }
+.sp-room { fill: var(--accent); fill-opacity: .1; stroke: var(--accent); stroke-width: 3; }
+.sp-label { fill: var(--text); font-size: 20px; }
+.sp-figure { fill: var(--accent); stroke: var(--bg); stroke-width: 2; }
+.sp-figlabel { fill: var(--text); font-size: 20px; paint-order: stroke; stroke: var(--bg); stroke-width: 5px; stroke-linejoin: round; }
+
+/* Cesta lekcí: body na vypočtených souřadnicích nad jednou křivkou */
+.path { position: relative; width: 320px; max-width: 100%; margin: 16px auto 0; }
+.path-line { position: absolute; left: 0; top: 0; }
+.path-line-bg { fill: none; stroke: var(--line); stroke-width: 8; stroke-linecap: round; }
+.path-step { position: absolute; width: 64px; height: 64px; }
+.path-node {
+  position: relative;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  border-radius: 50%;
+  border: 3px solid hsl(var(--hue, 210) 60% 55%);
+  background: hsl(var(--hue, 210) var(--badge-s) var(--badge-l));
+  color: var(--text);
+  font: inherit;
+  font-size: 1.8rem;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.path-node.done { background: hsl(var(--hue, 210) 60% 55%); }
+.path-node.locked { background: var(--line); border-color: var(--line); cursor: default; }
+.path-node.locked .path-icon { opacity: .35; }
+.path-node.current {
+  transform: scale(1.2);
+  box-shadow: 0 0 0 6px color-mix(in srgb, var(--accent) 35%, transparent);
+  animation: path-pulse 2s ease-in-out infinite;
+}
+.path-badge { position: absolute; right: -6px; bottom: -6px; font-size: 1.1rem; line-height: 1; }
+.path-node:focus-visible { outline: 3px solid var(--accent); outline-offset: 4px; }
+.path-caption {
+  position: absolute;
+  left: 50%;
+  top: calc(100% + 8px);
+  transform: translateX(-50%);
+  width: 150px;
+  text-align: center;
+  font-size: .8rem;
+  line-height: 1.25;
+  color: var(--text);
+}
+.path-best, .path-words { display: block; font-size: .75rem; color: var(--muted); }
+.path-start { position: absolute; left: calc(100% + 18px); top: 50%; transform: translateY(-50%); margin: 0; min-height: 44px; }
+.path-start.left { left: auto; right: calc(100% + 18px); }
+.path-message { position: sticky; bottom: calc(var(--tabbar-h) + 15px + env(safe-area-inset-bottom)); pointer-events: none; background: var(--bg); text-align: center; min-height: 1.4em; font-weight: 600; }
+@keyframes path-pulse {
+  0%, 100% { box-shadow: 0 0 0 4px color-mix(in srgb, var(--accent) 35%, transparent); }
+  50% { box-shadow: 0 0 0 10px color-mix(in srgb, var(--accent) 15%, transparent); }
+}
+/* oslavy: vyskočení právě dokončeného bodu a padající konfety (barvy jen z tokenů) */
+.path-node.just-done { animation: pop .6s ease-out 1; }
+@keyframes pop {
+  0% { transform: scale(1); }
+  40% { transform: scale(1.35); }
+  70% { transform: scale(.95); }
+  100% { transform: scale(1); }
+}
+.confetti { position: fixed; inset: 0; overflow: hidden; pointer-events: none; z-index: 20; }
+.confetti-piece {
+  position: absolute;
+  top: -12px;
+  width: 8px;
+  height: 14px;
+  border-radius: 2px;
+  animation: confetti-fall 2.5s ease-in forwards;
+}
+@keyframes confetti-fall {
+  0% { transform: translateY(0) rotate(0deg); opacity: 1; }
+  100% { transform: translateY(105vh) rotate(540deg); opacity: .9; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .path-node.current { animation: none; }
+  .path-node.just-done { animation: none; }
+  .confetti { display: none; }
+}
+
+/* týdenní výzva: karta na Cestě (mezery kolem ukazatele a řádku Zbývá) */
+.challenge-card { display: flex; flex-direction: column; gap: 6px; }
+.challenge-card .progress { margin: 4px 0; }
+.challenge-card > .muted:last-child { margin-top: 2px; }
+
+/* odznaky: karta Nový odznak na výsledkové obrazovce */
+.badge-award { border: 2px solid var(--accent); }
+.badge-award-row { margin-top: 6px; overflow-wrap: anywhere; }
+
+/* odznaky: galerie v Pokroku a řada na Cestě */
+.badge-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 8px 0 16px; }
+@media (min-width: 420px) { .badge-grid { grid-template-columns: repeat(3, 1fr); } }
+.badge-tile { background: var(--card); border: 1px solid var(--line); border-radius: 14px; padding: 12px 8px; text-align: center; min-height: 44px; overflow-wrap: anywhere; }
+.badge-tile.earned { border-color: var(--accent); }
+.badge-tile.locked { opacity: .6; }
+.badge-tile-icon { font-size: 1.8rem; line-height: 1.2; }
+.badge-strip .row { justify-content: space-around; gap: 8px; margin-bottom: 8px; }
+.badge-chip { text-align: center; min-width: 0; flex: 1; overflow-wrap: anywhere; font-size: .85rem; }

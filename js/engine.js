@@ -10,8 +10,10 @@
   const TYPES = ['translate', 'listenChoose', 'listenType'];
   const REVIEW_SIZE = 12;
   const PRACTICE_SIZE = 10;
+  const MAX_CHALLENGES = 60; // horní mez počtu splněných týdnů výzev při importu zálohy
+  const MAX_BADGES = 200; // horní mez počtu odznaků při importu zálohy
   const HISTORY_DAYS = 60; // kolik dní se pamatují body pro graf
-  const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching', 'sounds', 'dialogs', 'listening'];
+  const PRACTICE_KINDS = ['mistakes', 'falseFriends', 'pairs', 'sentences', 'matching', 'sounds', 'dialogs', 'listening', 'tenses', 'prepositions'];
   const SENTENCE_COUNT = 8;
   const SENTENCE_MIN_TOKENS = 3;
   const MATCHING_ROUNDS = 3;
@@ -154,6 +156,37 @@
         speakAfter: item.sentenceEn,
       });
     }
+    if (kind === 'tenses') {
+      // sceneId = scéna gramatiky, jejíž osa se ukáže jako schéma u možnosti (2 = Past Simple, 3 = Present Perfect)
+      return Object.assign(base, {
+        prompt: 'Který čas patří k této větě?',
+        big: item.en,
+        audioNow: item.id,
+        speakNow: item.en,
+        options: shuffle([
+          { text: 'Past Simple', correct: item.answer === 'PS', sceneId: 'g2' },
+          { text: 'Present Perfect', correct: item.answer === 'PP', sceneId: 'g3' },
+        ], rng),
+        explanation: item.why,
+        afterText: `${item.en} – ${item.cs}`,
+      });
+    }
+    if (kind === 'prepositions') {
+      // sceneId = scéna předložek, jejíž diagram se ukáže u možnosti (p2 = at, p3 = on, p4 = in); věta se čte až po odpovědi
+      return Object.assign(base, {
+        prompt: 'Která předložka patří do věty?',
+        big: item.en,
+        options: shuffle([
+          { text: 'at', correct: item.answer === 'at', sceneId: 'p2' },
+          { text: 'on', correct: item.answer === 'on', sceneId: 'p3' },
+          { text: 'in', correct: item.answer === 'in', sceneId: 'p4' },
+        ], rng),
+        explanation: item.why,
+        afterText: `${item.full} – ${item.cs}`,
+        audioAfter: item.id,
+        speakAfter: item.full,
+      });
+    }
     if (kind === 'listening') {
       const variant = ['word', 'sentence', 'dictation'][Math.floor(rng() * 3)];
       const sentence = variant !== 'word';
@@ -258,7 +291,7 @@
 
   function defaultProgress() {
     return {
-      version: 1, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {}, dialogs: {}, history: {},
+      version: 1, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {}, dialogs: {}, history: {}, badges: {}, challenges: {},
       daily: { day: '', xp: 0 }, settings: { dailyGoal: DEFAULT_DAILY_GOAL, showPron: true, partnerVoice: 'male', reviewReminder: true, theme: 'system' },
     };
   }
@@ -294,6 +327,7 @@
     streakLost: ['Dlouho jsme se neviděli. Začneme novou sérii?', 'Série se přerušila, ale začít znovu jde hned.', 'Vítej zpátky! Dnešní cvičení nastartuje novou sérii.'],
     goalDone: ['Dnešní cíl je splněný, to je radost!', 'Cíl na dnešek splněn. Klidně si ještě něco zopakuj.'],
     welcome: ['Ahoj! Co si dnes procvičíme?', 'Dobrý den! Malé cvičení každý den dělá divy.', 'Jsem tu, kdybys potřeboval radu. Můžeme začít.'],
+    badge: ['Nový odznak! Tohle sis opravdu zasloužil.', 'Gratuluji, další odznak do sbírky!', 'Skvělé! Sbírka odznaků se rozrůstá.'],
     newUser: ['Ahoj, jsem sova a budu tě učením provázet. Začni první lekcí!'],
   };
 
@@ -459,6 +493,7 @@
 
   const num = (v, min, max) => (typeof v === 'number' && isFinite(v) ? Math.min(max, Math.max(min, v)) : null);
   const isDay = (v) => typeof v === 'string' && (v === '' || /^\d{4}-\d{2}-\d{2}$/.test(v));
+  const isBadgeId = (v) => typeof v === 'string' && /^[a-z0-9-]{1,32}$/.test(v);
   const isId = (v) => typeof v === 'string' && /^[a-z0-9-]{1,64}$/.test(v);
 
   // Přijme libovolný objekt (např. načtený ze souboru) a vrátí čistý postup, nebo null, když je neplatný.
@@ -518,6 +553,21 @@
         completedAt: num(pr.completedAt, 0, 1e15) ?? 0,
       };
     }
+    // Odznaky: jen platná id a čas zisku v rozumném rozsahu (mimo rozsah = záznam se zahodí), nejvýš MAX_BADGES záznamů.
+    const badges = raw.badges && typeof raw.badges === 'object' && !Array.isArray(raw.badges) ? raw.badges : {};
+    for (const [id, time] of Object.entries(badges)) {
+      if (Object.keys(clean.badges).length >= MAX_BADGES) break;
+      if (!isBadgeId(id) || typeof time !== 'number' || !isFinite(time) || time < 0 || time > 1e15) continue;
+      clean.badges[id] = Math.round(time) || 0; // -0 se uloží jako 0
+    }
+    // Týdenní výzvy: jen klíče ve tvaru YYYY-Www a čas splnění v rozumném rozsahu; nejvýš MAX_CHALLENGES nejnovějších týdnů.
+    const challenges = raw.challenges && typeof raw.challenges === 'object' && !Array.isArray(raw.challenges) ? raw.challenges : {};
+    const validWeeks = Object.keys(challenges).filter((key) => {
+      const time = challenges[key];
+      return /^\d{4}-W(0[1-9]|[1-4]\d|5[0-3])$/.test(key) && typeof time === 'number' && isFinite(time) && time >= 0 && time <= 1e15;
+    });
+    validWeeks.sort().reverse(); // lexikograficky sestupně = od nejnovějšího týdne
+    for (const key of validWeeks.slice(0, MAX_CHALLENGES)) clean.challenges[key] = Math.round(challenges[key]) || 0;
     return clean;
   }
 
