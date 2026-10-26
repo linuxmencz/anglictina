@@ -940,6 +940,9 @@
     ];
   }
 
+  // Odkaz na stahovaný soubor se ruší až po delší době: Safari na iPhonu se může na stažení ptát a při 1 s by odkaz zanikl dřív.
+  const DOWNLOAD_URL_TTL_MS = 60000;
+
   function exportFile() {
     const blob = new Blob([Engine.exportProgress(progress)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
@@ -947,7 +950,7 @@
     document.body.append(a);
     a.click();
     a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setTimeout(() => URL.revokeObjectURL(url), DOWNLOAD_URL_TTL_MS);
   }
 
   // Stažení slovíček jako TSV pro Anki; postupu se nedotýká.
@@ -958,7 +961,7 @@
     document.body.append(a);
     a.click();
     a.remove();
-    setTimeout(() => URL.revokeObjectURL(url), 1000);
+    setTimeout(() => URL.revokeObjectURL(url), DOWNLOAD_URL_TTL_MS);
   }
 
   function resetAll() {
