@@ -398,7 +398,8 @@
 
   // Index první odemčené nedokončené lekce (aktuální na cestě, karta Pokračovat); -1, když žádná není.
   function currentLessonIndex() {
-    return lessons.findIndex((l, i) => Engine.isLessonUnlocked(progress, lessons, i) && !isDone(l));
+    // Lekce přeskočené odemknutím po testu úrovně (index < unlockedTo) se nenabízejí jako další
+    return lessons.findIndex((l, i) => i >= (progress.unlockedTo || 0) && Engine.isLessonUnlocked(progress, lessons, i) && !isDone(l));
   }
 
   // Klikatá cesta lekcemi: jedna SVG křivka a nad ní tlačítka bodů na vypočtených souřadnicích.
@@ -494,8 +495,9 @@
       const style = lessonStyle(lesson, index);
       const point = points[local];
       const wordCount = `${lesson.words.length} ${wordForm(lesson.words.length)}`;
+      const skipped = unlocked && !done && !isCurrent && index < (progress.unlockedTo || 0); // přeskočeno odemknutím po testu
       const stateLabel = done ? `hotovo, nejlepší výsledek ${best} %`
-        : isCurrent ? `další lekce, ${wordCount}` : unlocked ? 'otevřeno' : 'zamčeno';
+        : isCurrent ? `další lekce, ${wordCount}` : skipped ? 'přeskočeno' : unlocked ? 'otevřeno' : 'zamčeno';
       const label = `Lekce ${index + 1}: ${lesson.title}, ${stateLabel}`;
       const node = h('button', {
         class: `path-node ${state}${lesson.id === justDoneId ? ' just-done' : ''}`, type: 'button', 'aria-label': label, style: hueStyle(style.hue),
@@ -511,7 +513,8 @@
       return h('div', { class: 'path-step', style: `left:${point.x}px;top:${point.y}px;transform:translate(-50%,-50%)` },
         node,
         h('span', { class: 'path-caption' }, `${index + 1}. ${lesson.title}`, done ? h('span', { class: 'path-best' }, `${best} %`) : null,
-          isCurrent ? h('span', { class: 'path-words' }, wordCount) : null),
+          isCurrent ? h('span', { class: 'path-words' }, wordCount) : null,
+          skipped ? h('span', { class: 'path-words' }, 'přeskočeno') : null),
         isCurrent
           ? h('button', { class: 'btn small primary path-start' + (point.x > width / 2 ? ' left' : ''), type: 'button', onclick: () => showIntro(lesson) }, 'Začít')
           : null);
@@ -542,7 +545,7 @@
   const PLACEMENT_DISMISSED_KEY = 'anglictina-placement-dismissed';
   let placementDismissedInMemory = false; // záloha, když localStorage nejde zapsat
   function placementCard() {
-    if (Object.keys(progress.words).length > 0 || placementDismissedInMemory) return null;
+    if (Object.keys(progress.words).length > 0 || (progress.unlockedTo || 0) > 0 || placementDismissedInMemory) return null;
     try {
       if (window.localStorage.getItem(PLACEMENT_DISMISSED_KEY) === '1') return null;
     } catch (e) { /* bez úložiště se karta ukáže */ }
@@ -1098,14 +1101,44 @@
       showHome();
     });
     const heading = h('h1', { tabindex: '-1' }, `Doporučujeme začít na lekci ${r.lessonNumber} (${r.levelId})`);
+    // Odemknutí je dvoukrokové: tlačítko jen ukáže varování, zápis proběhne až po potvrzení
+    const unlockButton = !unlocked && r.levelIdx > 0
+      ? h('button', { class: 'btn', type: 'button', onclick: () => showUnlockWarning(state, r) }, `Odemknout lekce a začít od lekce ${r.lessonNumber}`)
+      : null;
     render(h('div', { class: 'center' },
       heading,
       r.mastered ? h('p', {}, 'B1 máš v malíčku.') : null,
-      h('p', { class: 'muted' }, 'Test je jen doporučení: nic neodemyká a nic se z něj neukládá.'),
-      unlocked ? null : h('p', { class: 'muted' }, 'Tuhle lekci zatím nemáš odemčenou – lekce se odemykají postupně.'),
+      h('p', { class: 'muted' }, 'Test sám nic neodemyká a nic se z něj neukládá.'),
+      unlocked ? null : h('p', { class: 'muted' }, unlockButton
+        ? 'Tuhle lekci zatím nemáš odemčenou – lekce se odemykají postupně, nebo je můžeš odemknout níže.'
+        : 'Tuhle lekci zatím nemáš odemčenou – lekce se odemykají postupně.'),
     ),
     toPath,
+    unlockButton,
     h('button', { class: 'btn', type: 'button', onclick: () => startPlacement() }, 'Zopakovat test'));
+    heading.focus();
+  }
+
+  // Varovná karta před odemknutím lekcí: zapíše se jen progress.unlockedTo (žádné hotové lekce, XP ani odznaky).
+  function showUnlockWarning(state, r) {
+    const heading = h('h2', { id: 'unlock-warning-title', tabindex: '-1' }, '⚠️ Opravdu odemknout lekce?');
+    const confirmButton = h('button', { class: 'btn bad', type: 'button' }, 'Rozumím, odemknout');
+    confirmButton.addEventListener('click', () => {
+      confirmButton.disabled = true; // opakovaný klik nic navíc nezapíše
+      Engine.unlockTo(progress, PathMap.LEVELS[r.levelIdx].start);
+      save();
+      selectedLevelId = r.levelId;
+      showHome();
+    });
+    const card = h('div', { class: 'card warn-card', role: 'alertdialog', 'aria-labelledby': 'unlock-warning-title', 'aria-describedby': 'unlock-warning-desc' },
+      heading,
+      h('p', { id: 'unlock-warning-desc' }, h('strong', {}, `Pozor: odemkneš lekce 1–${r.lessonNumber - 1}, které jsi neabsolvoval. Slova z nich se nezačnou opakovat a můžeš mít mezery v základech.`)),
+      h('p', {}, 'Vrátit to jde jen tlačítkem Smazat postup v Nastavení, které smaže veškerý tvůj postup.'),
+      confirmButton,
+      h('button', { class: 'btn', type: 'button', onclick: () => showPlacementResult(state) }, 'Zrušit'));
+    // Escape = Zrušit (nic se nezapíše)
+    card.addEventListener('keydown', (e) => { if (e.key === 'Escape') showPlacementResult(state); });
+    render(card);
     heading.focus();
   }
 

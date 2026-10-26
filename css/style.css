@@ -192,6 +192,7 @@ button:focus-visible, input:focus-visible {
 .btn.small { display: inline-block; width: auto; padding: 8px 14px; min-height: 40px; margin: 4px 6px 4px 0; }
 .btn[disabled] { opacity: .5; cursor: default; }
 .btn.good { background: var(--good-bg); border-color: var(--good); }
+.warn-card { border: 3px solid var(--bad); background: var(--bad-bg); }
 .btn.bad { background: var(--bad-bg); border-color: var(--bad); }
 
 .lesson { display: flex; align-items: center; gap: 12px; }

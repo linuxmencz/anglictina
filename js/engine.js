@@ -300,7 +300,7 @@
 
   function defaultProgress() {
     return {
-      version: 1, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {}, dialogs: {}, history: {}, badges: {}, challenges: {},
+      version: 1, unlockedTo: 0, xp: 0, streak: { count: 0, lastDay: '' }, lessons: {}, words: {}, practice: {}, dialogs: {}, history: {}, badges: {}, challenges: {},
       daily: { day: '', xp: 0 }, settings: { dailyGoal: DEFAULT_DAILY_GOAL, showPron: true, partnerVoice: 'male', reviewReminder: true, theme: 'system' },
     };
   }
@@ -490,8 +490,17 @@
 
   function isLessonUnlocked(progress, lessons, index) {
     if (index === 0) return true;
+    // Lekce do indexu unlockedTo odemkl uživatel po testu úrovně
+    if (index <= (progress.unlockedTo || 0)) return true;
     const previous = progress.lessons[lessons[index - 1].id];
     return Boolean(previous && previous.done);
+  }
+
+  // Odemkne lekce do indexu včetně; hodnota jen roste, neplatný index se ignoruje.
+  function unlockTo(progress, index) {
+    if (typeof index !== 'number' || !isFinite(index) || index < 0) return progress;
+    progress.unlockedTo = Math.max(progress.unlockedTo || 0, Math.floor(index));
+    return progress;
   }
 
   function knownWords(progress) {
@@ -514,6 +523,7 @@
     if (xp === null || count === null || !isDay(streak.lastDay)) return null;
     const clean = defaultProgress();
     clean.xp = Math.floor(xp);
+    clean.unlockedTo = Math.floor(num(raw.unlockedTo, 0, 1000) ?? 0);
     clean.streak = { count: Math.floor(count), lastDay: streak.lastDay };
     for (const [id, l] of Object.entries(raw.lessons && typeof raw.lessons === 'object' ? raw.lessons : {})) {
       if (!isId(id) || !l || typeof l !== 'object') continue;
@@ -617,7 +627,7 @@
     defaultProgress, dayKey, updateStreak, recordAnswer, addXp, completeLesson,
     PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice, completeDialog, lastDays, setPartnerVoice, setReviewReminder, setTheme, THEMES, streakStatus, owlSay,
     tokenize, buildSentences, checkSentence, buildMatching,
-    isLessonUnlocked, knownWords, isDue, dueWords, buildReview, stats,
+    isLessonUnlocked, unlockTo, knownWords, isDue, dueWords, buildReview, stats,
     sanitizeProgress, exportProgress, importProgress, loadProgress, saveProgress,
   };
 
