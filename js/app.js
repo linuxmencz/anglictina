@@ -42,6 +42,7 @@
     dialogs: { hue: 160, title: 'Dialogy ze situací', icon: '💬', hint: 'Restaurace, letiště, lékař… poslech a odpovědi', start: () => showDialogs() },
     sentences: { hue: 120, title: 'Skládání vět', icon: '🧩', hint: 'Seřaď slova do správné věty', start: () => startSentences() },
     matching: { hue: 20, title: 'Přiřazování dvojic', icon: '🔗', hint: 'Spoj anglické slovo s českým', start: () => startMatching() },
+    placement: { hue: 200, title: 'Test úrovně', icon: '🎚️', hint: 'Krátký test: kde začít', start: () => startPlacement() },
   };
 
   const PRON_LEGEND = [
@@ -537,6 +538,26 @@
     if (target && typeof target.scrollIntoView === 'function') target.scrollIntoView({ block: 'center' });
   }
 
+  // Karta testu úrovně pro nového uživatele (bez jediného slova v postupu); zavření si pamatuje jen příznak v localStorage.
+  const PLACEMENT_DISMISSED_KEY = 'anglictina-placement-dismissed';
+  let placementDismissedInMemory = false; // záloha, když localStorage nejde zapsat
+  function placementCard() {
+    if (Object.keys(progress.words).length > 0 || placementDismissedInMemory) return null;
+    try {
+      if (window.localStorage.getItem(PLACEMENT_DISMISSED_KEY) === '1') return null;
+    } catch (e) { /* bez úložiště se karta ukáže */ }
+    const dismiss = () => {
+      placementDismissedInMemory = true;
+      try { window.localStorage.setItem(PLACEMENT_DISMISSED_KEY, '1'); } catch (e) { /* skryto jen do konce relace */ }
+      showTab('path', { keepScroll: true });
+    };
+    return h('div', { class: 'card placement-card' },
+      h('strong', {}, h('span', { 'aria-hidden': 'true' }, '🎚️'), ' Umíš už trochu anglicky?'),
+      h('div', { class: 'muted' }, 'Zkus krátký test (asi 2 minuty) a zjisti, kde začít.'),
+      h('button', { class: 'btn primary', type: 'button', onclick: () => startPlacement() }, 'Zkusit test'),
+      h('button', { class: 'btn', type: 'button', onclick: dismiss }, 'Ne, díky'));
+  }
+
   // Obsah záložky Cesta: úvod, denní cíl, připomínka opakování, Pokračovat a cesta lekcí.
   function pathScreen() {
     const message = h('p', { class: 'path-message', role: 'status', 'aria-live': 'polite' });
@@ -568,6 +589,7 @@
       h('h1', {}, 'Učíme se anglicky'),
       h('p', { class: 'muted' }, `Znáš už ${Engine.knownWords(progress)} slov z ${Object.keys(wordsById).length}.`),
       homeOwl(),
+      placementCard(),
       goalCard(),
       reviewReminder,
       continueCard,
@@ -718,6 +740,12 @@
       h('div', { class: 'row' },
         h('button', { class: 'btn small', type: 'button', onclick: exportFile }, '⬇️ Stáhnout zálohu'),
         h('button', { class: 'btn small', type: 'button', onclick: () => fileInput.click() }, '⬆️ Obnovit ze zálohy'),
+      ),
+      h('h2', {}, 'Export do Anki'),
+      h('p', { class: 'muted' }, 'Stáhne slovíčka jako soubor pro import do Anki, bez zvuku. V dialogu importu zvol typ poznámky Základní (Basic).'),
+      h('div', { class: 'row' },
+        ...[['A1', 'A1'], ['A2', 'A2'], ['B1', 'B1'], ['all', 'Vše']].map(([id, label]) =>
+          h('button', { class: 'btn small', type: 'button', onclick: () => exportAnki(id) }, label)),
       ),
       h('h2', {}, 'Začít znovu'),
       h('p', { class: 'muted' }, 'Smaže všechny body, sérii, dokončené lekce i statistiky slov. Denní cíl zůstane.'),
@@ -901,7 +929,7 @@
       ),
       badgeGallery(),
       h('h2', {}, 'Procvičování'),
-      h('div', { class: 'card' }, Object.keys(PRACTICE).map((kind) => {
+      h('div', { class: 'card' }, Object.keys(PRACTICE).filter((kind) => kind !== 'placement').map((kind) => {
         const done = progress.practice[kind];
         return h('div', {}, h('strong', {}, PRACTICE[kind].title),
           done ? ` – nejlepší ${Math.round(done.best * 100)} %, ${done.plays}× dokončeno` : ' – ještě nezkoušeno');
@@ -913,6 +941,17 @@
     const blob = new Blob([Engine.exportProgress(progress)], { type: 'application/json' });
     const url = URL.createObjectURL(blob);
     const a = h('a', { href: url, download: `anglictina-zaloha-${Engine.dayKey(new Date())}.json` });
+    document.body.append(a);
+    a.click();
+    a.remove();
+    setTimeout(() => URL.revokeObjectURL(url), 1000);
+  }
+
+  // Stažení slovíček jako TSV pro Anki; postupu se nedotýká.
+  function exportAnki(levelId) {
+    const blob = new Blob([Anki.tsv(lessons, PathMap.LEVELS, levelId)], { type: 'text/plain;charset=utf-8' });
+    const url = URL.createObjectURL(blob);
+    const a = h('a', { href: url, download: Anki.fileName(levelId) });
     document.body.append(a);
     a.click();
     a.remove();
@@ -1005,6 +1044,69 @@
     if (PRACTICE[kind].start) return PRACTICE[kind].start();
     const exercises = Engine.buildPractice(kind, PRACTICE[kind].items);
     runPractice({ kind, queue: exercises, index: 0, firstTry: 0, firstTryCorrect: 0, xpEarned: 0 });
+  }
+
+  // ---------- test úrovně ----------
+  // Nic nezapisuje do postupu, XP ani odznaků; stav testu je jen v paměti.
+
+  function startPlacement() {
+    runPlacement(Placement.start());
+  }
+
+  function runPlacement(state) {
+    // Nejdřív stav done, teprve pak další otázka (next by jinak mohl otázku zbytečně vytvořit).
+    if (state.done) return showPlacementResult(state);
+    const q = Placement.next(state, lessons, PathMap.LEVELS);
+    if (q === null) return showPlacementResult(state);
+    const word = wordsById[q.wordId];
+    const bar = h('div', { class: 'progress', role: 'progressbar', 'aria-valuemin': '0', 'aria-valuemax': String(Placement.MAX_QUESTIONS), 'aria-valuenow': String(state.asked), 'aria-label': 'Průběh testu' },
+      h('div', { style: `width:${Math.round((state.asked / Placement.MAX_QUESTIONS) * 100)}%` }));
+    const choose = (chosenId) => {
+      // Dvojklik: po prvním kliku jsou všechna tlačítka zablokovaná a odpověď se počítá jednou.
+      if (locked) return;
+      locked = true;
+      all.forEach((x) => { x.disabled = true; });
+      Placement.answer(state, chosenId);
+      runPlacement(state);
+    };
+    let locked = false;
+    const optionButtons = q.options.map((opt) => {
+      const b = h('button', { class: 'btn', type: 'button' }, opt.text);
+      b.addEventListener('click', () => choose(opt.id));
+      return b;
+    });
+    const skip = h('button', { class: 'btn', type: 'button' }, 'Přeskočit');
+    skip.addEventListener('click', () => choose(null));
+    const all = [...optionButtons, skip];
+    const heading = h('h2', { tabindex: '-1' }, 'Co znamená toto slovo?');
+    render(bar, h('div', { class: 'card' },
+      h('p', { class: 'muted' }, `Otázka ${state.asked + 1} z ${Placement.MAX_QUESTIONS}`),
+      heading,
+      h('div', { class: 'big-word' }, word.en),
+      ...all,
+    ));
+    // Kliknuté tlačítko zaniklo; fokus na nadpis (ne na první možnost, držený Enter by odpověděl dál).
+    heading.focus();
+  }
+
+  function showPlacementResult(state) {
+    const r = Placement.result(state, PathMap.LEVELS);
+    const unlocked = Engine.isLessonUnlocked(progress, lessons, PathMap.LEVELS[r.levelIdx].start);
+    const toPath = h('button', { class: 'btn primary', type: 'button' }, 'Na Cestu');
+    toPath.addEventListener('click', () => {
+      if (unlocked) selectedLevelId = r.levelId;
+      showHome();
+    });
+    const heading = h('h1', { tabindex: '-1' }, `Doporučujeme začít na lekci ${r.lessonNumber} (${r.levelId})`);
+    render(h('div', { class: 'center' },
+      heading,
+      r.mastered ? h('p', {}, 'B1 máš v malíčku.') : null,
+      h('p', { class: 'muted' }, 'Test je jen doporučení: nic neodemyká a nic se z něj neukládá.'),
+      unlocked ? null : h('p', { class: 'muted' }, 'Tuhle lekci zatím nemáš odemčenou – lekce se odemykají postupně.'),
+    ),
+    toPath,
+    h('button', { class: 'btn', type: 'button', onclick: () => startPlacement() }, 'Zopakovat test'));
+    heading.focus();
   }
 
   function runPractice(state) {

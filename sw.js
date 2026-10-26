@@ -1,6 +1,6 @@
 // Service worker: offline režim. Blok GENERATED vytváří tools/build_sw.py – needituj ručně.
 /* BEGIN GENERATED */
-const VERSION = '29e918468a';
+const VERSION = '2b1e0b849b';
 const APP_FILES = [
   "./",
   "css/style.css",
@@ -9,6 +9,7 @@ const APP_FILES = [
   "icons/icon-192.png",
   "icons/icon-512.png",
   "index.html",
+  "js/anki.js",
   "js/app.js",
   "js/badges.js",
   "js/challenges.js",
@@ -16,6 +17,7 @@ const APP_FILES = [
   "js/data/words.js",
   "js/engine.js",
   "js/path.js",
+  "js/placement.js",
   "js/recorder.js",
   "js/spatial.js",
   "js/timeline.js",
