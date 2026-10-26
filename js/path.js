@@ -1,14 +1,40 @@
 // Rozložení klikaté mapy cesty lekcemi (čisté funkce bez DOM) – testuje se v Node, v prohlížeči běží jako window.PathMap.
 (function (root) {
   const DEFAULTS = { width: 320, rowHeight: 100, amplitude: 80, top: 50, sectionGap: 90, sectionStarts: [] };
-  // Úseky cesty: začátek = index první lekce úseku (úsek mimo počet lekcí se ignoruje).
-  const SECTIONS = [
-    { title: 'Základy', start: 0 },
-    { title: 'Každý den', start: 5 },
-    { title: 'Člověk a svět', start: 10 },
-    { title: 'Do života', start: 15 },
-    { title: 'Dál a výš', start: 20 },
+  // Úrovně cesty: start/end = rozsah indexů lekcí (end výlučně); start úseku je relativní k začátku úrovně.
+  const LEVELS = [
+    {
+      id: 'A1', title: 'A1', start: 0, end: 26,
+      sections: [
+        { title: 'Základy', start: 0 },
+        { title: 'Každý den', start: 5 },
+        { title: 'Člověk a svět', start: 10 },
+        { title: 'Do života', start: 15 },
+        { title: 'Dál a výš', start: 20 },
+      ],
+    },
+    {
+      id: 'A2', title: 'A2', start: 26, end: 40,
+      sections: [
+        { title: 'Každodenní život', start: 0 },
+        { title: 'Lidé a svět', start: 5 },
+        { title: 'Plány a zážitky', start: 10 },
+      ],
+    },
+    {
+      id: 'B1', title: 'B1', start: 40, end: 70,
+      sections: [
+        { title: 'Praktický svět', start: 0 },
+        { title: 'Lidé a názory', start: 5 },
+        { title: 'Společnost a svět', start: 10 },
+        { title: 'Pravidla a poznání', start: 15 },
+        { title: 'Domov a cesty', start: 20 },
+        { title: 'Cíl na dohled', start: 25 },
+      ],
+    },
   ];
+  // Úseky úrovně A1 (zpětná kompatibilita)
+  const SECTIONS = LEVELS[0].sections;
   const TURN = 0.4; // délka úchytu Bézierovy křivky; menší = ostřejší zatáčka
   const BOTTOM = 90; // místo pod posledním bodem pro jeho popisek
 
@@ -62,7 +88,18 @@
     return round2(points[index].y - (rowHeight + sectionGap) / 2);
   }
 
-  const PathMap = { layout, curve, height, bannerY, SECTIONS };
+  // Úrovně načtené při daném počtu lekcí (jen ty, které už začaly; end oříznut na count).
+  function visibleLevels(count) {
+    return LEVELS.filter((l) => l.start < count).map((l) => Object.assign({}, l, { end: Math.min(l.end, count) }));
+  }
+
+  // Id úrovně, do které patří lekce s daným indexem.
+  function levelIdFor(index) {
+    const l = LEVELS.find((x) => index >= x.start && index < x.end);
+    return l ? l.id : undefined;
+  }
+
+  const PathMap = { layout, curve, height, bannerY, SECTIONS, LEVELS, visibleLevels, levelIdFor };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = PathMap;
   else root.PathMap = PathMap;

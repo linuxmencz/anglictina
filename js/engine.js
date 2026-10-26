@@ -95,6 +95,14 @@
     return typos <= 2 ? 'typo' : 'wrong';
   }
 
+  // Psaná odpověď na slovo: fráze a kolokace se kontrolují po slovech (překlep jen ve slovech od 6 písmen),
+  // aby třeba „turn in“ neprošlo jako překlep za „turn on“; ostatní slova jako dosud.
+  function checkWordAnswer(answer, word) {
+    // Jakýkoli neprázdný druh (fráze, kolokace…) se kontroluje po slovech.
+    if (word.kind) return checkDictation(answer, word.en);
+    return checkTyped(answer, word.en);
+  }
+
   // ---------- sestavení lekce ----------
 
   function pickDistractors(word, pool, count, rng = Math.random) {
@@ -604,7 +612,7 @@
 
   const Engine = {
     STORAGE_KEY, XP_PER_CORRECT, XP_LESSON_BONUS, DAILY_GOALS, dailyStatus, setDailyGoal, setShowPron, resetProgress,
-    shuffle, normalize, levenshtein, checkTyped, checkDictation,
+    shuffle, normalize, levenshtein, checkTyped, checkDictation, checkWordAnswer,
     pickDistractors, buildLesson, requeue,
     defaultProgress, dayKey, updateStreak, recordAnswer, addXp, completeLesson,
     PRACTICE_KINDS, XP_PER_CLEAN_PAIR, buildPractice, dialogOptions, completePractice, completeDialog, lastDays, setPartnerVoice, setReviewReminder, setTheme, THEMES, streakStatus, owlSay,

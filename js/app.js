@@ -12,6 +12,15 @@
     t13: ['⛅', 195], t14: ['🎸', 270], t15: ['✈️', 210], t16: ['💬', 170], t17: ['💼', 35], t18: ['🐶', 25],
     t19: ['🌲', 130], t20: ['✏️', 55], t21: ['💻', 230], t22: ['🚌', 190], t23: ['🍎', 5], t24: ['🛋️', 15],
     t25: ['😊', 50], t26: ['🧭', 240],
+    t27: ['🏨', 215], t28: ['🍽️', 10], t29: ['💊', 355], t30: ['💰', 48], t31: ['📮', 205],
+    t32: ['📰', 250], t33: ['🤝', 320], t34: ['🎭', 290], t35: ['🎉', 315], t36: ['🎬', 265],
+    t37: ['🔮', 245], t38: ['🏖️', 185], t39: ['📈', 160], t40: ['♻️', 120],
+    t41: ['🎓', 225], t42: ['📱', 265], t43: ['🥗', 100], t44: ['🚆', 190], t45: ['🧾', 340],
+    t46: ['📋', 30], t47: ['🏦', 140], t48: ['📺', 275], t49: ['🧠', 310], t50: ['💞', 350],
+    t51: ['🏘️', 60], t52: ['🌧️', 205], t53: ['⚖️', 15], t54: ['🖼️', 285], t55: ['⚽', 115],
+    t56: ['🚨', 5], t57: ['🕵️', 235], t58: ['🏛️', 215], t59: ['🔬', 175], t60: ['🏰', 40],
+    t61: ['🍳', 20], t62: ['👗', 325], t63: ['🔧', 200], t64: ['🌴', 150], t65: ['🗣️', 355],
+    t66: ['🎯', 10], t67: ['🏪', 95], t68: ['🔋', 135], t69: ['🎮', 295], t70: ['💭', 255],
   };
 
   function lessonStyle(lesson, index) {
@@ -142,7 +151,12 @@
   // při jakékoli změně jedno uložení. Vrací nově získané odznaky a příznak právě splněné výzvy.
   function settleProgress() {
     const challengeDone = Challenges.complete(progress);
-    const ctx = { knownWords: Engine.knownWords(progress), lessonsTotal: lessons.length, dialogsTotal: dialogs.length };
+    const ctx = {
+      knownWords: Engine.knownWords(progress), lessonsTotal: lessons.length, dialogsTotal: dialogs.length,
+      lessonIds: lessons.map((l) => l.id),
+      // plné (neoříznuté) úrovně: odznak úrovně vyžaduje, aby existovaly všechny její lekce
+      levels: PathMap.LEVELS,
+    };
     const gained = Badges.award(progress, ctx);
     if (gained.length || challengeDone) save();
     return { gained, challengeDone };
@@ -172,6 +186,9 @@
     goalCelebratedDay = Engine.dailyStatus(progress).done ? Engine.dayKey(new Date()) : '';
   }
   syncGoalCelebration();
+  let nextLevelSeen = false; // Cesta s dokončenou úrovní už byla jednou vykreslena
+  let nextLevelId = null; // úroveň, na kterou se Cesta přepne při příští návštěvě (po dokončení poslední lekce úrovně)
+  let selectedLevelId = null; // vybraná úroveň Cesty (jen relace); null = předvýběr podle postupu
   let lastCompletedLessonId = null; // jednorázové vyskočení bodu při příštím vykreslení Cesty
 
   // Konfety přes celou obrazovku; při omezeném pohybu nebo bez matchMedia nic. Nikdy nevyhodí chybu.
@@ -404,13 +421,54 @@
     }, MESSAGE_REANNOUNCE_DELAY);
   }
 
-  const SECTION_HUES = [210, 25, 160, 280, 340]; // odstín pruhu podle pořadí úseku
+  const SECTION_HUES = [210, 25, 160, 280, 340, 90]; // odstín pruhu podle pořadí úseku (B1 má 6 úseků)
 
-  function pathMap(message) {
+  // Aktuálně vybraná úroveň: ruční výběr, jinak úroveň aktuální lekce (nebo poslední, když je vše hotové).
+  function activeLevel(levels) {
+    // Ručně vybraná úroveň platí jen dokud je odemčená (po resetu či importu starší zálohy může být zase zamčená)
+    const chosen = levels.find((l) => l.id === selectedLevelId && Engine.isLessonUnlocked(progress, lessons, l.start));
+    if (chosen) return chosen;
+    const current = currentLessonIndex();
+    return levels.find((l) => l.id === PathMap.levelIdFor(current)) || levels[levels.length - 1];
+  }
+
+  // Segmentový přepínač úrovní: tlačítko s názvem, ukazatelem hotovo/celkem (nebo ✓) a 🔒 u zamčené úrovně.
+  function levelSwitcher(levels, message) {
+    const active = activeLevel(levels);
+    return h('div', { class: 'level-switch', role: 'group', 'aria-label': 'Úroveň' },
+      levels.map((level, i) => {
+        const total = level.end - level.start;
+        const doneCount = lessons.slice(level.start, level.end).filter(isDone).length;
+        const locked = !Engine.isLessonUnlocked(progress, lessons, level.start);
+        const selected = level.id === active.id;
+        const button = h('button', {
+          class: 'level-btn' + (selected ? ' active' : '') + (locked ? ' locked' : ''), type: 'button',
+          'aria-pressed': String(selected), style: hueStyle(SECTION_HUES[i % SECTION_HUES.length]),
+          onclick: () => {
+            if (locked) return showPathMessage(message, `Dokonči nejdřív úroveň ${levels[i - 1].title}.`);
+            selectedLevelId = level.id;
+            nextLevelId = null; // ruční volba zruší plánované přepnutí na další úroveň
+            nextLevelSeen = false;
+            showTab('path', { keepScroll: true });
+            // Po překreslení vrátí fokus na stisknuté tlačítko úrovně (klávesnice by jinak ztratila místo)
+            const pressed = document.querySelector('#app .level-btn[aria-pressed="true"]');
+            if (pressed) pressed.focus({ preventScroll: true });
+          },
+        },
+        h('strong', {}, level.title),
+        locked ? null : h('span', { class: 'level-count' }, doneCount === total ? '✓' : `${doneCount}/${total}`),
+        locked ? h('span', { 'aria-hidden': 'true' }, '🔒') : null);
+        if (locked) button.setAttribute('aria-disabled', 'true');
+        return button;
+      }));
+  }
+
+  function pathMap(message, level) {
     const width = pathWidth();
-    const layoutOptions = { width, amplitude: Math.round(width / 4), sectionStarts: PathMap.SECTIONS.map((s) => s.start) };
-    const pathHeight = PathMap.height(lessons.length, layoutOptions);
-    const points = PathMap.layout(lessons.length, layoutOptions);
+    const levelLessons = lessons.slice(level.start, level.end);
+    const layoutOptions = { width, amplitude: Math.round(width / 4), sectionStarts: level.sections.map((s) => s.start) };
+    const pathHeight = PathMap.height(levelLessons.length, layoutOptions);
+    const points = PathMap.layout(levelLessons.length, layoutOptions);
     const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svg.setAttribute('class', 'path-line');
     svg.setAttribute('width', String(width));
@@ -425,14 +483,15 @@
     const currentIndex = currentLessonIndex();
     const justDoneId = lastCompletedLessonId;
     lastCompletedLessonId = null; // vyskočení hraje jen při prvním vykreslení
-    const steps = lessons.map((lesson, index) => {
+    const steps = levelLessons.map((lesson, local) => {
+      const index = level.start + local; // globální index lekce (čísla v popiscích zůstávají globální)
       const unlocked = Engine.isLessonUnlocked(progress, lessons, index);
       const done = isDone(lesson);
       const isCurrent = index === currentIndex;
       const best = done ? Math.round((progress.lessons[lesson.id].best || 0) * 100) : null;
       const state = done ? 'done' : isCurrent ? 'current' : unlocked ? 'open' : 'locked';
       const style = lessonStyle(lesson, index);
-      const point = points[index];
+      const point = points[local];
       const wordCount = `${lesson.words.length} ${wordForm(lesson.words.length)}`;
       const stateLabel = done ? `hotovo, nejlepší výsledek ${best} %`
         : isCurrent ? `další lekce, ${wordCount}` : unlocked ? 'otevřeno' : 'zamčeno';
@@ -458,10 +517,10 @@
     });
 
     // Pruhy úseků: nadpis a počet hotových lekcí, ležící na cestě nad první lekcí úseku.
-    const banners = PathMap.SECTIONS.filter((s) => s.start < lessons.length).map((section, i, all) => {
-      const end = i + 1 < all.length ? all[i + 1].start : lessons.length;
+    const banners = level.sections.filter((s) => s.start < levelLessons.length).map((section, i, all) => {
+      const end = i + 1 < all.length ? all[i + 1].start : levelLessons.length;
       const total = end - section.start;
-      const doneCount = lessons.slice(section.start, end).filter(isDone).length;
+      const doneCount = levelLessons.slice(section.start, end).filter(isDone).length;
       return h('h2', { class: 'path-section' + (doneCount === total ? ' done' : ''), style: `top:${PathMap.bannerY(points, section.start, layoutOptions)}px;${hueStyle(SECTION_HUES[i % SECTION_HUES.length])}` },
         h('span', {}, section.title),
         h('span', { class: 'path-section-count' }, `${doneCount === total ? '✅ ' : ''}${doneCount} / ${total} hotovo`));
@@ -481,7 +540,11 @@
   // Obsah záložky Cesta: úvod, denní cíl, připomínka opakování, Pokračovat a cesta lekcí.
   function pathScreen() {
     const message = h('p', { class: 'path-message', role: 'status', 'aria-live': 'polite' });
-    const list = [pathMap(message), message];
+    const levels = PathMap.visibleLevels(lessons.length);
+    // Přepínač má smysl jen při víc než jedné viditelné úrovni
+    const list = [levels.length > 1 ? levelSwitcher(levels, message) : null, pathMap(message, activeLevel(levels)), message];
+    // První vykreslení po dokončení poslední lekce úrovně ještě ukázalo dokončenou úroveň (kvůli animaci just-done), příště už další
+    if (nextLevelId) nextLevelSeen = true;
 
     const due = Engine.dueWords(progress, allWords);
     // Výrazná připomínka nahoře (jde vypnout v nastavení); vypnutá varianta nechá opakování v seznamu procvičování.
@@ -530,6 +593,110 @@
     ];
   }
 
+  // ---------- offline zvuk: stav a komunikace se service workerem ----------
+
+  const swEnabled = 'serviceWorker' in navigator && /^https?:$/.test(location.protocol);
+  const FILL_THROTTLE_MS = 30000;
+  let audioStatus = null; // { cached, total }; null = zatím neznámé
+  let lastVisibleFill = null; // čas posledního doplnění spuštěného návratem na stránku
+  let audioStatusTimedOut = false; // odpověď na audio-status nepřišla (starý worker)
+  const STATUS_TIMEOUT_MS = 5000;
+  let visibleFillPending = false; // čeká se na čerstvý stav po návratu na stránku
+
+  function audioStatusText() {
+    if (!swEnabled) return 'Offline režim funguje jen při otevření přes http(s).';
+    if (!audioStatus) return audioStatusTimedOut ? 'Offline zvuk: stav není k dispozici.' : 'Offline zvuk: zjišťuji…';
+    if (audioStatus.cached >= audioStatus.total) return `Offline zvuk: vše staženo (${audioStatus.total} nahrávek) ✅`;
+    return `Offline zvuk: ${audioStatus.cached} z ${audioStatus.total} nahrávek`;
+  }
+
+  // Aktualizuje řádek stavu na místě (jen pokud je právě zobrazené Nastavení).
+  function updateAudioStatusLine() {
+    const line = document.getElementById('audio-status-text');
+    if (!line) return;
+    line.textContent = audioStatusText();
+    const btn = document.getElementById('audio-fill-btn');
+    if (btn) btn.hidden = !(swEnabled && audioStatus && audioStatus.cached < audioStatus.total);
+    // Čtečka se oznamuje jen dokončení; průběh by hlásil stovky zpráv
+    const live = document.getElementById('audio-live');
+    if (live && audioStatus && audioStatus.cached >= audioStatus.total) live.textContent = audioStatusText();
+  }
+
+  // Pošle zprávu aktivnímu workeru; nikdy nevyhodí výjimku.
+  function postToWorker(message, registration) {
+    try {
+      const sw = navigator.serviceWorker;
+      const target = sw.controller || (registration && registration.active);
+      if (target) target.postMessage(message);
+    } catch (e) { /* offline zvuk je jen bonus */ }
+  }
+
+  function audioRow() {
+    const fillBtn = h('button', {
+      class: 'btn small', type: 'button', id: 'audio-fill-btn', onclick: () => {
+        const live = document.getElementById('audio-live');
+        if (live) live.textContent = 'Doplňuji nahrávky…';
+        postToWorker({ type: 'fill-audio' }, swRegistration);
+      },
+    }, 'Doplnit teď');
+    const row = h('div', { class: 'card' },
+      h('div', { id: 'audio-status-text' }, audioStatusText()),
+      swEnabled ? h('span', { id: 'audio-live', class: 'sr-only', role: 'status', 'aria-live': 'polite', 'aria-atomic': 'true' }) : null,
+      swEnabled ? fillBtn : null,
+    );
+    if (swEnabled) fillBtn.hidden = !(audioStatus && audioStatus.cached < audioStatus.total);
+    return row;
+  }
+
+  let swRegistration = null;
+
+  function setupServiceWorker() {
+    const sw = navigator.serviceWorker;
+    const fill = () => postToWorker({ type: 'fill-audio' }, swRegistration);
+    const askStatus = () => postToWorker({ type: 'audio-status' }, swRegistration);
+    try {
+      sw.register('sw.js').then((reg) => { swRegistration = reg; }, () => {});
+      sw.addEventListener('message', (event) => {
+        const d = event && event.data;
+        if (!d || d.type !== 'audio-progress') return;
+        if (!Number.isFinite(d.cached) || !Number.isFinite(d.total) || d.cached < 0 || d.total < 0 || d.cached > d.total) return;
+        audioStatus = { cached: d.cached, total: d.total };
+        updateAudioStatusLine();
+        // Čerstvý stav po návratu na stránku: neúplné audio se doplní (nejvýš jednou za 30 s)
+        if (visibleFillPending) {
+          visibleFillPending = false;
+          const now = Date.now();
+          if (d.cached < d.total && (lastVisibleFill === null || now - lastVisibleFill >= FILL_THROTTLE_MS)) {
+            lastVisibleFill = now;
+            fill();
+          }
+        }
+      });
+      sw.addEventListener('controllerchange', fill);
+      window.addEventListener('online', fill);
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState !== 'visible') return;
+        visibleFillPending = true;
+        askStatus();
+      });
+      askStatus();
+      setTimeout(() => {
+        if (audioStatus) return;
+        audioStatusTimedOut = true;
+        updateAudioStatusLine();
+      }, STATUS_TIMEOUT_MS);
+      Promise.resolve(sw.ready).then((reg) => {
+        swRegistration = reg || swRegistration;
+        // Po ready je cílem právě aktivní worker registrace (controller může být ještě starý)
+        try { if (reg && reg.active) reg.active.postMessage({ type: 'fill-audio' }); } catch (e) { /* ignorováno */ }
+        askStatus();
+        try {
+          if (navigator.storage && navigator.storage.persist) Promise.resolve(navigator.storage.persist()).catch(() => {});
+        } catch (e) { /* ignorováno */ }
+      }).catch(() => {});
+    } catch (e) { /* service worker nesmí shodit aplikaci */ }
+  }
+
   // Obsah záložky Nastavení: přepínače, záloha a smazání postupu.
   function settingsScreen() {
     const fileInput = h('input', { type: 'file', accept: 'application/json,.json', hidden: '', onchange: importFile });
@@ -545,6 +712,7 @@
       }, progress.settings.reviewReminder ? '✅ Připomínka opakování: zapnuto' : '⬜ Připomínka opakování: vypnuto'),
       themeToggle(),
       voiceToggle(() => showTab('settings')),
+      audioRow(),
       h('h2', {}, 'Záloha postupu'),
       h('p', { class: 'muted' }, 'Postup je uložený v prohlížeči. Pro jistotu si ho občas stáhni do souboru.'),
       h('div', { class: 'row' },
@@ -569,6 +737,8 @@
   // S { keepScroll: true } (změna denního cíle) se zachová pozice posunu a neodroluje se na aktuální bod.
   function showTab(name, { keepScroll = false } = {}) {
     const y = window.scrollY;
+    // Vstup na Cestu z jiné obrazovky (ne překreslení přepínačem úrovní): po jednom zobrazení dokončené úrovně přepni na další
+    if (name === 'path' && !keepScroll && nextLevelId && nextLevelSeen) { selectedLevelId = nextLevelId; nextLevelId = null; nextLevelSeen = false; }
     renderingTab = name;
     lastTab = name;
     render(...TAB_SCREENS[name]());
@@ -756,6 +926,9 @@
     );
     if (!sure) return;
     progress = Engine.resetProgress(progress);
+    selectedLevelId = null;
+    nextLevelId = null;
+    nextLevelSeen = false;
     syncGoalCelebration();
     save();
     showTab('settings');
@@ -771,6 +944,9 @@
         alert('Tento soubor není platná záloha aplikace.');
       } else if (confirm('Obnovením ze zálohy přepíšeš současný postup. Pokračovat?')) {
         progress = imported;
+        selectedLevelId = null;
+        nextLevelId = null;
+        nextLevelSeen = false;
         syncGoalCelebration();
         settleProgress(); // tiché doplnění výzvy a odznaků podle importovaného postupu (uloží jen při změně)
         save();
@@ -783,6 +959,12 @@
 
   // ---------- úvod lekce (karty se slovy) ----------
 
+  // Kapsle u slova: „frázové sloveso“ / „kolokace“ (bez kind vrací null, h() ho ignoruje).
+  function kindTag(word) {
+    const label = { phrasal: 'frázové sloveso', collocation: 'kolokace' }[word.kind];
+    return label ? h('span', { class: 'kind-tag' }, label) : null;
+  }
+
   function showIntro(lesson) {
     render(
       h('h1', {}, lesson.title),
@@ -790,6 +972,7 @@
       pronLegend(),
       lesson.words.map((w) => h('div', { class: 'card' },
         h('div', { class: 'big-word' }, w.en),
+        kindTag(w),
         pronLine(w),
         h('div', {}, w.cs),
         soundButtons(w, false, { record: true }),
@@ -1150,8 +1333,15 @@
 
   // ---------- skládání vět ----------
 
+  // Slova jen z odemčených lekcí (A1 žák nedostane slova z lekcí, které ještě nemá). Když jich je málo,
+  // cvičení je prostě kratší (Engine vrací jen úplná kola / méně vět) – zamčená slova se nikdy nedoplňují.
+  function practiceQueue(build) {
+    const unlockedWords = lessons.filter((l, i) => Engine.isLessonUnlocked(progress, lessons, i)).flatMap((l) => l.words);
+    return build(unlockedWords);
+  }
+
   function startSentences() {
-    runSentence({ kind: 'sentences', queue: Engine.buildSentences(allWords), index: 0, firstTry: 0, firstTryCorrect: 0, xpEarned: 0 });
+    runSentence({ kind: 'sentences', queue: practiceQueue(Engine.buildSentences), index: 0, firstTry: 0, firstTryCorrect: 0, xpEarned: 0 });
   }
 
   function runSentence(state) {
@@ -1225,7 +1415,7 @@
   // ---------- přiřazování dvojic ----------
 
   function startMatching() {
-    const rounds = Engine.buildMatching(allWords);
+    const rounds = practiceQueue(Engine.buildMatching);
     const total = rounds.reduce((sum, r) => sum + r.pairs.length, 0);
     runMatching({ kind: 'matching', rounds, round: 0, total, clean: 0 });
   }
@@ -1390,7 +1580,7 @@
         if (!input.value.trim()) return;
         input.disabled = true;
         check.disabled = true;
-        finish(Engine.checkTyped(input.value, word.en));
+        finish(Engine.checkWordAnswer(input.value, word));
       };
       check.addEventListener('click', submit);
       input.addEventListener('keydown', (e) => { if (e.key === 'Enter') submit(); });
@@ -1405,6 +1595,8 @@
       const title = exercise.type === 'translate' ? 'Co znamená toto slovo?' : 'Poslechni si a vyber význam';
       body.append(h('h2', {}, title));
       if (exercise.type === 'translate') body.append(h('div', { class: 'big-word' }, word.en));
+      const tag = exercise.type === 'translate' ? kindTag(word) : null;
+      if (tag) body.append(tag);
       body.append(soundButtons(word, false));
       const buttons = exercise.options.map((opt) => {
         const b = h('button', { class: 'btn', type: 'button' }, opt.text);
@@ -1456,6 +1648,13 @@
     const { gained, challengeDone } = settleProgress();
     celebrateResult(gained, challengeDone, accuracy === 1);
     lastCompletedLessonId = state.lesson.id;
+    selectedLevelId = PathMap.levelIdFor(lessons.indexOf(state.lesson)) || null; // Cesta se otevře na úrovni právě dokončené lekce
+    // Dokončená poslední lekce úrovně: příští návštěva Cesty ukáže další (nyní odemčenou) úroveň
+    const finishedLevel = PathMap.visibleLevels(lessons.length).find((l) => l.id === selectedLevelId);
+    const followingLevel = finishedLevel && PathMap.visibleLevels(lessons.length).find((l) => l.start === finishedLevel.end);
+    nextLevelId = followingLevel && lessons.indexOf(state.lesson) === finishedLevel.end - 1
+      && Engine.isLessonUnlocked(progress, lessons, followingLevel.start) ? followingLevel.id : null;
+    nextLevelSeen = false;
     const bonus = progress.xp - bonusBefore;
     const index = lessons.indexOf(state.lesson);
     const next = lessons[index + 1];
@@ -1477,9 +1676,7 @@
   }
 
   // Offline režim (service worker funguje jen přes http/https, ne z file://)
-  if ('serviceWorker' in navigator && /^https?:$/.test(location.protocol)) {
-    navigator.serviceWorker.register('sw.js').catch(() => {});
-  }
+  if (swEnabled) setupServiceWorker();
 
   document.getElementById('home').addEventListener('click', showHome);
   backButton.addEventListener('click', () => showTab(lastTab));

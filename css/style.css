@@ -88,6 +88,8 @@ body {
   min-height: 40px;
 }
 .back[hidden] { display: none; }
+[hidden] { display: none !important; } /* třída .btn.small jinak přebíjí atribut hidden */
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 .brand {
   display: inline-flex;
@@ -220,6 +222,8 @@ button:focus-visible, input:focus-visible {
 
 .big-word { font-size: 2rem; font-weight: 700; margin: 8px 0; }
 .sentence { font-style: italic; }
+/* Kapsle typu slova (frázové sloveso / kolokace); barvy z proměnných fungují v obou režimech */
+.kind-tag { display: inline-block; font-size: 0.75rem; color: var(--muted); border: 1px solid var(--muted); border-radius: 999px; padding: 1px 8px; margin: 0 0 6px; }
 
 .note {
   background: var(--note-bg);
@@ -435,3 +439,18 @@ details.card ul { padding-left: 20px; margin: 8px 0 0; }
 .badge-tile-icon { font-size: 1.8rem; line-height: 1.2; }
 .badge-strip .row { justify-content: space-around; gap: 8px; margin-bottom: 8px; }
 .badge-chip { text-align: center; min-width: 0; flex: 1; overflow-wrap: anywhere; font-size: .85rem; }
+
+/* Přepínač úrovní Cesty: segmentový, tlačítka se dělí o šířku (vejdou se i tři do 320 px).
+   Kontrast textu (WCAG AA 4.5:1): --muted na --card 5,07:1 světlý / 5,42:1 tmavý, --text na vybraném odstínu min. 6,6:1 */
+.level-switch { display: flex; gap: 4px; max-width: 320px; margin: 16px auto 0; padding: 3px; border-radius: 999px; background: var(--card); border: 1px solid var(--line); }
+.level-btn {
+  flex: 1 1 0; min-width: 0; display: flex; align-items: center; justify-content: center; gap: 4px;
+  padding: 8px 6px; border-radius: 999px; border: 2px solid transparent; overflow: hidden;
+  background: transparent; color: var(--text); font: inherit; font-size: .9rem; line-height: 1.2; cursor: pointer;
+}
+.level-btn strong { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.level-btn.active { background: hsl(var(--hue, 210) var(--badge-s) var(--badge-l)); border-color: hsl(var(--hue, 210) 60% 55%); color: var(--text); }
+.level-btn.locked { color: var(--muted); cursor: default; }
+.level-count { flex: none; font-size: .8rem; color: var(--muted); white-space: nowrap; }
+.level-btn.active .level-count { color: var(--text); }
+.level-btn:focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }

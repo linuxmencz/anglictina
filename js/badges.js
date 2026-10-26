@@ -6,9 +6,18 @@
     const c = progress && progress.challenges;
     return c !== null && typeof c === 'object' && !Array.isArray(c) ? Object.keys(c).length : 0;
   };
+  // Všechny lekce úrovně (id z ctx.levels) jsou hotové; úroveň, kterou ctx neobsahuje, se nepočítá.
+  // level.end je PLNÝ (neoříznutý) konec úrovně: dokud v datech nejsou všechny její lekce
+  // (lessonIds.length < end), úroveň není kompletní a odznak se neuděluje (např. B1 při 55 z 70 lekcí).
+  const levelDone = (progress, ctx, levelId) => {
+    const level = (ctx.levels || []).find((l) => l.id === levelId);
+    if (!level || !Array.isArray(ctx.lessonIds) || ctx.lessonIds.length < level.end) return false;
+    const ids = ctx.lessonIds.slice(level.start, level.end);
+    return ids.length > 0 && ids.every((id) => progress.lessons && progress.lessons[id] && progress.lessons[id].done === true);
+  };
   const plays = (progress, kind) => (progress.practice && progress.practice[kind] && progress.practice[kind].plays) || 0;
 
-  // Každý odznak má podmínku test(progress, ctx); ctx = { knownWords, lessonsTotal, dialogsTotal }.
+  // Každý odznak má podmínku test(progress, ctx); ctx = { knownWords, lessonsTotal, dialogsTotal, lessonIds, levels }.
   const CATALOG = [
     { id: 'lesson-1', icon: '🌱', title: 'První krok', hint: 'Dokonči první lekci.', area: 'lekce', test: (p) => doneLessons(p) >= 1 },
     { id: 'lesson-5', icon: '🚀', title: 'Rozjezd', hint: 'Dokonči 5 lekcí.', area: 'lekce', test: (p) => doneLessons(p) >= 5 },
@@ -17,9 +26,12 @@
       test: (p, ctx) => ctx.lessonsTotal > 0 && doneLessons(p) >= Math.ceil(ctx.lessonsTotal / 2),
     },
     {
-      id: 'lesson-all', icon: '🎓', title: 'Absolvent', hint: 'Dokonči všechny lekce.', area: 'lekce',
+      id: 'lesson-all', icon: '🎓', title: 'Absolvent', hint: 'Dokonči všechny lekce všech úrovní.', area: 'lekce',
       test: (p, ctx) => ctx.lessonsTotal > 0 && doneLessons(p) >= ctx.lessonsTotal,
     },
+    { id: 'level-a1', icon: '🥉', title: 'A1 hotovo', hint: 'Dokonči všechny lekce úrovně A1.', area: 'lekce', test: (p, ctx) => levelDone(p, ctx, 'A1') },
+    { id: 'level-a2', icon: '🥈', title: 'A2 hotovo', hint: 'Dokonči všechny lekce úrovně A2.', area: 'lekce', test: (p, ctx) => levelDone(p, ctx, 'A2') },
+    { id: 'level-b1', icon: '🥇', title: 'B1 hotovo', hint: 'Dokonči všechny lekce úrovně B1.', area: 'lekce', test: (p, ctx) => levelDone(p, ctx, 'B1') },
     {
       id: 'perfect', icon: '🎯', title: 'Bez chyby', hint: 'Dokonči lekci na 100 %.', area: 'přesnost',
       test: (p) => Object.values(p.lessons || {}).some((l) => l && l.done === true && l.best >= 1),
